@@ -5,7 +5,6 @@ import {
   getDoc,
   getDocs,
   onSnapshot,
-  orderBy,
   query,
   runTransaction,
   serverTimestamp,
@@ -14,14 +13,29 @@ import {
 } from "firebase/firestore";
 import { getFriendshipRef, getUserRef, getUsernameRef, getUsersByIds } from "./firestore";
 
+function toMillis(value) {
+  if (!value) return 0;
+  if (typeof value?.toMillis === "function") return value.toMillis();
+  if (typeof value === "number") return value;
+  return 0;
+}
+
 export const watchIncomingFriendRequests = (db, uid, cb) => {
-  const q = query(collection(db, "friendRequests"), where("toUid", "==", uid), orderBy("createdAt", "desc"));
-  return onSnapshot(q, (snap) => cb(snap.docs.map((d) => ({ id: d.id, ...d.data() }))));
+  const q = query(collection(db, "friendRequests"), where("toUid", "==", uid));
+  return onSnapshot(q, (snap) => {
+    const rows = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    rows.sort((a, b) => toMillis(b.createdAt) - toMillis(a.createdAt));
+    cb(rows);
+  });
 };
 
 export const watchOutgoingFriendRequests = (db, uid, cb) => {
-  const q = query(collection(db, "friendRequests"), where("fromUid", "==", uid), orderBy("createdAt", "desc"));
-  return onSnapshot(q, (snap) => cb(snap.docs.map((d) => ({ id: d.id, ...d.data() }))));
+  const q = query(collection(db, "friendRequests"), where("fromUid", "==", uid));
+  return onSnapshot(q, (snap) => {
+    const rows = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    rows.sort((a, b) => toMillis(b.createdAt) - toMillis(a.createdAt));
+    cb(rows);
+  });
 };
 
 export const watchFriendships = (db, uid, cb) =>
