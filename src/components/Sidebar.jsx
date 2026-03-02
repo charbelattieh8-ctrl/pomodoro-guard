@@ -6,6 +6,8 @@ const navItems = [
   { to: "/", label: "Dashboard", icon: Clock3 },
   { to: "/timer", label: "Timer", icon: Clock3 },
   { to: "/friends", label: "Friends", icon: Users },
+  { to: "/rooms", label: "Rooms", icon: Users },
+  { to: "/challenges", label: "Challenges", icon: Award },
   { to: "/shop", label: "Shop", icon: ShoppingBag },
   { to: "/milestones", label: "Badges", icon: Award },
   { to: "/stats", label: "Stats", icon: TrendingUp },

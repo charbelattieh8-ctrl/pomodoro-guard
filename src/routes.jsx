@@ -8,6 +8,8 @@ import Settings from "./pages/Settings";
 import Admin from "./pages/Admin";
 import Friends from "./pages/Friends";
 import FriendProfile from "./pages/FriendProfile";
+import Rooms from "./pages/Rooms";
+import Challenges from "./pages/Challenges";
 
 const routes = [
   {
@@ -21,6 +23,8 @@ const routes = [
       { path: "stats", element: <Stats /> },
       { path: "friends", element: <Friends /> },
       { path: "friends/:uid", element: <FriendProfile /> },
+      { path: "rooms", element: <Rooms /> },
+      { path: "challenges", element: <Challenges /> },
       { path: "settings", element: <Settings /> },
       { path: "admin", element: <Admin /> },
     ],
