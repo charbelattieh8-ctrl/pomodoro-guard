@@ -94,7 +94,12 @@ export default function FriendsPage() {
         <h3 className="font-semibold">Friends stats</h3>
         {leaderboard.length === 0 && <p className="text-sm text-slate-200">No friends yet.</p>}
         {leaderboard.map((friend) => (
-          <FriendCard key={friend.id} user={friend} todayFocusMinutes={friend.todayFocusMinutes} />
+          <FriendCard
+            key={friend.id}
+            user={friend}
+            todayFocusMinutes={friend.todayFocusMinutes}
+            profileHref={`/friends/${friend.id}`}
+          />
         ))}
       </GlassCard>
     </motion.div>

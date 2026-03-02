@@ -7,6 +7,7 @@ import Stats from "./pages/Stats";
 import Settings from "./pages/Settings";
 import Admin from "./pages/Admin";
 import Friends from "./pages/Friends";
+import FriendProfile from "./pages/FriendProfile";
 
 const routes = [
   {
@@ -19,6 +20,7 @@ const routes = [
       { path: "milestones", element: <Milestones /> },
       { path: "stats", element: <Stats /> },
       { path: "friends", element: <Friends /> },
+      { path: "friends/:uid", element: <FriendProfile /> },
       { path: "settings", element: <Settings /> },
       { path: "admin", element: <Admin /> },
     ],
