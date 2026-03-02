@@ -34,6 +34,22 @@ const DEFAULT_MILESTONES = [
     target: 7,
     rewardCoins: 100,
   },
+  {
+    id: "focus_67_sessions",
+    title: "Route 67",
+    description: "Complete exactly 67 focus sessions in total",
+    type: "focusSessionsCompleted",
+    target: 67,
+    rewardCoins: 670,
+  },
+  {
+    id: "focus_69_sessions",
+    title: "Nice 69",
+    description: "Reach 69 completed focus sessions. Nice.",
+    type: "focusSessionsCompleted",
+    target: 69,
+    rewardCoins: 690,
+  },
 ];
 
 const DEFAULT_STATE = {
@@ -111,6 +127,15 @@ const mergeThemes = (savedThemes, defaultThemes) => {
   return Array.from(byId.values());
 };
 
+const mergeMilestoneDefinitions = (savedDefs, defaultDefs) => {
+  const byId = new Map();
+  for (const def of savedDefs || []) byId.set(def.id, def);
+  for (const def of defaultDefs) {
+    if (!byId.has(def.id)) byId.set(def.id, def);
+  }
+  return Array.from(byId.values());
+};
+
 const mergeWithDefaults = (saved) => {
   const base = createDefaultState();
   return {
@@ -164,7 +189,10 @@ const mergeWithDefaults = (saved) => {
             : base.admin.config.themes,
         milestoneDefinitions:
           saved?.admin?.config?.milestoneDefinitions?.length > 0
-            ? saved.admin.config.milestoneDefinitions
+            ? mergeMilestoneDefinitions(
+                saved.admin.config.milestoneDefinitions,
+                base.admin.config.milestoneDefinitions
+              )
             : base.admin.config.milestoneDefinitions,
       },
     },
