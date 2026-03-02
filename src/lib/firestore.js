@@ -23,7 +23,7 @@ export const getUserRef = (db, uid) => doc(db, "users", uid);
 export const getFriendshipRef = (db, uid) => doc(db, "friendships", uid);
 export const getUsernameRef = (db, username) => doc(db, "usernames", username);
 export const getSessionRef = (db, uid, sessionId) => doc(db, "users", uid, "sessions", sessionId);
-export const getDailyRef = (db, uid, dayKey) => doc(db, "users", uid, "stats", "daily", dayKey);
+export const getDailyRef = (db, uid, dayKey) => doc(db, "users", uid, "dailyStats", dayKey);
 
 export const getIncomingRequestsQuery = (db, uid) =>
   query(collection(db, "friendRequests"), where("toUid", "==", uid), orderBy("createdAt", "desc"));
@@ -32,7 +32,7 @@ export const getOutgoingRequestsQuery = (db, uid) =>
   query(collection(db, "friendRequests"), where("fromUid", "==", uid), orderBy("createdAt", "desc"));
 
 export const getDailyRangeQuery = (db, uid) =>
-  query(collection(db, "users", uid, "stats", "daily"), orderBy(documentId(), "desc"), limit(14));
+  query(collection(db, "users", uid, "dailyStats"), orderBy(documentId(), "desc"), limit(14));
 
 export const createInitialProfile = async (db, user) => {
   const ref = getUserRef(db, user.uid);
