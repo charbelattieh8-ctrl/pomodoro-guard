@@ -16,6 +16,7 @@ export default function FriendsPage() {
   const [actionBusyId, setActionBusyId] = useState("");
 
   const runSearch = async () => {
+    if (!query.trim()) return;
     setBusy(true);
     setError("");
     try {
@@ -45,23 +46,30 @@ export default function FriendsPage() {
 
       <GlassCard className="space-y-3 p-4">
         <h3 className="font-semibold">Find friends</h3>
-        <div className="flex flex-wrap gap-2">
+        <form
+          className="flex flex-wrap gap-2"
+          onSubmit={(e) => {
+            e.preventDefault();
+            runSearch();
+          }}
+        >
           <input
             className="min-w-[220px] flex-1 rounded-xl border border-white/20 bg-white/10 px-3 py-2"
             placeholder="exact username or display name prefix"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <PrimaryButton disabled={busy || !query.trim()} onClick={runSearch}>
+          <PrimaryButton type="submit" disabled={busy || !query.trim()}>
             {busy ? "Searching..." : "Search"}
           </PrimaryButton>
-        </div>
+        </form>
         {error && <p className="text-sm text-rose-200">{error}</p>}
         <div className="space-y-2">
           {results.map((r) => (
             <FriendCard
               key={r.id}
               user={r}
+              profileHref={`/friends/${r.id}`}
               actionLabel={actionBusyId === `add-${r.id}` ? "Sending..." : "Add"}
               onAction={() => runAction(`add-${r.id}`, () => actions.sendRequest(r.id))}
             />

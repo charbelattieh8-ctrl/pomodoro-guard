@@ -13,6 +13,15 @@ export default function TopBar() {
         </p>
       </div>
       <div className="flex items-center gap-3 text-sm">
+        <Link to="/settings" className="h-9 w-9 overflow-hidden rounded-full border border-white/25 bg-white/10">
+          {profile?.photoURL ? (
+            <img src={profile.photoURL} alt="me" className="h-full w-full object-cover" />
+          ) : (
+            <div className="grid h-full w-full place-items-center text-xs text-slate-200">
+              {(profile?.username || "U").slice(0, 1).toUpperCase()}
+            </div>
+          )}
+        </Link>
         <Link
           to="/settings"
           className="rounded-full border border-white/25 bg-white/10 p-2 transition hover:bg-white/20"

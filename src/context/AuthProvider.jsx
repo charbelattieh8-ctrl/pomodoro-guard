@@ -8,6 +8,7 @@ import {
 } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db, hasFirebaseConfig } from "../lib/firebase";
+import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import {
   claimUniqueUsername,
   createInitialProfile,
@@ -35,7 +36,6 @@ import {
   watchOutgoingFriendRequests,
 } from "../lib/social";
 import { readCache } from "../lib/storage";
-import { getDoc } from "firebase/firestore";
 
 const AuthContext = createContext(null);
 
@@ -171,6 +171,18 @@ export function AuthProvider({ children }) {
       },
       acceptRequest: (request) => acceptFriendRequest(db, request),
       declineRequest: (id) => declineFriendRequest(db, id),
+      updateMyProfile: async (patch) => {
+        if (!user) throw new Error("Sign in first");
+        const safePatch = {};
+        if (typeof patch.displayName === "string") safePatch.displayName = patch.displayName.trim();
+        if (typeof patch.photoURL === "string") safePatch.photoURL = patch.photoURL.trim();
+        if (Object.keys(safePatch).length === 0) return;
+        await updateDoc(doc(db, "users", user.uid), {
+          ...safePatch,
+          updatedAt: serverTimestamp(),
+          lastSeenAt: serverTimestamp(),
+        });
+      },
     }),
     [user]
   );

@@ -95,6 +95,15 @@ export default function FriendProfilePage() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
       <GlassCard className="space-y-2 p-4">
+        <div className="mb-2 h-16 w-16 overflow-hidden rounded-full border border-white/20 bg-white/10">
+          {profile.photoURL ? (
+            <img src={profile.photoURL} alt={profile.username || "friend"} className="h-full w-full object-cover" />
+          ) : (
+            <div className="grid h-full w-full place-items-center text-sm text-slate-300">
+              {(profile.displayName || profile.username || "U").slice(0, 1).toUpperCase()}
+            </div>
+          )}
+        </div>
         <h2 className="font-display text-2xl font-semibold">@{profile.username || "user"}</h2>
         <p className="text-sm text-slate-200">{profile.displayName || profile.email || "Friend"}</p>
         <div className="grid gap-2 pt-2 sm:grid-cols-3">
@@ -146,4 +155,3 @@ export default function FriendProfilePage() {
     </motion.div>
   );
 }
-
