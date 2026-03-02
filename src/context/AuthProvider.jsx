@@ -42,6 +42,7 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
+  const [profileResolved, setProfileResolved] = useState(false);
   const [dailyStats, setDailyStats] = useState([]);
   const [incomingRequests, setIncomingRequests] = useState([]);
   const [outgoingRequests, setOutgoingRequests] = useState([]);
@@ -61,6 +62,7 @@ export function AuthProvider({ children }) {
       setAuthError("");
       if (!nextUser) {
         setProfile(null);
+        setProfileResolved(false);
         setDailyStats([]);
         setIncomingRequests([]);
         setOutgoingRequests([]);
@@ -70,6 +72,7 @@ export function AuthProvider({ children }) {
         return;
       }
 
+      setProfileResolved(false);
       await createInitialProfile(db, nextUser);
       setLoading(false);
     });
@@ -79,7 +82,10 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     if (!db || !user) return undefined;
-    const unsub = watchUserProfile(db, user.uid, setProfile);
+    const unsub = watchUserProfile(db, user.uid, (nextProfile) => {
+      setProfile(nextProfile);
+      setProfileResolved(true);
+    });
     return () => unsub();
   }, [user]);
 
@@ -170,9 +176,10 @@ export function AuthProvider({ children }) {
     friendUids,
     leaderboard,
     loading,
+    profileLoading: Boolean(user) && !profileResolved,
     authError,
     isAuthenticated: Boolean(user),
-    needsUsername: Boolean(user && profile && !profile.username),
+    needsUsername: Boolean(user && profileResolved && profile && !profile.username),
     actions,
   };
 

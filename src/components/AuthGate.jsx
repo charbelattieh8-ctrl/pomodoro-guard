@@ -8,7 +8,15 @@ import UsernameModal from "./UsernameModal";
 import { useAuth } from "../context/AuthProvider";
 
 export default function AuthGate({ children }) {
-  const { hasFirebaseConfig, loading, isAuthenticated, needsUsername, authError, actions } = useAuth();
+  const {
+    hasFirebaseConfig,
+    loading,
+    profileLoading,
+    isAuthenticated,
+    needsUsername,
+    authError,
+    actions,
+  } = useAuth();
   const [busy, setBusy] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignup, setOpenSignup] = useState(false);
@@ -52,7 +60,7 @@ export default function AuthGate({ children }) {
     );
   }
 
-  if (loading) {
+  if (loading || (isAuthenticated && profileLoading)) {
     return (
       <GateShell>
         <GlassCard className="w-full max-w-md p-6">
@@ -90,17 +98,42 @@ export default function AuthGate({ children }) {
           open={openLogin}
           onClose={() => setOpenLogin(false)}
           busy={busy}
-          onSubmit={(email, password) => run(() => actions.loginEmail(email, password))}
-          onGoogle={() => run(actions.loginGoogle)}
-          onGuest={() => run(actions.continueGuest)}
+          onSubmit={(email, password) =>
+            run(async () => {
+              await actions.loginEmail(email, password);
+              setOpenLogin(false);
+            })
+          }
+          onGoogle={() =>
+            run(async () => {
+              await actions.loginGoogle();
+              setOpenLogin(false);
+            })
+          }
+          onGuest={() =>
+            run(async () => {
+              await actions.continueGuest();
+              setOpenLogin(false);
+            })
+          }
         />
 
         <SignupModal
           open={openSignup}
           onClose={() => setOpenSignup(false)}
           busy={busy}
-          onSubmit={(email, password) => run(() => actions.signupEmail(email, password))}
-          onGoogle={() => run(actions.loginGoogle)}
+          onSubmit={(email, password) =>
+            run(async () => {
+              await actions.signupEmail(email, password);
+              setOpenSignup(false);
+            })
+          }
+          onGoogle={() =>
+            run(async () => {
+              await actions.loginGoogle();
+              setOpenSignup(false);
+            })
+          }
         />
       </GateShell>
     );
