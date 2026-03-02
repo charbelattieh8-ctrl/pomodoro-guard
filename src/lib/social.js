@@ -1,6 +1,5 @@
 import {
   addDoc,
-  arrayUnion,
   collection,
   doc,
   getDoc,
@@ -8,10 +7,10 @@ import {
   onSnapshot,
   orderBy,
   query,
+  runTransaction,
   serverTimestamp,
   updateDoc,
   where,
-  writeBatch,
 } from "firebase/firestore";
 import { getFriendshipRef, getUserRef, getUsernameRef, getUsersByIds } from "./firestore";
 
@@ -71,11 +70,23 @@ export async function acceptFriendRequest(db, request) {
   const aRef = getFriendshipRef(db, request.fromUid);
   const bRef = getFriendshipRef(db, request.toUid);
 
-  const batch = writeBatch(db);
-  batch.update(reqRef, { status: "accepted", updatedAt: serverTimestamp() });
-  batch.set(aRef, { friendUids: arrayUnion(request.toUid), updatedAt: serverTimestamp() }, { merge: true });
-  batch.set(bRef, { friendUids: arrayUnion(request.fromUid), updatedAt: serverTimestamp() }, { merge: true });
-  await batch.commit();
+  await runTransaction(db, async (tx) => {
+    const reqSnap = await tx.get(reqRef);
+    if (!reqSnap.exists()) return;
+    const reqData = reqSnap.data();
+    if (reqData.status !== "pending") return;
+
+    const [aSnap, bSnap] = await Promise.all([tx.get(aRef), tx.get(bRef)]);
+    const aCurrent = Array.isArray(aSnap.data()?.friendUids) ? aSnap.data().friendUids : [];
+    const bCurrent = Array.isArray(bSnap.data()?.friendUids) ? bSnap.data().friendUids : [];
+
+    const aNext = Array.from(new Set([...aCurrent, request.toUid]));
+    const bNext = Array.from(new Set([...bCurrent, request.fromUid]));
+
+    tx.update(reqRef, { status: "accepted", updatedAt: serverTimestamp() });
+    tx.set(aRef, { friendUids: aNext, updatedAt: serverTimestamp() }, { merge: true });
+    tx.set(bRef, { friendUids: bNext, updatedAt: serverTimestamp() }, { merge: true });
+  });
 }
 
 export async function searchUsers(db, term, currentUid) {
