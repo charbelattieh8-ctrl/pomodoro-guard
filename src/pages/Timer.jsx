@@ -16,10 +16,11 @@ const modeLabel = {
 export default function TimerPage() {
   const { state, actions, sessionProgress, currentRemainingMs } = useAppState();
   const { current } = state.sessions;
-  const [ringSize, setRingSize] = useState(250);
+  const [ringSize, setRingSize] = useState(320);
 
   useEffect(() => {
-    const applySize = () => setRingSize(window.innerWidth < 480 ? 210 : window.innerWidth < 768 ? 230 : 250);
+    const applySize = () =>
+      setRingSize(window.innerWidth < 480 ? 240 : window.innerWidth < 768 ? 280 : 320);
     applySize();
     window.addEventListener("resize", applySize);
     return () => window.removeEventListener("resize", applySize);

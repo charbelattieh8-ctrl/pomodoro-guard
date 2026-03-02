@@ -1,14 +1,29 @@
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { useAppState } from "../context/AppStateProvider";
+import CelebrationOverlay from "./CelebrationOverlay";
 import Sidebar from "./Sidebar";
 import Toast from "./Toast";
 import TopBar from "./TopBar";
 
+const LIQUID_BUBBLES = [
+  { left: "8%", size: 5, drift: 10, duration: 5.5, delay: 0.2 },
+  { left: "18%", size: 7, drift: -12, duration: 7.2, delay: 1.1 },
+  { left: "31%", size: 4, drift: 8, duration: 4.8, delay: 0.6 },
+  { left: "46%", size: 6, drift: -8, duration: 6.9, delay: 1.8 },
+  { left: "58%", size: 5, drift: 11, duration: 6.1, delay: 0.3 },
+  { left: "70%", size: 8, drift: -10, duration: 8.4, delay: 2.1 },
+  { left: "84%", size: 5, drift: 9, duration: 5.7, delay: 1.4 },
+];
+
 export default function Layout() {
-  const { state, sessionProgress, activeTheme, toasts, removeToast } = useAppState();
+  const { state, sessionProgress, activeTheme, toasts, removeToast, celebration, actions } =
+    useAppState();
+  const { pauseTimer, resumeTimer } = actions;
   const reduceMotion = state.user.preferences.reduceMotion;
   const isBreak = state.sessions.current.mode !== "focus";
+  const isRunning = state.sessions.current.status === "running";
 
   const overlayOpacity = reduceMotion ? 0.2 + sessionProgress * 0.12 : 0.22 + sessionProgress * 0.36;
   const bloomScale = reduceMotion ? 1 : 1 + sessionProgress * 1.6;
@@ -19,6 +34,32 @@ export default function Layout() {
   const bgDuration = isBreak ? 36 : 20;
   const surfaceDuration = isBreak ? 18 : 11;
   const smoothEase = [0.42, 0, 0.2, 1];
+  const liquidDuration = isBreak ? 14 : 9;
+  const liquidSpeedMultiplier = isRunning ? 1 : 1.45;
+  const crestDuration = (isBreak ? 9 : 5.2) * liquidSpeedMultiplier;
+
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      if (event.code !== "Space") return;
+      const target = event.target;
+      const typing =
+        target instanceof HTMLElement &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.tagName === "SELECT" ||
+          target.isContentEditable);
+      if (typing) return;
+      event.preventDefault();
+      if (state.sessions.current.status === "running") {
+        pauseTimer();
+      } else if (state.sessions.current.status === "paused") {
+        resumeTimer();
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [state.sessions.current.status, pauseTimer, resumeTimer]);
 
   return (
     <div className="relative min-h-screen overflow-hidden">
@@ -30,10 +71,9 @@ export default function Layout() {
         }}
         animate={
           reduceMotion
-            ? { filter: `hue-rotate(${sessionProgress * 10}deg) saturate(1.08)` }
+            ? {}
             : {
                 backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-                filter: [`hue-rotate(0deg) saturate(1)`, `hue-rotate(${sessionProgress * 20}deg) saturate(1.16)`],
               }
         }
         transition={{
@@ -104,70 +144,173 @@ export default function Layout() {
           clipPath: `inset(0 0 ${unfilledInsetBottom} 0)`,
           background:
             "linear-gradient(165deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 40%, rgba(255,255,255,0.02) 100%)",
+          backgroundSize: "140% 140%",
           opacity: reduceMotion ? 0.3 : 0.32,
           mixBlendMode: "screen",
-        }}
-        animate={reduceMotion ? {} : { opacity: [0.28, 0.36, 0.28] }}
-        transition={{ duration: isBreak ? 16 : 10, repeat: Infinity, ease: smoothEase }}
-      />
-
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          clipPath: `inset(${topInset} 0 0 0)`,
-          background:
-            "linear-gradient(160deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.1) 36%, rgba(255,255,255,0.06) 100%)",
-          backdropFilter: "blur(12px) saturate(130%)",
-          WebkitBackdropFilter: "blur(12px) saturate(130%)",
-          opacity: reduceMotion ? 0.58 : 0.64,
-        }}
-      />
-
-      <motion.div
-        className="pointer-events-none absolute inset-x-0 bottom-0"
-        style={{
-          height: fillHeight,
-          background: `linear-gradient(0deg, ${activeTheme.accent}f2 0%, ${activeTheme.accent}a3 32%, transparent 100%)`,
-          opacity: reduceMotion ? 0.32 : 0.38 + sessionProgress * 0.26,
-        }}
-        animate={
-          reduceMotion
-            ? { opacity: 0.32 + sessionProgress * 0.2 }
-            : {
-                opacity: [0.42 + sessionProgress * 0.14, 0.52 + sessionProgress * 0.2, 0.42 + sessionProgress * 0.14],
-              }
-        }
-        transition={{ duration: isBreak ? 14 : 8, repeat: Infinity, ease: smoothEase }}
-      />
-
-      <motion.div
-        className="pointer-events-none absolute inset-x-0 z-[1]"
-        style={{
-          bottom: fillHeight,
-          height: "74px",
-          background: `radial-gradient(ellipse at center bottom, rgba(255,255,255,0.9) 0%, ${activeTheme.accent}d9 36%, transparent 74%)`,
-          opacity: reduceMotion ? 0.48 : 0.7,
-          filter: "blur(10px)",
         }}
         animate={
           reduceMotion
             ? {}
-            : { x: ["-8%", "8%", "-6%"], scaleX: [1, 1.08, 1], opacity: [0.62, 0.78, 0.62] }
+            : {
+                opacity: [0.28, 0.4, 0.28],
+                backgroundPosition: ["0% 0%", "12% 100%", "0% 0%"],
+              }
         }
-        transition={{ duration: isBreak ? 16 : 9, repeat: Infinity, ease: smoothEase }}
+        transition={{ duration: isBreak ? 18 : 10, repeat: Infinity, ease: smoothEase }}
       />
 
       <motion.div
-        className="pointer-events-none absolute inset-x-0 z-[2]"
-        style={{
-          bottom: fillHeight,
-          height: "3px",
-          background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.98) 50%, transparent 100%)",
-          opacity: reduceMotion ? 0.66 : 0.84,
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] overflow-visible"
+        style={{ height: fillHeight }}
+        animate={
+          reduceMotion
+            ? {}
+            : {
+                x: [0, 1, -1, 0],
+                y: [0, -1, 0, 0],
+                rotate: [0, 0.08, -0.08, 0],
+              }
+        }
+        transition={{
+          duration: liquidDuration * liquidSpeedMultiplier,
+          repeat: Infinity,
+          ease: smoothEase,
         }}
-        animate={reduceMotion ? {} : { x: ["-6%", "6%", "-6%"] }}
-        transition={{ duration: isBreak ? 14 : 8, repeat: Infinity, ease: smoothEase }}
-      />
+        >
+        <motion.div
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(0deg, ${activeTheme.accent}f2 0%, ${activeTheme.accent}bf 38%, ${activeTheme.accent}66 75%, transparent 100%)`,
+            opacity: reduceMotion ? 0.55 : 0.65,
+          }}
+          animate={reduceMotion ? {} : { opacity: [0.6, 0.76, 0.6] }}
+          transition={{
+            duration: liquidDuration * liquidSpeedMultiplier,
+            repeat: Infinity,
+            ease: smoothEase,
+          }}
+        />
+
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(165deg, rgba(255,255,255,0.26) 0%, rgba(255,255,255,0.12) 42%, rgba(255,255,255,0.07) 100%)",
+            backdropFilter: "blur(12px) saturate(140%)",
+            WebkitBackdropFilter: "blur(12px) saturate(140%)",
+            opacity: 0.66,
+          }}
+        />
+
+        <motion.div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(circle at 22% 78%, rgba(255,255,255,0.32) 0 2px, transparent 3px), radial-gradient(circle at 68% 88%, rgba(255,255,255,0.22) 0 1.5px, transparent 3px), radial-gradient(circle at 48% 72%, rgba(255,255,255,0.22) 0 1.8px, transparent 3px)",
+            opacity: reduceMotion ? 0.18 : 0.3,
+          }}
+          animate={reduceMotion ? {} : { backgroundPosition: ["0px 0px", "40px -92px"] }}
+          transition={{
+            duration: (isBreak ? 16 : 8) * liquidSpeedMultiplier,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        />
+
+        <motion.svg
+          className="absolute left-0 top-0 w-full"
+          viewBox="0 0 1200 180"
+          preserveAspectRatio="none"
+          style={{ height: "88px", transform: "translateY(-38%)", opacity: reduceMotion ? 0.86 : 0.96 }}
+          animate={
+            reduceMotion
+              ? {}
+              : {
+                  y: [0, -14, 8, -4, 0],
+                  scaleY: [1, 1.08, 0.94, 1.02, 1],
+                }
+          }
+          transition={{
+            duration: (isBreak ? 6.6 : 3.2) * liquidSpeedMultiplier,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        >
+          <motion.path
+            d="M0,114 C140,92 280,134 430,114 C620,88 760,136 930,114 C1030,102 1120,108 1200,114 L1200,180 L0,180 Z"
+            fill={`${activeTheme.accent}ee`}
+            animate={
+              reduceMotion
+                ? {}
+                : {
+                    d: [
+                      "M0,114 C140,92 280,134 430,114 C620,88 760,136 930,114 C1030,102 1120,108 1200,114 L1200,180 L0,180 Z",
+                      "M0,118 C160,98 300,128 450,118 C620,96 760,128 920,118 C1030,108 1120,114 1200,118 L1200,180 L0,180 Z",
+                      "M0,114 C140,92 280,134 430,114 C620,88 760,136 930,114 C1030,102 1120,108 1200,114 L1200,180 L0,180 Z",
+                    ],
+                  }
+            }
+            transition={{
+              duration: (isBreak ? 5.6 : 2.8) * liquidSpeedMultiplier,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+          <motion.path
+            d="M0,118 C160,98 300,128 450,118 C620,96 760,128 920,118 C1030,108 1120,114 1200,118"
+            stroke="rgba(255,255,255,0.92)"
+            strokeWidth="2.6"
+            fill="none"
+            animate={
+              reduceMotion
+                ? {}
+                : {
+                    opacity: [0.65, 0.95, 0.65],
+                  }
+            }
+            transition={{
+              duration: (isBreak ? 4.8 : 2.4) * liquidSpeedMultiplier,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        </motion.svg>
+
+        <motion.div
+          className="absolute inset-x-0 top-0"
+          style={{
+            height: "24px",
+            transform: "translateY(-26%)",
+            background:
+              "linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.22) 45%, transparent 100%)",
+            opacity: reduceMotion ? 0.38 : 0.52,
+            filter: "blur(2px)",
+          }}
+          animate={reduceMotion ? {} : { opacity: [0.44, 0.62, 0.44] }}
+          transition={{ duration: (isBreak ? 6.4 : 3.2) * liquidSpeedMultiplier, repeat: Infinity, ease: "easeInOut" }}
+        />
+
+        {!reduceMotion &&
+          LIQUID_BUBBLES.map((bubble, index) => (
+            <motion.span
+              key={`bubble-${index}`}
+              className="absolute bottom-0 rounded-full bg-white/65"
+              style={{ left: bubble.left, width: bubble.size, height: bubble.size }}
+              animate={{
+                y: [0, -160 - index * 16],
+                x: [0, bubble.drift, 0],
+                opacity: [0, 0.55, 0],
+                scale: [0.6, 1, 1.12],
+              }}
+              transition={{
+                duration: bubble.duration * liquidSpeedMultiplier,
+                delay: bubble.delay,
+                repeat: Infinity,
+                ease: "easeOut",
+              }}
+            />
+          ))}
+      </motion.div>
 
       <motion.div
         className="pointer-events-none absolute -left-1/3 top-0 h-[60vh] w-[80vw] rounded-full"
@@ -210,6 +353,7 @@ export default function Layout() {
       </div>
 
       <Toast items={toasts} onClose={removeToast} />
+      <CelebrationOverlay celebration={celebration} />
     </div>
   );
 }

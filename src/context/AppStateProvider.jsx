@@ -9,10 +9,14 @@ import {
 } from "react";
 import { addCoins, canAfford } from "../lib/economy";
 import { collectNewMilestones, computeMilestoneProgress } from "../lib/milestones";
-import { loadState, saveState, createDefaultState } from "../lib/storage";
+import { loadState, saveState, createDefaultState, writeCache } from "../lib/storage";
 import { calcRemainingMs, calcSessionProgress, getModeMinutes, modeFromCycle } from "../lib/time";
 import { themeById } from "../lib/themes";
 import { getYesterdayISO, toLocalISODate, uid } from "../lib/utils";
+import { useAuth } from "./AuthProvider";
+import { db } from "../lib/firebase";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { completeFocusToCloud } from "../lib/firestore";
 
 const AppStateContext = createContext(null);
 
@@ -44,26 +48,26 @@ const finalizeStreak = (progress, dateISO) => {
 };
 
 export function AppStateProvider({ children }) {
+  const { user, profile } = useAuth();
   const [state, setState] = useState(() => loadState());
   const [now, setNow] = useState(Date.now());
   const [toasts, setToasts] = useState([]);
+  const [celebration, setCelebration] = useState(null);
   const completionLockRef = useRef(false);
+  const lastCelebratedHistoryIdRef = useRef(
+    state.sessions.history[state.sessions.history.length - 1]?.id ?? null
+  );
+  const prevCoinsRef = useRef(state.economy.coins);
+  const syncedCloudSessionIdsRef = useRef(new Set());
 
   useEffect(() => {
     saveState(state);
+    writeCache(state);
   }, [state]);
 
   useEffect(() => {
-    let raf = 0;
-    let interval = 0;
-    const tick = () => {
-      setNow(Date.now());
-      raf = requestAnimationFrame(tick);
-    };
-    tick();
-    interval = window.setInterval(() => setNow(Date.now()), 1000);
+    const interval = window.setInterval(() => setNow(Date.now()), 250);
     return () => {
-      cancelAnimationFrame(raf);
       clearInterval(interval);
     };
   }, []);
@@ -75,6 +79,171 @@ export function AppStateProvider({ children }) {
       setToasts((prev) => prev.filter((t) => t.id !== id));
     }, 2600);
   }, []);
+
+  const removeToast = useCallback((id) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+  }, []);
+
+  useEffect(() => {
+    if (!celebration) return undefined;
+    const t = setTimeout(() => setCelebration(null), 2200);
+    return () => clearTimeout(t);
+  }, [celebration]);
+
+  useEffect(() => {
+    if (!db || !user || !profile || profile.migratedLocal) return;
+    const local = loadState();
+    setDoc(
+      doc(db, "users", user.uid),
+      {
+        streakDays: Math.max(Number(profile.streakDays || 0), Number(local.milestones.progress.streakDays || 0)),
+        bestStreakDays: Math.max(
+          Number(profile.bestStreakDays || 0),
+          Number(local.milestones.progress.bestStreakDays || 0)
+        ),
+        focusSessionsCompleted: Math.max(
+          Number(profile.focusSessionsCompleted || 0),
+          Number(local.milestones.progress.focusSessionsCompleted || 0)
+        ),
+        focusMinutesCompleted: Math.max(
+          Number(profile.focusMinutesCompleted || 0),
+          Number(local.milestones.progress.focusMinutesCompleted || 0)
+        ),
+        coins: Math.max(Number(profile.coins || 0), Number(local.economy.coins || 0)),
+        earnedTotal: Math.max(Number(profile.earnedTotal || 0), Number(local.economy.earnedTotal || 0)),
+        migratedLocal: true,
+        updatedAt: serverTimestamp(),
+      },
+      { merge: true }
+    );
+  }, [user, profile]);
+
+  useEffect(() => {
+    if (!profile) return;
+    setState((prev) => ({
+      ...prev,
+      economy: {
+        ...prev.economy,
+        coins: Number(profile.coins ?? prev.economy.coins),
+        earnedTotal: Number(profile.earnedTotal ?? prev.economy.earnedTotal),
+      },
+      milestones: {
+        ...prev.milestones,
+        progress: {
+          ...prev.milestones.progress,
+          streakDays: Number(profile.streakDays ?? prev.milestones.progress.streakDays),
+          bestStreakDays: Number(profile.bestStreakDays ?? prev.milestones.progress.bestStreakDays),
+          focusSessionsCompleted: Number(
+            profile.focusSessionsCompleted ?? prev.milestones.progress.focusSessionsCompleted
+          ),
+          focusMinutesCompleted: Number(
+            profile.focusMinutesCompleted ?? prev.milestones.progress.focusMinutesCompleted
+          ),
+          lastFocusCompletionDate:
+            profile.lastFocusCompletionDate ?? prev.milestones.progress.lastFocusCompletionDate,
+        },
+      },
+    }));
+  }, [profile]);
+
+  useEffect(() => {
+    if (!db || !user) return undefined;
+    const timer = setTimeout(() => {
+      setDoc(
+        doc(db, "users", user.uid),
+        {
+          streakDays: Number(state.milestones.progress.streakDays || 0),
+          bestStreakDays: Number(state.milestones.progress.bestStreakDays || 0),
+          focusSessionsCompleted: Number(state.milestones.progress.focusSessionsCompleted || 0),
+          focusMinutesCompleted: Number(state.milestones.progress.focusMinutesCompleted || 0),
+          coins: Number(state.economy.coins || 0),
+          earnedTotal: Number(state.economy.earnedTotal || 0),
+          lastSeenAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+        },
+        { merge: true }
+      );
+    }, 700);
+    return () => clearTimeout(timer);
+  }, [
+    user,
+    state.milestones.progress.streakDays,
+    state.milestones.progress.bestStreakDays,
+    state.milestones.progress.focusSessionsCompleted,
+    state.milestones.progress.focusMinutesCompleted,
+    state.economy.coins,
+    state.economy.earnedTotal,
+  ]);
+
+  useEffect(() => {
+    const history = state.sessions.history;
+    if (!history.length) {
+      prevCoinsRef.current = state.economy.coins;
+      return;
+    }
+    const latest = history[history.length - 1];
+    if (
+      latest.id !== lastCelebratedHistoryIdRef.current &&
+      latest.mode === "focus" &&
+      latest.completed
+    ) {
+      const deltaCoins = Math.max(0, state.economy.coins - prevCoinsRef.current);
+      const coins =
+        deltaCoins > 0 ? deltaCoins : Number(state.admin.config.rewards.coinsPerCompletedFocus || 0);
+      setCelebration({
+        id: uid(),
+        title: "Focus complete",
+        subtitle:
+          state.sessions.current.mode === "longBreak"
+            ? "Great work. Long break unlocked."
+            : "Great work. Break time.",
+        coins,
+      });
+      addToast(`Focus complete • +${coins} coins`, "success");
+      lastCelebratedHistoryIdRef.current = latest.id;
+    }
+    prevCoinsRef.current = state.economy.coins;
+  }, [
+    state.sessions.history,
+    state.sessions.current.mode,
+    state.economy.coins,
+    state.admin.config.rewards.coinsPerCompletedFocus,
+    addToast,
+  ]);
+
+  useEffect(() => {
+    if (!db || !user) return;
+    const history = state.sessions.history;
+    if (!history.length) return;
+    const latest = history[history.length - 1];
+    if (!latest || latest.mode !== "focus" || !latest.completed) return;
+    if (syncedCloudSessionIdsRef.current.has(latest.id)) return;
+
+    const coinDelta = Math.max(0, state.economy.coins - prevCoinsRef.current);
+    const coinsAwarded = coinDelta || Number(state.admin.config.rewards.coinsPerCompletedFocus || 0);
+
+    completeFocusToCloud({
+      db,
+      uid: user.uid,
+      session: latest,
+      coinsAwarded,
+      streakDays: state.milestones.progress.streakDays,
+      bestStreakDays: state.milestones.progress.bestStreakDays,
+      lastFocusCompletionDate: state.milestones.progress.lastFocusCompletionDate,
+    })
+      .then(() => {
+        syncedCloudSessionIdsRef.current.add(latest.id);
+      })
+      .catch(() => {});
+  }, [
+    user,
+    state.sessions.history,
+    state.economy.coins,
+    state.admin.config.rewards.coinsPerCompletedFocus,
+    state.milestones.progress.streakDays,
+    state.milestones.progress.bestStreakDays,
+    state.milestones.progress.lastFocusCompletionDate,
+  ]);
 
   const activeTheme = useMemo(() => {
     const themes = state.admin.config.themes;
@@ -269,7 +438,10 @@ export function AppStateProvider({ children }) {
         };
 
         if (naturallyCompleted && current.mode === "focus") {
-          next.economy = addCoins(next.economy, next.admin.config.rewards.coinsPerCompletedFocus);
+          next.economy = addCoins(
+            next.economy,
+            Number(next.admin.config.rewards.coinsPerCompletedFocus || 0)
+          );
 
           const dateISO = toLocalISODate(endAt);
           let progress = {
@@ -326,9 +498,8 @@ export function AppStateProvider({ children }) {
     if (current.endsAt && current.endsAt <= now && !completionLockRef.current) {
       completionLockRef.current = true;
       completeCurrentSession(true);
-      addToast(`${current.mode === "focus" ? "Focus" : "Break"} complete`, "success");
     }
-  }, [state.sessions.current, now, completeCurrentSession, addToast]);
+  }, [state.sessions.current, now, completeCurrentSession]);
 
   const selectTheme = useCallback(
     (themeId) => {
@@ -467,8 +638,9 @@ export function AppStateProvider({ children }) {
     currentRemainingMs,
     sessionProgress,
     milestoneCards,
+    celebration,
     addToast,
-    removeToast: (id) => setToasts((prev) => prev.filter((t) => t.id !== id)),
+    removeToast,
     actions: {
       startTimer,
       pauseTimer,

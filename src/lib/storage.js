@@ -184,3 +184,6 @@ export const loadState = () => {
 export const saveState = (state) => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 };
+
+export const readCache = loadState;
+export const writeCache = saveState;

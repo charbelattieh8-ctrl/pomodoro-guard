@@ -1,91 +1,90 @@
 # Pomodoro Guard
 
-A premium, animated Pomodoro web app built with Vite + React (JavaScript), Tailwind CSS, Framer Motion, React Router, Recharts, and LocalStorage.
+Pomodoro Guard is a Vite + React app with Firebase Auth + Firestore backend, streak-first dashboard, social friends, and cloud-synced timer progress.
 
-## Features
+## Core Features
 
-- Pomodoro timer with `focus`, `break`, and `longBreak` modes
-- Robust timestamp-based timer behavior for background tabs
-- Milestones, badges, streak tracking, and coin rewards
-- Theme shop with unlockable gradient themes
-- Animated time-lapse background that evolves as session progress increases
-- User settings for durations and preferences
-- Admin page at `/admin` with passcode gate and in-session unlock
-- Admin config editing for rewards, themes, and milestone definitions
-- Charts in stats page (focus minutes + cumulative coins)
-- Fully persistent app state in LocalStorage (`pomodoro_guard_state_v1`)
-- Responsive layout: desktop sidebar + mobile bottom nav
+- Auth gate at startup:
+  - Continue as Guest (anonymous auth)
+  - Login (email/password + Google)
+  - Sign up (email/password + Google)
+  - Apple button included and guarded on localhost/dev
+- Required global unique username claim after first sign-in
+- Streak-first dashboard at `/`
+- Timer page at `/timer`
+- Existing timer/economy/shop/milestones/settings/admin flows retained
+- Friends search + requests + friends leaderboard
+- Realtime listeners for profile, daily stats, requests, and friendships
+- Firestore canonical state after auth; localStorage used as cache/fallback
 
-## Default Admin Passcode
+## Routes
 
-`3210`
+- `/` dashboard (streak central)
+- `/timer` timer
+- `/friends` social
+- `/shop`
+- `/milestones`
+- `/stats`
+- `/settings`
+- `/admin`
 
-Passcode is stored as SHA-256 hash in app state.
+## Setup
 
-## Tech Stack
-
-- React + Vite
-- Tailwind CSS
-- Framer Motion
-- React Router DOM
-- Recharts
-- Lucide React icons
-
-## Getting Started
+1. Install packages:
 
 ```bash
 npm install
+```
+
+2. Create `.env` from `.env.example` and set values:
+
+```bash
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+```
+
+3. In Firebase console:
+- Enable Authentication providers:
+  - Email/Password
+  - Google
+  - Anonymous
+  - Apple (optional)
+- Create Firestore database
+- Add authorized domains for Auth:
+  - `localhost`
+  - your Vercel domain(s)
+
+4. Deploy Firestore rules from `firestore.rules`.
+
+5. Run locally:
+
+```bash
 npm run dev
 ```
 
-Production build:
+6. Verify production build:
 
 ```bash
 npm run build
-npm run preview
 ```
 
-## Project Structure
+## Apple Auth Limitation on Localhost
 
-```text
-src/
-  main.jsx
-  App.jsx
-  routes.jsx
-  styles.css
-  lib/
-    storage.js
-    time.js
-    economy.js
-    milestones.js
-    themes.js
-    utils.js
-  context/
-    AppStateProvider.jsx
-  components/
-    Layout.jsx
-    TopBar.jsx
-    Sidebar.jsx
-    GlassCard.jsx
-    PrimaryButton.jsx
-    Toggle.jsx
-    Slider.jsx
-    Modal.jsx
-    Toast.jsx
-    ProgressRing.jsx
-    ThemePreview.jsx
-    StatCard.jsx
-  pages/
-    Timer.jsx
-    Shop.jsx
-    Milestones.jsx
-    Stats.jsx
-    Settings.jsx
-    Admin.jsx
-```
+Apple sign-in is typically not available on localhost unless configured with valid domain/redirect settings. In localhost/dev, Apple login is shown disabled with an explanatory message.
 
-## Notes
+## Security Rules
 
-- All data is local-only; no backend/auth service is used.
-- Admin unlock state is intentionally in-memory only and resets on refresh.
-- `Reset App Data` in admin restores complete default state.
+Rules are in `firestore.rules` and include:
+- owner-only write access for user docs
+- owner-only sessions
+- daily stats read by owner or friends
+- username uniqueness registry
+- friend request access control
+
+## Admin
+
+Default admin passcode: `3210`

@@ -1,0 +1,74 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAuthed() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isAuthed() && request.auth.uid == uid;
+    }
+
+    function isFriend(ownerUid) {
+      return isAuthed() && (
+        request.auth.uid == ownerUid ||
+        (
+          exists(/databases/$(database)/documents/friendships/$(ownerUid)) &&
+          request.auth.uid in get(/databases/$(database)/documents/friendships/$(ownerUid)).data.friendUids
+        )
+      );
+    }
+
+    match /users/{uid} {
+      allow read: if isAuthed();
+      allow create, update: if isOwner(uid);
+      allow delete: if false;
+
+      match /sessions/{sessionId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      match /stats/daily/{dayId} {
+        allow read: if isFriend(uid);
+        allow write: if isOwner(uid);
+      }
+
+      match /{document=**} {
+        allow read, write: if isOwner(uid);
+      }
+    }
+
+    match /usernames/{username} {
+      allow read: if isAuthed();
+      allow create: if isAuthed() &&
+        request.resource.data.uid == request.auth.uid &&
+        !exists(/databases/$(database)/documents/usernames/$(username));
+      allow update, delete: if false;
+    }
+
+    match /friendRequests/{requestId} {
+      allow create: if isAuthed() && request.resource.data.fromUid == request.auth.uid;
+      allow read: if isAuthed() && (
+        resource.data.fromUid == request.auth.uid ||
+        resource.data.toUid == request.auth.uid
+      );
+      allow update: if isAuthed() && (
+        resource.data.toUid == request.auth.uid ||
+        resource.data.fromUid == request.auth.uid
+      );
+      allow delete: if false;
+    }
+
+    match /friendships/{uid} {
+      allow read: if isOwner(uid);
+      allow create, update: if isOwner(uid);
+      allow delete: if false;
+    }
+
+    match /globalFeed/{entryId} {
+      allow read: if isAuthed();
+      allow create: if isAuthed() && request.resource.data.ownerUid == request.auth.uid;
+      allow update, delete: if false;
+    }
+  }
+}
