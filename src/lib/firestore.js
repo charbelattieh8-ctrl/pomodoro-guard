@@ -136,8 +136,12 @@ export const migrateLocalToCloud = async ({ db, uid, localState, profile }) => {
     Number(profile?.coins || 0) > 0 ||
     Number(profile?.earnedTotal || 0) > 0;
 
-  if (meaningfulCloud || profile?.migratedLocal) {
-    await setDoc(getUserRef(db, uid), { migratedLocal: true, updatedAt: serverTimestamp() }, { merge: true });
+  if (profile?.migratedLocal) {
+    return;
+  }
+
+  if (meaningfulCloud) {
+    await setDoc(getUserRef(db, uid), { migratedLocal: true }, { merge: true });
     return;
   }
 
