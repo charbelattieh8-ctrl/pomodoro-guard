@@ -39,7 +39,7 @@ const DEFAULT_MILESTONES = [
 const DEFAULT_STATE = {
   version: 1,
   user: {
-    displayName: "BOULA",
+    displayName: "",
     preferences: {
       selectedThemeId: "theme_default_1",
       soundOn: true,
