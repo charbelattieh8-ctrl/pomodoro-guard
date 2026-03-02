@@ -157,9 +157,18 @@ export function AuthProvider({ children }) {
       loginApple: () => wrapAuth(() => loginWithApple(auth)),
       continueGuest: () => wrapAuth(() => continueAsGuest(auth)),
       logout: () => logoutUser(auth),
-      claimProfileUsername: (username) => claimUniqueUsername(db, user.uid, username),
-      searchUsers: (term) => searchUsers(db, term, user.uid),
-      sendRequest: (toUid) => sendFriendRequest(db, user.uid, toUid),
+      claimProfileUsername: (username) => {
+        if (!user) throw new Error("Sign in first");
+        return claimUniqueUsername(db, user.uid, username);
+      },
+      searchUsers: (term) => {
+        if (!user) throw new Error("Sign in first");
+        return searchUsers(db, term, user.uid);
+      },
+      sendRequest: (toUid) => {
+        if (!user) throw new Error("Sign in first");
+        return sendFriendRequest(db, user.uid, toUid);
+      },
       acceptRequest: (request) => acceptFriendRequest(db, request),
       declineRequest: (id) => declineFriendRequest(db, id),
     }),

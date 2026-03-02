@@ -12,6 +12,8 @@ export default function FriendsPage() {
   const [results, setResults] = useState([]);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [actionError, setActionError] = useState("");
+  const [actionBusyId, setActionBusyId] = useState("");
 
   const runSearch = async () => {
     setBusy(true);
@@ -22,6 +24,18 @@ export default function FriendsPage() {
       setError(err?.message || "Search failed");
     } finally {
       setBusy(false);
+    }
+  };
+
+  const runAction = async (id, fn) => {
+    setActionError("");
+    setActionBusyId(id);
+    try {
+      await fn();
+    } catch (err) {
+      setActionError(err?.message || "Action failed");
+    } finally {
+      setActionBusyId("");
     }
   };
 
@@ -45,15 +59,21 @@ export default function FriendsPage() {
         {error && <p className="text-sm text-rose-200">{error}</p>}
         <div className="space-y-2">
           {results.map((r) => (
-            <FriendCard key={r.id} user={r} actionLabel="Add" onAction={() => actions.sendRequest(r.id)} />
+            <FriendCard
+              key={r.id}
+              user={r}
+              actionLabel={actionBusyId === `add-${r.id}` ? "Sending..." : "Add"}
+              onAction={() => runAction(`add-${r.id}`, () => actions.sendRequest(r.id))}
+            />
           ))}
         </div>
+        {actionError && <p className="text-sm text-rose-200">{actionError}</p>}
       </GlassCard>
 
       <RequestsPanel
         incoming={incomingRequests.filter((r) => r.status === "pending")}
-        onAccept={actions.acceptRequest}
-        onDecline={actions.declineRequest}
+        onAccept={(request) => runAction(`accept-${request.id}`, () => actions.acceptRequest(request))}
+        onDecline={(id) => runAction(`decline-${id}`, () => actions.declineRequest(id))}
       />
 
       <GlassCard className="space-y-3 p-4">

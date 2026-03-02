@@ -33,6 +33,12 @@ export const watchFriendships = (db, uid, cb) =>
 
 export async function sendFriendRequest(db, fromUid, toUid) {
   if (!fromUid || !toUid || fromUid === toUid) return;
+  const fromFriends = await getDoc(getFriendshipRef(db, fromUid));
+  const friendUids = Array.isArray(fromFriends.data()?.friendUids) ? fromFriends.data().friendUids : [];
+  if (friendUids.includes(toUid)) {
+    throw new Error("You are already friends");
+  }
+
   const q = query(
     collection(db, "friendRequests"),
     where("fromUid", "==", fromUid),
@@ -40,7 +46,9 @@ export async function sendFriendRequest(db, fromUid, toUid) {
     where("status", "==", "pending")
   );
   const existing = await getDocs(q);
-  if (!existing.empty) return;
+  if (!existing.empty) {
+    throw new Error("Request already sent");
+  }
 
   await addDoc(collection(db, "friendRequests"), {
     fromUid,
