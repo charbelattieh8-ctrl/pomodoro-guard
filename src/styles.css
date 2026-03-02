@@ -1,0 +1,85 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  @apply m-0 font-sans text-slate-100 antialiased;
+  background: #020617;
+}
+
+.glass {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    140deg,
+    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.05) 38%,
+    rgba(255, 255, 255, 0.02)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 14px 35px rgba(2, 6, 23, 0.24);
+  backdrop-filter: blur(18px) saturate(145%);
+  -webkit-backdrop-filter: blur(18px) saturate(145%);
+}
+
+.glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0.16) 0%,
+    rgba(255, 255, 255, 0.06) 28%,
+    transparent 52%
+  );
+  opacity: 0.35;
+}
+
+.glass > * {
+  position: relative;
+  z-index: 1;
+}
+
+.mesh-overlay {
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.18), transparent 33%),
+    radial-gradient(circle at 75% 10%, rgba(255, 255, 255, 0.12), transparent 40%),
+    radial-gradient(circle at 50% 75%, rgba(255, 255, 255, 0.12), transparent 45%);
+}
+
+.noise-overlay {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 0.4px, transparent 0.4px);
+  background-size: 4px 4px;
+}
+
+.range::-webkit-slider-thumb {
+  appearance: none;
+  height: 18px;
+  width: 18px;
+  border-radius: 9999px;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.range::-moz-range-thumb {
+  height: 18px;
+  width: 18px;
+  border: none;
+  border-radius: 9999px;
+  background: white;
+}
