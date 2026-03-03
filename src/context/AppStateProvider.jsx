@@ -66,11 +66,13 @@ export function AppStateProvider({ children }) {
   }, [state]);
 
   useEffect(() => {
-    const interval = window.setInterval(() => setNow(Date.now()), 250);
+    const isRunning = state.sessions.current.status === "running";
+    const intervalMs = isRunning ? 250 : 1400;
+    const interval = window.setInterval(() => setNow(Date.now()), intervalMs);
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [state.sessions.current.status]);
 
   const addToast = useCallback((message, type = "info") => {
     const id = uid();

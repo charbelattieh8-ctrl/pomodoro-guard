@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { useAppState } from "../context/AppStateProvider";
 import CelebrationOverlay from "./CelebrationOverlay";
 import Sidebar from "./Sidebar";
@@ -47,8 +47,12 @@ const MEME_67_STICKERS = [
 export default function Layout() {
   const { state, sessionProgress, activeTheme, toasts, removeToast, celebration, actions } =
     useAppState();
+  const location = useLocation();
   const { pauseTimer, resumeTimer } = actions;
   const reduceMotion = state.user.preferences.reduceMotion;
+  const highMotionPage =
+    location.pathname === "/timer" || location.pathname.startsWith("/rooms");
+  const cinematicMotion = !reduceMotion && highMotionPage;
   const isMeme67 = activeTheme.id === "theme_meme_67";
   const isBreak = state.sessions.current.mode !== "focus";
   const isRunning = state.sessions.current.status === "running";
@@ -98,11 +102,11 @@ export default function Layout() {
           backgroundSize: "180% 180%",
         }}
         animate={
-          reduceMotion
-            ? {}
-            : {
+          cinematicMotion
+            ? {
                 backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
               }
+            : {}
         }
         transition={{
           duration: bgDuration,
@@ -113,7 +117,7 @@ export default function Layout() {
 
       <motion.div
         className="mesh-overlay absolute inset-0"
-        animate={reduceMotion ? {} : { opacity: [overlayOpacity * 0.7, overlayOpacity, overlayOpacity * 0.7] }}
+        animate={cinematicMotion ? { opacity: [overlayOpacity * 0.7, overlayOpacity, overlayOpacity * 0.7] } : {}}
         transition={{ duration: surfaceDuration, repeat: Infinity, ease: smoothEase }}
         style={{ opacity: overlayOpacity }}
       />
@@ -121,7 +125,7 @@ export default function Layout() {
       <motion.div
         className="noise-overlay absolute inset-0"
         style={{ opacity: reduceMotion ? 0.1 : 0.1 + sessionProgress * 0.15 }}
-        animate={reduceMotion ? {} : { backgroundPosition: ["0px 0px", "48px 24px"] }}
+        animate={cinematicMotion ? { backgroundPosition: ["0px 0px", "48px 24px"] } : {}}
         transition={{ duration: isBreak ? 24 : 14, repeat: Infinity, ease: "linear" }}
       />
 
@@ -130,7 +134,7 @@ export default function Layout() {
           <motion.div
             className="absolute -left-[10%] top-[18%] font-display text-[20vw] font-black leading-none text-yellow-300/10"
             style={{ transform: "rotate(-10deg)" }}
-            animate={reduceMotion ? {} : { x: [0, 40, 0], y: [0, -12, 0], opacity: [0.08, 0.16, 0.08] }}
+            animate={cinematicMotion ? { x: [0, 40, 0], y: [0, -12, 0], opacity: [0.08, 0.16, 0.08] } : {}}
             transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
           >
             67
@@ -139,7 +143,7 @@ export default function Layout() {
           <motion.div
             className="absolute -right-[8%] bottom-[2%] font-display text-[18vw] font-black leading-none text-amber-200/10"
             style={{ transform: "rotate(12deg)" }}
-            animate={reduceMotion ? {} : { x: [0, -34, 0], y: [0, 10, 0], opacity: [0.07, 0.15, 0.07] }}
+            animate={cinematicMotion ? { x: [0, -34, 0], y: [0, 10, 0], opacity: [0.07, 0.15, 0.07] } : {}}
             transition={{ duration: 7.6, repeat: Infinity, ease: "easeInOut" }}
           >
             67
@@ -157,12 +161,12 @@ export default function Layout() {
                 textShadow: "0 0 18px rgba(250,204,21,0.18)",
               }}
               animate={
-                reduceMotion
-                  ? {}
-                  : {
+                cinematicMotion
+                  ? {
                       y: [0, -6, 0, 5, 0],
                       opacity: [0.2, 0.35, 0.2],
                     }
+                  : {}
               }
               transition={{
                 duration: 3.4 + (idx % 5) * 0.7,
@@ -181,13 +185,13 @@ export default function Layout() {
               className={`absolute rounded-xl border border-yellow-100/35 bg-black/25 px-3 py-1 font-display font-bold text-yellow-100/80 shadow-[0_0_20px_rgba(250,204,21,0.25)] backdrop-blur-sm ${sticker.size}`}
               style={{ left: sticker.left, top: sticker.top, transform: `rotate(${sticker.rotate}deg)` }}
               animate={
-                reduceMotion
-                  ? {}
-                  : {
+                cinematicMotion
+                  ? {
                       y: [0, -5, 0, 4, 0],
                       scale: [1, 1.04, 1],
                       opacity: [0.74, 0.95, 0.74],
                     }
+                  : {}
               }
               transition={{
                 duration: 2.6 + idx * 0.45,
@@ -201,7 +205,7 @@ export default function Layout() {
 
           <motion.div
             className="absolute left-[10%] top-[78%] rounded-full border border-yellow-100/30 bg-black/30 px-4 py-2 text-sm font-black text-yellow-100/80 shadow-[0_0_18px_rgba(250,204,21,0.22)]"
-            animate={reduceMotion ? {} : { y: [0, -4, 0], rotate: [0, -1.2, 0, 1.2, 0] }}
+            animate={cinematicMotion ? { y: [0, -4, 0], rotate: [0, -1.2, 0, 1.2, 0] } : {}}
             transition={{ duration: 2.9, repeat: Infinity, ease: "easeInOut" }}
           >
             (•_•) 67
@@ -209,7 +213,7 @@ export default function Layout() {
 
           <motion.div
             className="absolute right-[8%] top-[70%] rounded-2xl border border-yellow-100/25 bg-black/25 px-4 py-2 text-xs font-bold tracking-wider text-yellow-50/80"
-            animate={reduceMotion ? {} : { y: [0, 3, 0, -3, 0], x: [0, -3, 0, 3, 0] }}
+            animate={cinematicMotion ? { y: [0, 3, 0, -3, 0], x: [0, -3, 0, 3, 0] } : {}}
             transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut" }}
           >
             OG INTERNET ENERGY
@@ -224,7 +228,7 @@ export default function Layout() {
           filter: "blur(34px)",
           opacity: 0.28,
         }}
-        animate={reduceMotion ? {} : { x: ["0%", "14%", "0%"], y: ["0%", "-6%", "0%"] }}
+        animate={cinematicMotion ? { x: ["0%", "14%", "0%"], y: ["0%", "-6%", "0%"] } : {}}
         transition={{ duration: isBreak ? 28 : 18, repeat: Infinity, ease: smoothEase }}
       />
 
@@ -235,7 +239,7 @@ export default function Layout() {
           filter: "blur(42px)",
           opacity: 0.34,
         }}
-        animate={reduceMotion ? {} : { x: ["0%", "-12%", "0%"], y: ["0%", "8%", "0%"] }}
+        animate={cinematicMotion ? { x: ["0%", "-12%", "0%"], y: ["0%", "8%", "0%"] } : {}}
         transition={{ duration: isBreak ? 34 : 20, repeat: Infinity, ease: smoothEase }}
       />
 
@@ -248,14 +252,18 @@ export default function Layout() {
           mixBlendMode: "plus-lighter",
         }}
         animate={
-          reduceMotion
-            ? {}
-            : {
+          cinematicMotion
+            ? {
                 backgroundPosition: ["50% 0%", "50% 100%", "50% 0%"],
                 opacity: [0.38 + sessionProgress * 0.1, 0.5 + sessionProgress * 0.16, 0.38 + sessionProgress * 0.1],
               }
+            : {}
         }
-        transition={{ duration: isBreak ? 22 : 12, repeat: Infinity, ease: smoothEase }}
+        transition={{
+          duration: isBreak ? 22 : 12,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
       />
 
       <motion.div
@@ -269,12 +277,12 @@ export default function Layout() {
           mixBlendMode: "screen",
         }}
         animate={
-          reduceMotion
-            ? {}
-            : {
+          cinematicMotion
+            ? {
                 opacity: [0.28, 0.4, 0.28],
                 backgroundPosition: ["0% 0%", "12% 100%", "0% 0%"],
               }
+            : {}
         }
         transition={{ duration: isBreak ? 18 : 10, repeat: Infinity, ease: smoothEase }}
       />
@@ -283,13 +291,13 @@ export default function Layout() {
         className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] overflow-visible"
         style={{ height: fillHeight }}
         animate={
-          reduceMotion
-            ? {}
-            : {
+          cinematicMotion
+            ? {
                 x: [0, 1, -1, 0],
                 y: [0, -1, 0, 0],
                 rotate: [0, 0.08, -0.08, 0],
               }
+            : {}
         }
         transition={{
           duration: liquidDuration * liquidSpeedMultiplier,
@@ -303,7 +311,7 @@ export default function Layout() {
             background: `linear-gradient(0deg, ${activeTheme.accent}f2 0%, ${activeTheme.accent}bf 38%, ${activeTheme.accent}66 75%, transparent 100%)`,
             opacity: reduceMotion ? 0.55 : 0.65,
           }}
-          animate={reduceMotion ? {} : { opacity: [0.6, 0.76, 0.6] }}
+          animate={cinematicMotion ? { opacity: [0.6, 0.76, 0.6] } : {}}
           transition={{
             duration: liquidDuration * liquidSpeedMultiplier,
             repeat: Infinity,
@@ -329,7 +337,7 @@ export default function Layout() {
               "radial-gradient(circle at 22% 78%, rgba(255,255,255,0.32) 0 2px, transparent 3px), radial-gradient(circle at 68% 88%, rgba(255,255,255,0.22) 0 1.5px, transparent 3px), radial-gradient(circle at 48% 72%, rgba(255,255,255,0.22) 0 1.8px, transparent 3px)",
             opacity: reduceMotion ? 0.18 : 0.3,
           }}
-          animate={reduceMotion ? {} : { backgroundPosition: ["0px 0px", "40px -92px"] }}
+          animate={cinematicMotion ? { backgroundPosition: ["0px 0px", "40px -92px"] } : {}}
           transition={{
             duration: (isBreak ? 16 : 8) * liquidSpeedMultiplier,
             repeat: Infinity,
@@ -343,12 +351,12 @@ export default function Layout() {
           preserveAspectRatio="none"
           style={{ height: "88px", transform: "translateY(-38%)", opacity: reduceMotion ? 0.86 : 0.96 }}
           animate={
-            reduceMotion
-              ? {}
-              : {
+            cinematicMotion
+              ? {
                   y: [0, -14, 8, -4, 0],
                   scaleY: [1, 1.08, 0.94, 1.02, 1],
                 }
+              : {}
           }
           transition={{
             duration: (isBreak ? 6.6 : 3.2) * liquidSpeedMultiplier,
@@ -360,15 +368,15 @@ export default function Layout() {
             d="M0,114 C140,92 280,134 430,114 C620,88 760,136 930,114 C1030,102 1120,108 1200,114 L1200,180 L0,180 Z"
             fill={`${activeTheme.accent}ee`}
             animate={
-              reduceMotion
-                ? {}
-                : {
+              cinematicMotion
+                ? {
                     d: [
                       "M0,114 C140,92 280,134 430,114 C620,88 760,136 930,114 C1030,102 1120,108 1200,114 L1200,180 L0,180 Z",
                       "M0,118 C160,98 300,128 450,118 C620,96 760,128 920,118 C1030,108 1120,114 1200,118 L1200,180 L0,180 Z",
                       "M0,114 C140,92 280,134 430,114 C620,88 760,136 930,114 C1030,102 1120,108 1200,114 L1200,180 L0,180 Z",
                     ],
                   }
+                : {}
             }
             transition={{
               duration: (isBreak ? 5.6 : 2.8) * liquidSpeedMultiplier,
@@ -382,11 +390,11 @@ export default function Layout() {
             strokeWidth="2.6"
             fill="none"
             animate={
-              reduceMotion
-                ? {}
-                : {
+              cinematicMotion
+                ? {
                     opacity: [0.65, 0.95, 0.65],
                   }
+                : {}
             }
             transition={{
               duration: (isBreak ? 4.8 : 2.4) * liquidSpeedMultiplier,
@@ -406,11 +414,11 @@ export default function Layout() {
             opacity: reduceMotion ? 0.38 : 0.52,
             filter: "blur(2px)",
           }}
-          animate={reduceMotion ? {} : { opacity: [0.44, 0.62, 0.44] }}
+          animate={cinematicMotion ? { opacity: [0.44, 0.62, 0.44] } : {}}
           transition={{ duration: (isBreak ? 6.4 : 3.2) * liquidSpeedMultiplier, repeat: Infinity, ease: "easeInOut" }}
         />
 
-        {!reduceMotion &&
+        {cinematicMotion &&
           LIQUID_BUBBLES.map((bubble, index) => (
             <motion.span
               key={`bubble-${index}`}
@@ -440,9 +448,9 @@ export default function Layout() {
           opacity: 0.22 + sessionProgress * 0.5,
         }}
         animate={
-          reduceMotion
-            ? { x: "10%" }
-            : { x: ["0%", "120%", "0%"], y: ["0%", "24%", "0%"], scale: [1, bloomScale, 1] }
+          cinematicMotion
+            ? { x: ["0%", "120%", "0%"], y: ["0%", "24%", "0%"], scale: [1, bloomScale, 1] }
+            : { x: "10%" }
         }
         transition={{ duration: isBreak ? 28 : 16, repeat: Infinity, ease: smoothEase }}
       />
@@ -457,7 +465,7 @@ export default function Layout() {
               height: fillHeight,
               background: `linear-gradient(180deg, ${activeTheme.accent}66 0%, ${activeTheme.accent}ee 100%)`,
             }}
-            animate={reduceMotion ? {} : { opacity: [0.85, 1, 0.85] }}
+            animate={cinematicMotion ? { opacity: [0.85, 1, 0.85] } : {}}
             transition={{ duration: isBreak ? 8 : 5, repeat: Infinity, ease: smoothEase }}
           />
         </div>
