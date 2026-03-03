@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { Award, Clock3, ShoppingBag, Users, TrendingUp, Wrench } from "lucide-react";
+import { Award, Clock3, DoorOpen, ShoppingBag, Users, TrendingUp, Wrench } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 const navItems = [
   { to: "/", label: "Dashboard", icon: Clock3 },
   { to: "/timer", label: "Timer", icon: Clock3 },
   { to: "/friends", label: "Friends", icon: Users },
-  { to: "/rooms", label: "Rooms", icon: Users },
+  { to: "/rooms", label: "Rooms", icon: DoorOpen },
   { to: "/challenges", label: "Challenges", icon: Award },
   { to: "/shop", label: "Shop", icon: ShoppingBag },
   { to: "/milestones", label: "Badges", icon: Award },

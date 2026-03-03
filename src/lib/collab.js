@@ -10,6 +10,7 @@ import {
   query,
   runTransaction,
   serverTimestamp,
+  deleteDoc,
   updateDoc,
   where,
   increment,
@@ -145,12 +146,14 @@ export function watchOutgoingChallenges(db, uid, cb) {
 }
 
 export async function createChallenge(db, { creatorUid, targetUid, title, targetMinutes, deadlineAt, rewardCoins }) {
+  const safeTarget = Math.max(10, Number(targetMinutes || 60));
+  const computedReward = Math.min(300, Math.max(20, Math.round(safeTarget * 2)));
   await addDoc(collection(db, "friendChallenges"), {
     creatorUid,
     targetUid,
     title: title?.trim() || "Daily Focus Challenge",
-    targetMinutes: Number(targetMinutes || 60),
-    rewardCoins: Math.max(0, Number(rewardCoins || 0)),
+    targetMinutes: safeTarget,
+    rewardCoins: computedReward,
     deadlineAt: Number(deadlineAt || 0),
     status: "pending",
     createdAt: serverTimestamp(),
@@ -190,6 +193,14 @@ export async function completeChallenge(db, challengeId, actorUid) {
       );
     }
   });
+}
+
+export async function deleteRoom(db, roomId) {
+  await deleteDoc(doc(db, "focusRooms", roomId));
+}
+
+export async function deleteChallenge(db, challengeId) {
+  await deleteDoc(doc(db, "friendChallenges", challengeId));
 }
 
 export async function loadRecentChallengesForPair(db, aUid, bUid) {

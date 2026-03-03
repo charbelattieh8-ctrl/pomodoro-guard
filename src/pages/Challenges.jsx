@@ -8,6 +8,7 @@ import { db } from "../lib/firebase";
 import {
   completeChallenge,
   createChallenge,
+  deleteChallenge,
   updateChallengeStatus,
   watchIncomingChallenges,
   watchOutgoingChallenges,
@@ -37,7 +38,6 @@ export default function ChallengesPage() {
   const [targetUid, setTargetUid] = useState("");
   const [targetMinutes, setTargetMinutes] = useState(120);
   const [deadlineDays, setDeadlineDays] = useState(1);
-  const [rewardCoins, setRewardCoins] = useState(80);
   const [title, setTitle] = useState("Lock-in duel");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -57,6 +57,7 @@ export default function ChallengesPage() {
     [leaderboard, friendUids]
   );
   const todayMinutes = Number(dailyStats.find((d) => d.id === todayISO())?.focusMinutes || 0);
+  const computedReward = Math.min(300, Math.max(20, Math.round(Math.max(10, Number(targetMinutes || 60)) * 2)));
 
   const run = async (fn, successText = "") => {
     setBusy(true);
@@ -81,7 +82,7 @@ export default function ChallengesPage() {
           title,
           targetMinutes: Math.max(10, Number(targetMinutes || 60)),
           deadlineAt: Date.now() + Math.max(1, Number(deadlineDays || 1)) * 24 * 60 * 60 * 1000,
-          rewardCoins: Math.max(0, Number(rewardCoins || 0)),
+          rewardCoins: computedReward,
         }),
       "Challenge sent"
     );
@@ -92,49 +93,57 @@ export default function ChallengesPage() {
 
       <GlassCard className="space-y-3 p-4">
         <h3 className="font-semibold">Create challenge</h3>
-        <div className="grid gap-2 md:grid-cols-5">
-          <input
-            className="rounded-xl border border-white/20 bg-white/10 px-3 py-2"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Challenge title"
-          />
-          <input
-            className="rounded-xl border border-white/20 bg-white/10 px-3 py-2"
-            type="number"
-            value={targetMinutes}
-            onChange={(e) => setTargetMinutes(e.target.value)}
-            placeholder="Target minutes"
-          />
-          <select
-            className="rounded-xl border border-white/20 bg-slate-900/60 px-3 py-2"
-            value={deadlineDays}
-            onChange={(e) => setDeadlineDays(Number(e.target.value))}
-          >
-            <option value={1}>1 day</option>
-            <option value={3}>3 days</option>
-            <option value={7}>7 days</option>
-          </select>
-          <input
-            className="rounded-xl border border-white/20 bg-white/10 px-3 py-2"
-            type="number"
-            value={rewardCoins}
-            onChange={(e) => setRewardCoins(e.target.value)}
-            placeholder="Reward coins"
-          />
-          <select
-            className="rounded-xl border border-white/20 bg-slate-900/60 px-3 py-2"
-            value={targetUid}
-            onChange={(e) => setTargetUid(e.target.value)}
-          >
-            <option value="">Choose friend</option>
-            {friends.map((f) => (
-              <option key={f.id} value={f.id}>
-                @{f.username || f.displayName || f.id.slice(0, 6)}
-              </option>
-            ))}
-          </select>
+        <div className="grid gap-3 md:grid-cols-2">
+          <label className="text-sm text-slate-200">
+            Challenge title
+            <input
+              className="mt-1 w-full rounded-xl border border-white/20 bg-white/10 px-3 py-2"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Example: Sprint Duel"
+            />
+          </label>
+          <label className="text-sm text-slate-200">
+            Friend to challenge
+            <select
+              className="mt-1 w-full rounded-xl border border-white/20 bg-slate-900/60 px-3 py-2"
+              value={targetUid}
+              onChange={(e) => setTargetUid(e.target.value)}
+            >
+              <option value="">Choose friend</option>
+              {friends.map((f) => (
+                <option key={f.id} value={f.id}>
+                  @{f.username || f.displayName || f.id.slice(0, 6)}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="text-sm text-slate-200">
+            Focus minutes required
+            <input
+              className="mt-1 w-full rounded-xl border border-white/20 bg-white/10 px-3 py-2"
+              type="number"
+              value={targetMinutes}
+              onChange={(e) => setTargetMinutes(e.target.value)}
+              placeholder="Target minutes"
+            />
+          </label>
+          <label className="text-sm text-slate-200">
+            Deadline window
+            <select
+              className="mt-1 w-full rounded-xl border border-white/20 bg-slate-900/60 px-3 py-2"
+              value={deadlineDays}
+              onChange={(e) => setDeadlineDays(Number(e.target.value))}
+            >
+              <option value={1}>1 day</option>
+              <option value={3}>3 days</option>
+              <option value={7}>7 days</option>
+            </select>
+          </label>
         </div>
+        <p className="text-xs text-slate-300">
+          Reward is auto-calculated from target minutes: <span className="font-semibold">{computedReward} coins</span>.
+        </p>
         <PrimaryButton disabled={!targetUid || busy} onClick={sendChallenge}>
           {busy ? "Sending..." : "Send Challenge"}
         </PrimaryButton>
@@ -178,6 +187,11 @@ export default function ChallengesPage() {
                   Complete + Claim Reward
                 </PrimaryButton>
               )}
+              {c.status !== "pending" && (
+                <PrimaryButton variant="ghost" onClick={() => run(() => deleteChallenge(db, c.id))}>
+                  Delete
+                </PrimaryButton>
+              )}
             </div>
           </div>
         ))}
@@ -193,6 +207,13 @@ export default function ChallengesPage() {
               Target: {Number(c.targetMinutes || 0)}m · reward: {Number(c.rewardCoins || 0)} coins · status: {c.status}
             </p>
             <p className="text-xs text-slate-300">Deadline: {timeLeftText(c.deadlineAt)}</p>
+            {c.status !== "pending" && (
+              <div className="mt-2">
+                <PrimaryButton variant="ghost" onClick={() => run(() => deleteChallenge(db, c.id))}>
+                  Delete
+                </PrimaryButton>
+              </div>
+            )}
           </div>
         ))}
       </GlassCard>

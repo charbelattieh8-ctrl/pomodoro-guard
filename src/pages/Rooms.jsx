@@ -9,6 +9,7 @@ import { db } from "../lib/firebase";
 import { formatMs } from "../lib/utils";
 import {
   createFocusRoom,
+  deleteRoom,
   joinRoom,
   leaveRoom,
   pauseRoom,
@@ -194,6 +195,11 @@ export default function RoomsPage() {
                   <RotateCcw size={16} /> Reset
                 </PrimaryButton>
               )}
+              {iAmOwner && (
+                <PrimaryButton variant="ghost" onClick={() => run(() => deleteRoom(db, activeRoom.id))}>
+                  Delete Room
+                </PrimaryButton>
+              )}
             </div>
             <p className="mt-3 text-center text-xs text-slate-300">
               <Users size={14} className="mr-1 inline-block" />
@@ -229,4 +235,3 @@ export default function RoomsPage() {
     </motion.div>
   );
 }
-

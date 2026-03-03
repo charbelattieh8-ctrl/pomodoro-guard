@@ -79,7 +79,7 @@ service cloud.firestore {
       allow update: if isAuthed() &&
         request.auth.uid in resource.data.participantUids &&
         request.resource.data.participantUids is list;
-      allow delete: if false;
+      allow delete: if isAuthed() && resource.data.ownerUid == request.auth.uid;
     }
 
     match /friendChallenges/{challengeId} {
@@ -96,7 +96,10 @@ service cloud.firestore {
       ) &&
       request.resource.data.creatorUid == resource.data.creatorUid &&
       request.resource.data.targetUid == resource.data.targetUid;
-      allow delete: if false;
+      allow delete: if isAuthed() && (
+        resource.data.creatorUid == request.auth.uid ||
+        resource.data.targetUid == request.auth.uid
+      );
     }
 
     match /globalFeed/{entryId} {
