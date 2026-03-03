@@ -116,7 +116,9 @@ export function AppStateProvider({ children }) {
         const seq =
           kind === "focusDone"
             ? [880, 1047, 1319]
-            : [659, 523, 392];
+            : kind === "cycleDone"
+              ? [523, 659, 784, 1047]
+              : [659, 523, 392];
 
         seq.forEach((freq, idx) => {
           const osc = ctx.createOscillator();
@@ -457,6 +459,7 @@ export function AppStateProvider({ children }) {
   const completeCurrentSession = useCallback(
     (naturallyCompleted = true) => {
       let completedMode = null;
+      let finishedCycle = false;
       setState((prev) => {
         const current = prev.sessions.current;
         if (!current.startedAt || !current.sessionId) {
@@ -541,15 +544,22 @@ export function AppStateProvider({ children }) {
         }
         if (naturallyCompleted && current.mode !== "focus") {
           completedMode = "breakDone";
+          if (current.mode === "longBreak") {
+            finishedCycle = true;
+          }
         }
 
         next.sessions.current = moveToNextPhase(next, naturallyCompleted && current.mode === "focus");
         return next;
       });
       if (naturallyCompleted && completedMode === "focus") playSessionSound("focusDone");
-      if (naturallyCompleted && completedMode === "breakDone") playSessionSound("breakDone");
+      if (naturallyCompleted && completedMode === "breakDone" && !finishedCycle) playSessionSound("breakDone");
+      if (naturallyCompleted && finishedCycle) {
+        playSessionSound("cycleDone");
+        addToast("Cycle complete. New focus cycle started.", "success");
+      }
     },
-    [moveToNextPhase, playSessionSound]
+    [moveToNextPhase, playSessionSound, addToast]
   );
 
   const skipPhase = useCallback(() => {
