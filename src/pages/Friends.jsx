@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import GlassCard from "../components/GlassCard";
 import PrimaryButton from "../components/PrimaryButton";
@@ -14,6 +14,30 @@ export default function FriendsPage() {
   const [busy, setBusy] = useState(false);
   const [actionError, setActionError] = useState("");
   const [actionBusyId, setActionBusyId] = useState("");
+  const [userMap, setUserMap] = useState({});
+
+  useEffect(() => {
+    const ids = Array.from(
+      new Set([
+        ...incomingRequests.map((r) => r.fromUid),
+        ...incomingRequests.map((r) => r.toUid),
+        ...outgoingRequests.map((r) => r.fromUid),
+        ...outgoingRequests.map((r) => r.toUid),
+      ])
+    );
+    if (!ids.length) {
+      setUserMap({});
+      return;
+    }
+    actions
+      .getUsersByIds(ids)
+      .then((rows) => {
+        const next = {};
+        for (const row of rows) next[row.id] = row;
+        setUserMap(next);
+      })
+      .catch(() => {});
+  }, [incomingRequests, outgoingRequests, actions]);
 
   const runSearch = async () => {
     if (!query.trim()) return;
@@ -80,6 +104,7 @@ export default function FriendsPage() {
 
       <RequestsPanel
         incoming={incomingRequests.filter((r) => r.status === "pending")}
+        userMap={userMap}
         onAccept={(request) => runAction(`accept-${request.id}`, () => actions.acceptRequest(request))}
         onDecline={(id) => runAction(`decline-${id}`, () => actions.declineRequest(id))}
       />
@@ -92,8 +117,16 @@ export default function FriendsPage() {
         {outgoingRequests
           .filter((r) => r.status === "pending")
           .map((r) => (
-            <div key={r.id} className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm">
-              To UID {r.toUid.slice(0, 6)}...
+            <div key={r.id} className="flex items-center justify-between rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm">
+              <span>
+                To @{userMap[r.toUid]?.username || userMap[r.toUid]?.displayName || r.toUid.slice(0, 6)}
+              </span>
+              <PrimaryButton
+                variant="ghost"
+                onClick={() => runAction(`cancel-${r.id}`, () => actions.cancelRequest(r.id))}
+              >
+                Cancel
+              </PrimaryButton>
             </div>
           ))}
       </GlassCard>
@@ -107,6 +140,8 @@ export default function FriendsPage() {
             user={friend}
             todayFocusMinutes={friend.todayFocusMinutes}
             profileHref={`/friends/${friend.id}`}
+            actionLabel={actionBusyId === `unfriend-${friend.id}` ? "Removing..." : "Unfriend"}
+            onAction={() => runAction(`unfriend-${friend.id}`, () => actions.unfriend(friend.id))}
           />
         ))}
       </GlassCard>

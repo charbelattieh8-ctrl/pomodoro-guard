@@ -13,6 +13,7 @@ import {
   claimUniqueUsername,
   createInitialProfile,
   getDailyRef,
+  getUsersByIds,
   migrateLocalToCloud,
   watchDailyStats14,
   watchUserProfile,
@@ -31,6 +32,7 @@ import {
   loadFriendsProfiles,
   searchUsers,
   sendFriendRequest,
+  unfriend,
   watchFriendships,
   watchIncomingFriendRequests,
   watchOutgoingFriendRequests,
@@ -171,6 +173,12 @@ export function AuthProvider({ children }) {
       },
       acceptRequest: (request) => acceptFriendRequest(db, request),
       declineRequest: (id) => declineFriendRequest(db, id),
+      cancelRequest: (id) => declineFriendRequest(db, id),
+      unfriend: (friendUid) => {
+        if (!user) throw new Error("Sign in first");
+        return unfriend(db, user.uid, friendUid);
+      },
+      getUsersByIds: (ids) => getUsersByIds(db, ids),
       updateMyProfile: async (patch) => {
         if (!user) throw new Error("Sign in first");
         const safePatch = {};

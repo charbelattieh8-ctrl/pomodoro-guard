@@ -86,6 +86,41 @@ export function AppStateProvider({ children }) {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
+  const playSessionSound = useCallback(
+    (kind) => {
+      if (!state.user.preferences.soundOn) return;
+      try {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (!Ctx) return;
+        const ctx = new Ctx();
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+        gain.connect(ctx.destination);
+
+        const seq =
+          kind === "focusDone"
+            ? [880, 1047, 1319]
+            : [659, 523, 392];
+
+        seq.forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          osc.type = idx % 2 ? "triangle" : "sine";
+          osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.12);
+          osc.connect(gain);
+          const st = ctx.currentTime + idx * 0.12;
+          const et = st + 0.16;
+          gain.gain.linearRampToValueAtTime(0.05, st + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, et);
+          osc.start(st);
+          osc.stop(et + 0.02);
+        });
+
+        setTimeout(() => ctx.close().catch(() => {}), 900);
+      } catch {}
+    },
+    [state.user.preferences.soundOn]
+  );
+
   useEffect(() => {
     if (!celebration) return undefined;
     const t = setTimeout(() => setCelebration(null), 2200);
@@ -405,6 +440,7 @@ export function AppStateProvider({ children }) {
 
   const completeCurrentSession = useCallback(
     (naturallyCompleted = true) => {
+      let completedMode = null;
       setState((prev) => {
         const current = prev.sessions.current;
         if (!current.startedAt || !current.sessionId) {
@@ -440,6 +476,7 @@ export function AppStateProvider({ children }) {
         };
 
         if (naturallyCompleted && current.mode === "focus") {
+          completedMode = "focus";
           next.economy = addCoins(
             next.economy,
             Number(next.admin.config.rewards.coinsPerCompletedFocus || 0)
@@ -486,12 +523,17 @@ export function AppStateProvider({ children }) {
             };
           }
         }
+        if (naturallyCompleted && current.mode !== "focus") {
+          completedMode = "breakDone";
+        }
 
         next.sessions.current = moveToNextPhase(next, naturallyCompleted && current.mode === "focus");
         return next;
       });
+      if (naturallyCompleted && completedMode === "focus") playSessionSound("focusDone");
+      if (naturallyCompleted && completedMode === "breakDone") playSessionSound("breakDone");
     },
-    [moveToNextPhase]
+    [moveToNextPhase, playSessionSound]
   );
 
   const skipPhase = useCallback(() => {

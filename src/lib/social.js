@@ -133,3 +133,26 @@ export async function searchUsers(db, term, currentUid) {
 export async function loadFriendsProfiles(db, friendUids) {
   return getUsersByIds(db, friendUids);
 }
+
+export async function unfriend(db, uid, friendUid) {
+  if (!uid || !friendUid || uid === friendUid) return;
+  const aRef = getFriendshipRef(db, uid);
+  const bRef = getFriendshipRef(db, friendUid);
+
+  await runTransaction(db, async (tx) => {
+    const [aSnap, bSnap] = await Promise.all([tx.get(aRef), tx.get(bRef)]);
+    const aCurrent = Array.isArray(aSnap.data()?.friendUids) ? aSnap.data().friendUids : [];
+    const bCurrent = Array.isArray(bSnap.data()?.friendUids) ? bSnap.data().friendUids : [];
+
+    tx.set(
+      aRef,
+      { friendUids: aCurrent.filter((id) => id !== friendUid), updatedAt: serverTimestamp() },
+      { merge: true }
+    );
+    tx.set(
+      bRef,
+      { friendUids: bCurrent.filter((id) => id !== uid), updatedAt: serverTimestamp() },
+      { merge: true }
+    );
+  });
+}

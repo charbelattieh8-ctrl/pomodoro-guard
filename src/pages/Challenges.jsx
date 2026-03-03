@@ -37,7 +37,7 @@ export default function ChallengesPage() {
   const [outgoing, setOutgoing] = useState([]);
   const [targetUid, setTargetUid] = useState("");
   const [targetMinutes, setTargetMinutes] = useState(120);
-  const [deadlineDays, setDeadlineDays] = useState(1);
+  const [deadlineHours, setDeadlineHours] = useState(24);
   const [title, setTitle] = useState("Lock-in duel");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -81,7 +81,7 @@ export default function ChallengesPage() {
           targetUid,
           title,
           targetMinutes: Math.max(10, Number(targetMinutes || 60)),
-          deadlineAt: Date.now() + Math.max(1, Number(deadlineDays || 1)) * 24 * 60 * 60 * 1000,
+          deadlineAt: Date.now() + Math.max(1, Number(deadlineHours || 24)) * 60 * 60 * 1000,
           rewardCoins: computedReward,
         }),
       "Challenge sent"
@@ -130,15 +130,14 @@ export default function ChallengesPage() {
           </label>
           <label className="text-sm text-slate-200">
             Deadline window
-            <select
-              className="mt-1 w-full rounded-xl border border-white/20 bg-slate-900/60 px-3 py-2"
-              value={deadlineDays}
-              onChange={(e) => setDeadlineDays(Number(e.target.value))}
-            >
-              <option value={1}>1 day</option>
-              <option value={3}>3 days</option>
-              <option value={7}>7 days</option>
-            </select>
+            <input
+              className="mt-1 w-full rounded-xl border border-white/20 bg-white/10 px-3 py-2"
+              type="number"
+              min={1}
+              value={deadlineHours}
+              onChange={(e) => setDeadlineHours(e.target.value)}
+              placeholder="Hours to finish"
+            />
           </label>
         </div>
         <p className="text-xs text-slate-300">
