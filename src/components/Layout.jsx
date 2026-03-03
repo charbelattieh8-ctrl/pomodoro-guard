@@ -37,10 +37,11 @@ const MEME_67_MARKS = [
 
 const MEME_67_STICKERS = [
   { text: "67", left: "5%", top: "7%", rotate: -14, size: "text-3xl" },
-  { text: "NICE", left: "18%", top: "42%", rotate: 9, size: "text-xl" },
+  { text: "OG BOI", left: "16%", top: "40%", rotate: 9, size: "text-xl" },
   { text: "LOCK IN", left: "72%", top: "10%", rotate: -8, size: "text-xl" },
   { text: "67 MODE", left: "60%", top: "76%", rotate: 12, size: "text-lg" },
-  { text: "MEME", left: "38%", top: "24%", rotate: -11, size: "text-lg" },
+  { text: "BRUH", left: "38%", top: "24%", rotate: -11, size: "text-lg" },
+  { text: "SHEESH", left: "80%", top: "44%", rotate: 6, size: "text-lg" },
 ];
 
 export default function Layout() {
@@ -127,17 +128,6 @@ export default function Layout() {
       {isMeme67 && (
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <motion.div
-            className="absolute inset-0"
-            style={{
-              background:
-                "repeating-linear-gradient(45deg, rgba(250,204,21,0.06) 0px, rgba(250,204,21,0.06) 8px, transparent 8px, transparent 20px)",
-              mixBlendMode: "screen",
-            }}
-            animate={reduceMotion ? {} : { opacity: [0.18, 0.34, 0.18] }}
-            transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
-          />
-
-          <motion.div
             className="absolute -left-[10%] top-[18%] font-display text-[20vw] font-black leading-none text-yellow-300/10"
             style={{ transform: "rotate(-10deg)" }}
             animate={reduceMotion ? {} : { x: [0, 40, 0], y: [0, -12, 0], opacity: [0.08, 0.16, 0.08] }}
@@ -208,6 +198,22 @@ export default function Layout() {
               {sticker.text}
             </motion.div>
           ))}
+
+          <motion.div
+            className="absolute left-[10%] top-[78%] rounded-full border border-yellow-100/30 bg-black/30 px-4 py-2 text-sm font-black text-yellow-100/80 shadow-[0_0_18px_rgba(250,204,21,0.22)]"
+            animate={reduceMotion ? {} : { y: [0, -4, 0], rotate: [0, -1.2, 0, 1.2, 0] }}
+            transition={{ duration: 2.9, repeat: Infinity, ease: "easeInOut" }}
+          >
+            (•_•) 67
+          </motion.div>
+
+          <motion.div
+            className="absolute right-[8%] top-[70%] rounded-2xl border border-yellow-100/25 bg-black/25 px-4 py-2 text-xs font-bold tracking-wider text-yellow-50/80"
+            animate={reduceMotion ? {} : { y: [0, 3, 0, -3, 0], x: [0, -3, 0, 3, 0] }}
+            transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut" }}
+          >
+            OG INTERNET ENERGY
+          </motion.div>
         </div>
       )}
 
