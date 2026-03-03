@@ -59,6 +59,7 @@ export function AppStateProvider({ children }) {
   );
   const prevCoinsRef = useRef(state.economy.coins);
   const syncedCloudSessionIdsRef = useRef(new Set());
+  const audioCtxRef = useRef(null);
 
   useEffect(() => {
     saveState(state);
@@ -86,13 +87,28 @@ export function AppStateProvider({ children }) {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
+  const ensureAudioReady = useCallback(async () => {
+    try {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return null;
+      if (!audioCtxRef.current) {
+        audioCtxRef.current = new Ctx();
+      }
+      if (audioCtxRef.current.state === "suspended") {
+        await audioCtxRef.current.resume();
+      }
+      return audioCtxRef.current;
+    } catch {
+      return null;
+    }
+  }, []);
+
   const playSessionSound = useCallback(
     (kind) => {
       if (!state.user.preferences.soundOn) return;
       try {
-        const Ctx = window.AudioContext || window.webkitAudioContext;
-        if (!Ctx) return;
-        const ctx = new Ctx();
+        const ctx = audioCtxRef.current;
+        if (!ctx || ctx.state !== "running") return;
         const gain = ctx.createGain();
         gain.gain.setValueAtTime(0.0001, ctx.currentTime);
         gain.connect(ctx.destination);
@@ -114,8 +130,6 @@ export function AppStateProvider({ children }) {
           osc.start(st);
           osc.stop(et + 0.02);
         });
-
-        setTimeout(() => ctx.close().catch(() => {}), 900);
       } catch {}
     },
     [state.user.preferences.soundOn]
@@ -324,6 +338,7 @@ export function AppStateProvider({ children }) {
   }, []);
 
   const startTimer = useCallback(() => {
+    ensureAudioReady();
     setState((prev) => {
       const current = prev.sessions.current;
       if (current.status === "running") return prev;
@@ -347,7 +362,7 @@ export function AppStateProvider({ children }) {
         },
       };
     });
-  }, []);
+  }, [ensureAudioReady]);
 
   const pauseTimer = useCallback(() => {
     setState((prev) => {
@@ -369,6 +384,7 @@ export function AppStateProvider({ children }) {
   }, []);
 
   const resumeTimer = useCallback(() => {
+    ensureAudioReady();
     setState((prev) => {
       const current = prev.sessions.current;
       if (current.status !== "paused") return prev;
@@ -387,7 +403,7 @@ export function AppStateProvider({ children }) {
         },
       };
     });
-  }, []);
+  }, [ensureAudioReady]);
 
   const resetTimer = useCallback(() => {
     setState((prev) => {
