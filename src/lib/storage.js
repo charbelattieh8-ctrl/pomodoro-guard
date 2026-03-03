@@ -130,10 +130,26 @@ const mergeThemes = (savedThemes, defaultThemes) => {
 
 const mergeMilestoneDefinitions = (savedDefs, defaultDefs) => {
   const byId = new Map();
-  for (const def of savedDefs || []) byId.set(def.id, def);
-  for (const def of defaultDefs) {
-    if (!byId.has(def.id)) byId.set(def.id, def);
+  for (const def of defaultDefs || []) byId.set(def.id, def);
+  for (const def of savedDefs || []) {
+    if (!def?.id) continue;
+    const base = byId.get(def.id) || {};
+    byId.set(def.id, { ...base, ...def });
   }
+
+  // Force canonical behavior for built-in meme challenge so old local configs migrate.
+  if (byId.has("focus_69_sessions")) {
+    byId.set("focus_69_sessions", {
+      ...byId.get("focus_69_sessions"),
+      id: "focus_69_sessions",
+      title: "Nice 69",
+      description: "Complete one 69-minute focus session.",
+      type: "singleFocusSessionMinutes",
+      target: 69,
+      rewardCoins: 690,
+    });
+  }
+
   return Array.from(byId.values());
 };
 

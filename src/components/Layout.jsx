@@ -35,6 +35,14 @@ const MEME_67_MARKS = [
   { left: "86%", top: "60%", size: 22, rotate: 6 },
 ];
 
+const MEME_67_STICKERS = [
+  { text: "67", left: "5%", top: "7%", rotate: -14, size: "text-3xl" },
+  { text: "NICE", left: "18%", top: "42%", rotate: 9, size: "text-xl" },
+  { text: "LOCK IN", left: "72%", top: "10%", rotate: -8, size: "text-xl" },
+  { text: "67 MODE", left: "60%", top: "76%", rotate: 12, size: "text-lg" },
+  { text: "MEME", left: "38%", top: "24%", rotate: -11, size: "text-lg" },
+];
+
 export default function Layout() {
   const { state, sessionProgress, activeTheme, toasts, removeToast, celebration, actions } =
     useAppState();
@@ -118,6 +126,35 @@ export default function Layout() {
 
       {isMeme67 && (
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background:
+                "repeating-linear-gradient(45deg, rgba(250,204,21,0.06) 0px, rgba(250,204,21,0.06) 8px, transparent 8px, transparent 20px)",
+              mixBlendMode: "screen",
+            }}
+            animate={reduceMotion ? {} : { opacity: [0.18, 0.34, 0.18] }}
+            transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+          />
+
+          <motion.div
+            className="absolute -left-[10%] top-[18%] font-display text-[20vw] font-black leading-none text-yellow-300/10"
+            style={{ transform: "rotate(-10deg)" }}
+            animate={reduceMotion ? {} : { x: [0, 40, 0], y: [0, -12, 0], opacity: [0.08, 0.16, 0.08] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          >
+            67
+          </motion.div>
+
+          <motion.div
+            className="absolute -right-[8%] bottom-[2%] font-display text-[18vw] font-black leading-none text-amber-200/10"
+            style={{ transform: "rotate(12deg)" }}
+            animate={reduceMotion ? {} : { x: [0, -34, 0], y: [0, 10, 0], opacity: [0.07, 0.15, 0.07] }}
+            transition={{ duration: 7.6, repeat: Infinity, ease: "easeInOut" }}
+          >
+            67
+          </motion.div>
+
           {MEME_67_MARKS.map((mark, idx) => (
             <motion.span
               key={`meme67-${idx}`}
@@ -146,6 +183,30 @@ export default function Layout() {
             >
               67
             </motion.span>
+          ))}
+
+          {MEME_67_STICKERS.map((sticker, idx) => (
+            <motion.div
+              key={`meme67-sticker-${idx}`}
+              className={`absolute rounded-xl border border-yellow-100/35 bg-black/25 px-3 py-1 font-display font-bold text-yellow-100/80 shadow-[0_0_20px_rgba(250,204,21,0.25)] backdrop-blur-sm ${sticker.size}`}
+              style={{ left: sticker.left, top: sticker.top, transform: `rotate(${sticker.rotate}deg)` }}
+              animate={
+                reduceMotion
+                  ? {}
+                  : {
+                      y: [0, -5, 0, 4, 0],
+                      scale: [1, 1.04, 1],
+                      opacity: [0.74, 0.95, 0.74],
+                    }
+              }
+              transition={{
+                duration: 2.6 + idx * 0.45,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
+              {sticker.text}
+            </motion.div>
           ))}
         </div>
       )}
