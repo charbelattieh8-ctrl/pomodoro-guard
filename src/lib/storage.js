@@ -45,9 +45,9 @@ const DEFAULT_MILESTONES = [
   {
     id: "focus_69_sessions",
     title: "Nice 69",
-    description: "Complete one 69-minute focus session.",
-    type: "singleFocusSessionMinutes",
-    target: 69,
+    description: "Complete exactly one 69-minute focus session.",
+    type: "focusSessionsExactly69",
+    target: 1,
     rewardCoins: 690,
   },
 ];
@@ -82,6 +82,7 @@ const DEFAULT_STATE = {
       focusSessionsCompleted: 0,
       focusMinutesCompleted: 0,
       maxSingleFocusMinutes: 0,
+      focusSessionsExactly69: 0,
       streakDays: 0,
       lastFocusCompletionDate: null,
       bestStreakDays: 0,
@@ -143,9 +144,9 @@ const mergeMilestoneDefinitions = (savedDefs, defaultDefs) => {
       ...byId.get("focus_69_sessions"),
       id: "focus_69_sessions",
       title: "Nice 69",
-      description: "Complete one 69-minute focus session.",
-      type: "singleFocusSessionMinutes",
-      target: 69,
+      description: "Complete exactly one 69-minute focus session.",
+      type: "focusSessionsExactly69",
+      target: 1,
       rewardCoins: 690,
     });
   }

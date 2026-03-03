@@ -200,7 +200,7 @@ export function AuthProvider({ children }) {
     profileLoading: Boolean(user) && !profileResolved,
     authError,
     isAuthenticated: Boolean(user),
-    needsUsername: Boolean(user && profileResolved && profile && !profile.username),
+    needsUsername: Boolean(user && profileResolved && !profile?.username),
     actions,
   };
 

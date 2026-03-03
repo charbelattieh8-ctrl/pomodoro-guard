@@ -454,6 +454,9 @@ export function AppStateProvider({ children }) {
               Number(next.milestones.progress.maxSingleFocusMinutes || 0),
               Number(plannedMinutes || 0)
             ),
+            focusSessionsExactly69:
+              Number(next.milestones.progress.focusSessionsExactly69 || 0) +
+              (Number(plannedMinutes) === 69 ? 1 : 0),
           };
           progress = finalizeStreak(progress, dateISO);
           next.milestones = {
@@ -494,6 +497,37 @@ export function AppStateProvider({ children }) {
   const skipPhase = useCallback(() => {
     completeCurrentSession(false);
   }, [completeCurrentSession]);
+
+  const addFiveMinutes = useCallback(() => {
+    setState((prev) => {
+      const current = prev.sessions.current;
+      const extra = 5 * 60 * 1000;
+      if (current.status === "running" && current.endsAt) {
+        return {
+          ...prev,
+          sessions: {
+            ...prev.sessions,
+            current: {
+              ...current,
+              endsAt: current.endsAt + extra,
+              remainingMs: Math.max(0, calcRemainingMs(current)) + extra,
+            },
+          },
+        };
+      }
+      return {
+        ...prev,
+        sessions: {
+          ...prev.sessions,
+          current: {
+            ...current,
+            remainingMs: Math.max(0, current.remainingMs) + extra,
+          },
+        },
+      };
+    });
+    addToast("+5 minutes added", "info");
+  }, [addToast]);
 
   useEffect(() => {
     const current = state.sessions.current;
@@ -653,6 +687,7 @@ export function AppStateProvider({ children }) {
       resumeTimer,
       resetTimer,
       skipPhase,
+      addFiveMinutes,
       selectTheme,
       unlockTheme,
       updateUserTimerSettings,

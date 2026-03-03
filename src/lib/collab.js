@@ -12,6 +12,7 @@ import {
   serverTimestamp,
   updateDoc,
   where,
+  increment,
 } from "firebase/firestore";
 
 function toMillis(value) {
@@ -143,13 +144,14 @@ export function watchOutgoingChallenges(db, uid, cb) {
   });
 }
 
-export async function createChallenge(db, { creatorUid, targetUid, title, targetMinutes, deadlineDay }) {
+export async function createChallenge(db, { creatorUid, targetUid, title, targetMinutes, deadlineAt, rewardCoins }) {
   await addDoc(collection(db, "friendChallenges"), {
     creatorUid,
     targetUid,
     title: title?.trim() || "Daily Focus Challenge",
     targetMinutes: Number(targetMinutes || 60),
-    deadlineDay,
+    rewardCoins: Math.max(0, Number(rewardCoins || 0)),
+    deadlineAt: Number(deadlineAt || 0),
     status: "pending",
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
@@ -160,6 +162,33 @@ export async function updateChallengeStatus(db, challengeId, status) {
   await updateDoc(doc(db, "friendChallenges", challengeId), {
     status,
     updatedAt: serverTimestamp(),
+  });
+}
+
+export async function completeChallenge(db, challengeId, actorUid) {
+  const challengeRef = doc(db, "friendChallenges", challengeId);
+  const userRef = doc(db, "users", actorUid);
+
+  await runTransaction(db, async (tx) => {
+    const snap = await tx.get(challengeRef);
+    if (!snap.exists()) return;
+    const challenge = snap.data();
+    if (challenge.status !== "accepted") return;
+    if (challenge.targetUid !== actorUid) throw new Error("Only challenge target can complete");
+
+    const reward = Math.max(0, Number(challenge.rewardCoins || 0));
+    tx.update(challengeRef, { status: "completed", updatedAt: serverTimestamp() });
+    if (reward > 0) {
+      tx.set(
+        userRef,
+        {
+          coins: increment(reward),
+          earnedTotal: increment(reward),
+          updatedAt: serverTimestamp(),
+        },
+        { merge: true }
+      );
+    }
   });
 }
 

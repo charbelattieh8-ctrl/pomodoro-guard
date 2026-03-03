@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Play, Pause, RotateCcw, SkipForward } from "lucide-react";
+import { Play, Pause, RotateCcw, SkipForward, Plus } from "lucide-react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import GlassCard from "../components/GlassCard";
 import PrimaryButton from "../components/PrimaryButton";
 import ProgressRing from "../components/ProgressRing";
@@ -16,6 +17,8 @@ const modeLabel = {
 export default function TimerPage() {
   const { state, actions, sessionProgress, currentRemainingMs } = useAppState();
   const { current } = state.sessions;
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [ringSize, setRingSize] = useState(320);
 
   useEffect(() => {
@@ -25,6 +28,15 @@ export default function TimerPage() {
     window.addEventListener("resize", applySize);
     return () => window.removeEventListener("resize", applySize);
   }, []);
+
+  useEffect(() => {
+    const preset = Number(searchParams.get("minutes") || 0);
+    if (!Number.isFinite(preset) || preset <= 0) return;
+    const minutes = Math.max(1, Math.round(preset));
+    actions.updateUserTimerSettings({ focusMinutes: minutes });
+    actions.resetTimer();
+    navigate("/timer", { replace: true });
+  }, [searchParams, actions, navigate]);
 
   return (
     <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} className="relative min-h-[72vh]">
@@ -75,6 +87,14 @@ export default function TimerPage() {
               onClick={actions.skipPhase}
             >
               <SkipForward size={16} /> Skip
+            </PrimaryButton>
+
+            <PrimaryButton
+              className="flex items-center justify-center gap-2"
+              variant="ghost"
+              onClick={actions.addFiveMinutes}
+            >
+              <Plus size={16} /> +5 min
             </PrimaryButton>
           </div>
         </GlassCard>
