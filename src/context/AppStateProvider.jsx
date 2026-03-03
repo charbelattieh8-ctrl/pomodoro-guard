@@ -60,6 +60,7 @@ export function AppStateProvider({ children }) {
   const prevCoinsRef = useRef(state.economy.coins);
   const syncedCloudSessionIdsRef = useRef(new Set());
   const audioCtxRef = useRef(null);
+  const audioUnlockedRef = useRef(false);
 
   useEffect(() => {
     saveState(state);
@@ -97,6 +98,7 @@ export function AppStateProvider({ children }) {
       if (audioCtxRef.current.state === "suspended") {
         await audioCtxRef.current.resume();
       }
+      audioUnlockedRef.current = audioCtxRef.current.state === "running";
       return audioCtxRef.current;
     } catch {
       return null;
@@ -108,7 +110,7 @@ export function AppStateProvider({ children }) {
       if (!state.user.preferences.soundOn) return;
       try {
         const ctx = audioCtxRef.current;
-        if (!ctx || ctx.state !== "running") return;
+        if (!ctx || ctx.state !== "running" || !audioUnlockedRef.current) return;
         const gain = ctx.createGain();
         gain.gain.setValueAtTime(0.0001, ctx.currentTime);
         gain.connect(ctx.destination);
@@ -136,6 +138,18 @@ export function AppStateProvider({ children }) {
     },
     [state.user.preferences.soundOn]
   );
+
+  useEffect(() => {
+    const unlock = () => {
+      ensureAudioReady();
+    };
+    window.addEventListener("pointerdown", unlock, { once: true });
+    window.addEventListener("keydown", unlock, { once: true });
+    return () => {
+      window.removeEventListener("pointerdown", unlock);
+      window.removeEventListener("keydown", unlock);
+    };
+  }, [ensureAudioReady]);
 
   useEffect(() => {
     if (!celebration) return undefined;
@@ -458,8 +472,7 @@ export function AppStateProvider({ children }) {
 
   const completeCurrentSession = useCallback(
     (naturallyCompleted = true) => {
-      let completedMode = null;
-      let finishedCycle = false;
+      const currentSnapshot = state.sessions.current;
       setState((prev) => {
         const current = prev.sessions.current;
         if (!current.startedAt || !current.sessionId) {
@@ -495,7 +508,6 @@ export function AppStateProvider({ children }) {
         };
 
         if (naturallyCompleted && current.mode === "focus") {
-          completedMode = "focus";
           next.economy = addCoins(
             next.economy,
             Number(next.admin.config.rewards.coinsPerCompletedFocus || 0)
@@ -542,24 +554,24 @@ export function AppStateProvider({ children }) {
             };
           }
         }
-        if (naturallyCompleted && current.mode !== "focus") {
-          completedMode = "breakDone";
-          if (current.mode === "longBreak") {
-            finishedCycle = true;
-          }
-        }
 
         next.sessions.current = moveToNextPhase(next, naturallyCompleted && current.mode === "focus");
         return next;
       });
-      if (naturallyCompleted && completedMode === "focus") playSessionSound("focusDone");
-      if (naturallyCompleted && completedMode === "breakDone" && !finishedCycle) playSessionSound("breakDone");
-      if (naturallyCompleted && finishedCycle) {
+
+      if (!naturallyCompleted) return;
+      if (currentSnapshot?.mode === "focus") {
+        playSessionSound("focusDone");
+        return;
+      }
+      if (currentSnapshot?.mode === "longBreak") {
         playSessionSound("cycleDone");
         addToast("Cycle complete. New focus cycle started.", "success");
+        return;
       }
+      playSessionSound("breakDone");
     },
-    [moveToNextPhase, playSessionSound, addToast]
+    [state.sessions.current, moveToNextPhase, playSessionSound, addToast]
   );
 
   const skipPhase = useCallback(() => {
