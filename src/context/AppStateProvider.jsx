@@ -448,6 +448,10 @@ export function AppStateProvider({ children }) {
             ...next.milestones.progress,
             focusSessionsCompleted: next.milestones.progress.focusSessionsCompleted + 1,
             focusMinutesCompleted: next.milestones.progress.focusMinutesCompleted + plannedMinutes,
+            maxSingleFocusMinutes: Math.max(
+              Number(next.milestones.progress.maxSingleFocusMinutes || 0),
+              Number(plannedMinutes || 0)
+            ),
           };
           progress = finalizeStreak(progress, dateISO);
           next.milestones = {

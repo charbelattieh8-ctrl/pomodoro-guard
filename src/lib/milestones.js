@@ -5,6 +5,9 @@ const metricForDefinition = (definition, progress) => {
   if (definition.type === "focusMinutesCompleted") {
     return progress.focusMinutesCompleted;
   }
+  if (definition.type === "singleFocusSessionMinutes") {
+    return progress.maxSingleFocusMinutes || 0;
+  }
   if (definition.type === "streakDays") {
     return progress.streakDays;
   }

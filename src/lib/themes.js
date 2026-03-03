@@ -56,6 +56,14 @@ export const DEFAULT_THEMES = [
     isFree: false,
   },
   {
+    id: "theme_meme_67",
+    name: "Meme 67",
+    priceCoins: 67,
+    gradient: { from: "#0f172a", via: "#334155", to: "#1e293b" },
+    accent: "#facc15",
+    isFree: false,
+  },
+  {
     id: "theme_paid_6",
     name: "Velvet Ember",
     priceCoins: 80,

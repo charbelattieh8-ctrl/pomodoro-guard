@@ -37,7 +37,7 @@ const DEFAULT_MILESTONES = [
   {
     id: "focus_67_sessions",
     title: "Route 67",
-    description: "Complete exactly 67 focus sessions in total",
+    description: "Reach 67 completed focus sessions in total",
     type: "focusSessionsCompleted",
     target: 67,
     rewardCoins: 670,
@@ -45,8 +45,8 @@ const DEFAULT_MILESTONES = [
   {
     id: "focus_69_sessions",
     title: "Nice 69",
-    description: "Reach 69 completed focus sessions. Nice.",
-    type: "focusSessionsCompleted",
+    description: "Complete one 69-minute focus session.",
+    type: "singleFocusSessionMinutes",
     target: 69,
     rewardCoins: 690,
   },
@@ -81,6 +81,7 @@ const DEFAULT_STATE = {
     progress: {
       focusSessionsCompleted: 0,
       focusMinutesCompleted: 0,
+      maxSingleFocusMinutes: 0,
       streakDays: 0,
       lastFocusCompletionDate: null,
       bestStreakDays: 0,

@@ -17,11 +17,30 @@ const LIQUID_BUBBLES = [
   { left: "84%", size: 5, drift: 9, duration: 5.7, delay: 1.4 },
 ];
 
+const MEME_67_MARKS = [
+  { left: "6%", top: "10%", size: 22, rotate: -12 },
+  { left: "16%", top: "28%", size: 26, rotate: 8 },
+  { left: "28%", top: "14%", size: 20, rotate: -6 },
+  { left: "37%", top: "34%", size: 24, rotate: 10 },
+  { left: "49%", top: "20%", size: 30, rotate: -10 },
+  { left: "60%", top: "12%", size: 22, rotate: 14 },
+  { left: "72%", top: "30%", size: 28, rotate: -8 },
+  { left: "84%", top: "16%", size: 24, rotate: 9 },
+  { left: "12%", top: "58%", size: 30, rotate: 7 },
+  { left: "24%", top: "72%", size: 22, rotate: -10 },
+  { left: "36%", top: "62%", size: 26, rotate: 12 },
+  { left: "48%", top: "78%", size: 20, rotate: -7 },
+  { left: "60%", top: "64%", size: 24, rotate: 9 },
+  { left: "73%", top: "74%", size: 28, rotate: -12 },
+  { left: "86%", top: "60%", size: 22, rotate: 6 },
+];
+
 export default function Layout() {
   const { state, sessionProgress, activeTheme, toasts, removeToast, celebration, actions } =
     useAppState();
   const { pauseTimer, resumeTimer } = actions;
   const reduceMotion = state.user.preferences.reduceMotion;
+  const isMeme67 = activeTheme.id === "theme_meme_67";
   const isBreak = state.sessions.current.mode !== "focus";
   const isRunning = state.sessions.current.status === "running";
 
@@ -96,6 +115,40 @@ export default function Layout() {
         animate={reduceMotion ? {} : { backgroundPosition: ["0px 0px", "48px 24px"] }}
         transition={{ duration: isBreak ? 24 : 14, repeat: Infinity, ease: "linear" }}
       />
+
+      {isMeme67 && (
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          {MEME_67_MARKS.map((mark, idx) => (
+            <motion.span
+              key={`meme67-${idx}`}
+              className="absolute select-none font-display font-bold text-yellow-200/25"
+              style={{
+                left: mark.left,
+                top: mark.top,
+                fontSize: `${mark.size}px`,
+                transform: `rotate(${mark.rotate}deg)`,
+                textShadow: "0 0 18px rgba(250,204,21,0.18)",
+              }}
+              animate={
+                reduceMotion
+                  ? {}
+                  : {
+                      y: [0, -6, 0, 5, 0],
+                      opacity: [0.2, 0.35, 0.2],
+                    }
+              }
+              transition={{
+                duration: 3.4 + (idx % 5) * 0.7,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: (idx % 4) * 0.2,
+              }}
+            >
+              67
+            </motion.span>
+          ))}
+        </div>
+      )}
 
       <motion.div
         className="pointer-events-none absolute -left-[12%] top-[8%] h-[42vh] w-[40vw] rounded-full"
