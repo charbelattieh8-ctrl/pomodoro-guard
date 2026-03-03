@@ -1,0 +1,9 @@
+{
+  "name": "Pomodoro Guard",
+  "short_name": "Pomodoro Guard",
+  "description": "A social pomodoro app with streaks, stats, focus rooms, and challenges.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#0f172a"
+}
