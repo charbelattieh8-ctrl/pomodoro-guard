@@ -69,7 +69,7 @@ export function AppStateProvider({ children }) {
 
   useEffect(() => {
     const isRunning = state.sessions.current.status === "running";
-    const intervalMs = isRunning ? 250 : 1400;
+    const intervalMs = isRunning ? 500 : 2500;
     const interval = window.setInterval(() => setNow(Date.now()), intervalMs);
     return () => {
       clearInterval(interval);
@@ -342,12 +342,14 @@ export function AppStateProvider({ children }) {
   );
 
   const resetCurrentForMode = useCallback((mode, timerSettings, cycleCount = 0) => {
+    const baseMs = getModeMinutes(timerSettings, mode) * 60 * 1000;
     return {
       mode,
       status: "idle",
       startedAt: null,
       endsAt: null,
-      remainingMs: getModeMinutes(timerSettings, mode) * 60 * 1000,
+      remainingMs: baseMs,
+      totalMs: baseMs,
       cycleCount,
       sessionId: null,
     };
@@ -358,10 +360,15 @@ export function AppStateProvider({ children }) {
     setState((prev) => {
       const current = prev.sessions.current;
       if (current.status === "running") return prev;
+      const defaultModeMs = getModeMinutes(prev.user.timer, current.mode) * 60 * 1000;
       const durationMs =
         current.status === "paused"
           ? current.remainingMs
-          : getModeMinutes(prev.user.timer, current.mode) * 60 * 1000;
+          : Math.max(0, Number(current.remainingMs || defaultModeMs));
+      const totalMs =
+        Number.isFinite(Number(current.totalMs)) && Number(current.totalMs) > 0
+          ? Number(current.totalMs)
+          : Math.max(durationMs, defaultModeMs);
       const startAt = Date.now();
       return {
         ...prev,
@@ -374,6 +381,7 @@ export function AppStateProvider({ children }) {
             sessionId: current.sessionId ?? uid(),
             endsAt: startAt + durationMs,
             remainingMs: durationMs,
+            totalMs,
           },
         },
       };
@@ -426,12 +434,13 @@ export function AppStateProvider({ children }) {
       const current = prev.sessions.current;
       let history = prev.sessions.history;
       if (current.startedAt && current.sessionId) {
+        const plannedMinutes = Math.max(1, Math.floor(Number(current.totalMs || 0) / 60000));
         history = appendHistoryEntry(history, {
           id: current.sessionId,
           mode: current.mode,
           startedAt: current.startedAt,
           endedAt: Date.now(),
-          plannedMinutes: getModeMinutes(prev.user.timer, current.mode),
+          plannedMinutes,
           actualMinutes: Math.floor((Date.now() - current.startedAt) / 60000),
           completed: false,
         });
@@ -486,7 +495,7 @@ export function AppStateProvider({ children }) {
         }
 
         const endAt = Date.now();
-        const plannedMinutes = getModeMinutes(prev.user.timer, current.mode);
+        const plannedMinutes = Math.max(1, Math.floor(Number(current.totalMs || 0) / 60000));
         const actualMinutes = naturallyCompleted
           ? plannedMinutes
           : Math.max(0, Math.floor((endAt - current.startedAt) / 60000));
@@ -582,6 +591,11 @@ export function AppStateProvider({ children }) {
     setState((prev) => {
       const current = prev.sessions.current;
       const extra = 5 * 60 * 1000;
+      const modeDefaultMs = getModeMinutes(prev.user.timer, current.mode) * 60 * 1000;
+      const currentTotalMs =
+        Number.isFinite(Number(current.totalMs)) && Number(current.totalMs) > 0
+          ? Number(current.totalMs)
+          : modeDefaultMs;
       if (current.status === "running" && current.endsAt) {
         return {
           ...prev,
@@ -591,6 +605,7 @@ export function AppStateProvider({ children }) {
               ...current,
               endsAt: current.endsAt + extra,
               remainingMs: Math.max(0, calcRemainingMs(current)) + extra,
+              totalMs: currentTotalMs + extra,
             },
           },
         };
@@ -602,6 +617,7 @@ export function AppStateProvider({ children }) {
           current: {
             ...current,
             remainingMs: Math.max(0, current.remainingMs) + extra,
+            totalMs: currentTotalMs + extra,
           },
         },
       };
@@ -671,8 +687,9 @@ export function AppStateProvider({ children }) {
         longBreakMinutes: Number(nextRaw.longBreakMinutes),
         cyclesBeforeLongBreak: Number(nextRaw.cyclesBeforeLongBreak),
       };
-      const mode = prev.sessions.current.mode;
       const shouldResetRemaining = prev.sessions.current.status === "idle";
+      const mode = prev.sessions.current.mode;
+      const nextModeMs = getModeMinutes(timer, mode) * 60 * 1000;
       return {
         ...prev,
         user: { ...prev.user, timer },
@@ -681,8 +698,9 @@ export function AppStateProvider({ children }) {
           current: {
             ...prev.sessions.current,
             remainingMs: shouldResetRemaining
-              ? getModeMinutes(timer, mode) * 60 * 1000
+              ? nextModeMs
               : prev.sessions.current.remainingMs,
+            totalMs: shouldResetRemaining ? nextModeMs : prev.sessions.current.totalMs,
           },
         },
       };

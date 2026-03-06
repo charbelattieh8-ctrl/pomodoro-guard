@@ -21,7 +21,10 @@ export const calcRemainingMs = (current, now = Date.now()) => {
 };
 
 export const calcSessionProgress = (current, timer, now = Date.now()) => {
-  const totalMs = getModeMinutes(timer, current.mode) * 60 * 1000;
+  const totalMs =
+    Number.isFinite(Number(current.totalMs)) && Number(current.totalMs) > 0
+      ? Number(current.totalMs)
+      : getModeMinutes(timer, current.mode) * 60 * 1000;
   if (!totalMs) return 0;
   const remainingMs = calcRemainingMs(current, now);
   return clamp((totalMs - remainingMs) / totalMs, 0, 1);

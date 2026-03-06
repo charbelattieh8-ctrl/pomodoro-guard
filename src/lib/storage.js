@@ -95,6 +95,7 @@ const DEFAULT_STATE = {
       startedAt: null,
       endsAt: null,
       remainingMs: 25 * 60 * 1000,
+      totalMs: 25 * 60 * 1000,
       cycleCount: 0,
       sessionId: null,
     },
@@ -121,12 +122,49 @@ const DEFAULT_STATE = {
 export const createDefaultState = () => JSON.parse(JSON.stringify(DEFAULT_STATE));
 
 const mergeThemes = (savedThemes, defaultThemes) => {
-  const byId = new Map();
-  for (const theme of savedThemes || []) byId.set(theme.id, theme);
-  for (const theme of defaultThemes) {
-    if (!byId.has(theme.id)) byId.set(theme.id, theme);
+  const defaultById = new Map();
+  const orderedDefaultIds = [];
+  for (const theme of defaultThemes || []) {
+    if (!theme?.id) continue;
+    defaultById.set(theme.id, theme);
+    orderedDefaultIds.push(theme.id);
   }
-  return Array.from(byId.values());
+
+  const savedById = new Map();
+  const customSavedOrder = [];
+  for (const theme of savedThemes || []) {
+    if (!theme?.id) continue;
+    savedById.set(theme.id, theme);
+    if (!defaultById.has(theme.id)) customSavedOrder.push(theme.id);
+  }
+
+  const mergedBuiltins = orderedDefaultIds.map((id) => {
+    const base = defaultById.get(id);
+    const saved = savedById.get(id) || {};
+    const merged = { ...base, ...saved };
+
+    // Migrate old premium definitions to canonical fill engines and metadata.
+    if (id.startsWith("theme_premium_")) {
+      return {
+        ...merged,
+        name: base.name,
+        priceCoins: base.priceCoins,
+        gradient: base.gradient,
+        accent: base.accent,
+        fillStyle: base.fillStyle,
+        tier: "premium",
+        isFree: false,
+      };
+    }
+
+    return merged;
+  });
+
+  const mergedCustom = customSavedOrder
+    .map((id) => savedById.get(id))
+    .filter(Boolean);
+
+  return [...mergedBuiltins, ...mergedCustom];
 };
 
 const mergeMilestoneDefinitions = (savedDefs, defaultDefs) => {
