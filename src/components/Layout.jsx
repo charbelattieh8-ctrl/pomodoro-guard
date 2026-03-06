@@ -129,6 +129,13 @@ export default function Layout() {
         transition={{ duration: isBreak ? 24 : 14, repeat: Infinity, ease: "linear" }}
       />
 
+      <motion.div
+        className="banding-fix-overlay absolute inset-[-12%]"
+        style={{ opacity: reduceMotion ? 0.08 : 0.08 + sessionProgress * 0.06 }}
+        animate={cinematicMotion ? { backgroundPosition: ["0px 0px, 0px 0px", "180px 120px, -140px 160px"] } : {}}
+        transition={{ duration: isBreak ? 26 : 16, repeat: Infinity, ease: "linear" }}
+      />
+
       {isMeme67 && (
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <motion.div
@@ -222,22 +229,22 @@ export default function Layout() {
       )}
 
       <motion.div
-        className="pointer-events-none absolute -left-[12%] top-[8%] h-[42vh] w-[40vw] rounded-full"
+        className="ambient-glow pointer-events-none absolute -left-[18%] top-[-4%] h-[56vh] w-[54vw] rounded-full"
         style={{
-          background: `radial-gradient(circle, ${activeTheme.accent}70 0%, transparent 66%)`,
-          filter: "blur(34px)",
-          opacity: 0.28,
+          background: `radial-gradient(ellipse at center, ${activeTheme.accent}b3 0%, ${activeTheme.accent}7a 22%, ${activeTheme.accent}38 48%, ${activeTheme.accent}14 68%, transparent 84%)`,
+          filter: "blur(64px)",
+          opacity: 0.34,
         }}
         animate={cinematicMotion ? { x: ["0%", "14%", "0%"], y: ["0%", "-6%", "0%"] } : {}}
         transition={{ duration: isBreak ? 28 : 18, repeat: Infinity, ease: smoothEase }}
       />
 
       <motion.div
-        className="pointer-events-none absolute -right-[18%] bottom-[6%] h-[46vh] w-[45vw] rounded-full"
+        className="ambient-glow pointer-events-none absolute -right-[24%] bottom-[-8%] h-[60vh] w-[58vw] rounded-full"
         style={{
-          background: `radial-gradient(circle, ${activeTheme.gradient.via}99 0%, transparent 70%)`,
-          filter: "blur(42px)",
-          opacity: 0.34,
+          background: `radial-gradient(ellipse at center, ${activeTheme.gradient.via}c2 0%, ${activeTheme.gradient.via}8f 24%, ${activeTheme.gradient.via}42 52%, ${activeTheme.gradient.via}14 72%, transparent 86%)`,
+          filter: "blur(72px)",
+          opacity: 0.4,
         }}
         animate={cinematicMotion ? { x: ["0%", "-12%", "0%"], y: ["0%", "8%", "0%"] } : {}}
         transition={{ duration: isBreak ? 34 : 20, repeat: Infinity, ease: smoothEase }}

@@ -67,6 +67,31 @@ body {
   background-size: 4px 4px;
 }
 
+.banding-fix-overlay {
+  background-image:
+    repeating-linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.018) 0,
+      rgba(255, 255, 255, 0.018) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    repeating-linear-gradient(
+      25deg,
+      rgba(255, 255, 255, 0.012) 0,
+      rgba(255, 255, 255, 0.012) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  background-size: 220px 220px, 260px 260px;
+  mix-blend-mode: soft-light;
+}
+
+.ambient-glow {
+  will-change: transform, opacity;
+  transform: translateZ(0) scale(1.12);
+}
+
 .range::-webkit-slider-thumb {
   appearance: none;
   height: 18px;
