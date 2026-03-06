@@ -6,6 +6,13 @@
 
 :root {
   color-scheme: dark;
+  --app-bg: #040816;
+  --app-bg-deep: #091123;
+  --panel-border: rgba(255, 255, 255, 0.16);
+  --panel-fill: linear-gradient(155deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.06) 42%, rgba(255, 255, 255, 0.03));
+  --panel-shadow: 0 22px 65px rgba(1, 7, 18, 0.42);
+  --panel-highlight: rgba(255, 255, 255, 0.32);
+  --muted-text: rgba(226, 232, 240, 0.82);
 }
 
 html,
@@ -16,24 +23,56 @@ body,
 
 body {
   @apply m-0 font-sans text-slate-100 antialiased;
-  background: #020617;
+  background:
+    radial-gradient(circle at top, rgba(51, 65, 85, 0.34), transparent 28%),
+    radial-gradient(circle at 12% 18%, rgba(34, 197, 94, 0.12), transparent 24%),
+    radial-gradient(circle at 88% 12%, rgba(14, 165, 233, 0.14), transparent 26%),
+    linear-gradient(180deg, var(--app-bg-deep) 0%, var(--app-bg) 55%, #020617 100%);
+  background-attachment: fixed;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(115deg, rgba(255, 255, 255, 0.03), transparent 28%),
+    radial-gradient(circle at 50% -10%, rgba(255, 255, 255, 0.08), transparent 34%);
+  opacity: 0.7;
+  z-index: -2;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(circle at center, black 25%, transparent 82%);
+  opacity: 0.32;
+  z-index: -1;
+}
+
+::selection {
+  background: rgba(125, 211, 252, 0.28);
+  color: white;
 }
 
 .glass {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(
-    140deg,
-    rgba(255, 255, 255, 0.15),
-    rgba(255, 255, 255, 0.05) 38%,
-    rgba(255, 255, 255, 0.02)
-  );
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--panel-fill);
+  border: 1px solid var(--panel-border);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    0 14px 35px rgba(2, 6, 23, 0.24);
-  backdrop-filter: blur(12px) saturate(135%);
-  -webkit-backdrop-filter: blur(12px) saturate(135%);
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -24px 48px rgba(255, 255, 255, 0.015),
+    var(--panel-shadow);
+  backdrop-filter: blur(16px) saturate(145%);
+  -webkit-backdrop-filter: blur(16px) saturate(145%);
   will-change: transform, opacity;
 }
 
@@ -43,17 +82,78 @@ body {
   inset: 0;
   pointer-events: none;
   background: linear-gradient(
-    110deg,
-    rgba(255, 255, 255, 0.16) 0%,
-    rgba(255, 255, 255, 0.06) 28%,
-    transparent 52%
+    120deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.08) 18%,
+    transparent 46%
   );
-  opacity: 0.35;
+  opacity: 0.4;
+}
+
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  mask: linear-gradient(160deg, black, transparent 58%);
+  opacity: 0.85;
 }
 
 .glass > * {
   position: relative;
   z-index: 1;
+}
+
+.panel-card {
+  border-radius: 28px;
+}
+
+.panel-card::after {
+  opacity: 0.46;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(226, 232, 240, 0.74);
+}
+
+.section-title {
+  font-family: "Sora", ui-sans-serif, system-ui;
+  font-size: clamp(1.35rem, 2vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.section-copy {
+  color: var(--muted-text);
+}
+
+.surface-muted {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.nav-pill {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.07));
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.18);
+}
+
+.soft-vignette {
+  position: relative;
+}
+
+.soft-vignette::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at center, transparent 45%, rgba(2, 6, 23, 0.22) 100%);
 }
 
 .mesh-overlay {
@@ -116,6 +216,7 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
 .range::-webkit-slider-thumb {
   appearance: none;
   height: 18px;

@@ -7,12 +7,16 @@ export default function ProgressRing({ progress, size = 250, stroke = 12, childr
 
   return (
     <div className="relative grid place-items-center" style={{ width: size, height: size }}>
-      <svg width={size} height={size} className="-rotate-90">
+      <div
+        className="pointer-events-none absolute rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.12),transparent_68%)] blur-2xl"
+        style={{ width: size * 0.88, height: size * 0.88 }}
+      />
+      <svg width={size} height={size} className="-rotate-90 drop-shadow-[0_0_22px_rgba(255,255,255,0.14)]">
         <circle
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke="rgba(255,255,255,0.2)"
+          stroke="rgba(255,255,255,0.14)"
           strokeWidth={stroke}
           fill="transparent"
         />
@@ -20,7 +24,7 @@ export default function ProgressRing({ progress, size = 250, stroke = 12, childr
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke="rgba(255,255,255,0.95)"
+          stroke="url(#ringGradient)"
           strokeLinecap="round"
           strokeWidth={stroke}
           fill="transparent"
@@ -29,6 +33,13 @@ export default function ProgressRing({ progress, size = 250, stroke = 12, childr
           strokeDasharray={circumference}
           strokeDashoffset={offset}
         />
+        <defs>
+          <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="rgba(255,255,255,0.98)" />
+            <stop offset="45%" stopColor="rgba(186,230,253,0.96)" />
+            <stop offset="100%" stopColor="rgba(125,211,252,0.88)" />
+          </linearGradient>
+        </defs>
       </svg>
       <div className="absolute">{children}</div>
     </div>

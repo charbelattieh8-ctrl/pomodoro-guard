@@ -8,15 +8,26 @@ import { useAppState } from "../context/AppStateProvider";
 export default function ShopPage() {
   const { state, actions } = useAppState();
   const themes = state.admin.config.themes;
+  const orderedThemes = [...themes].sort((a, b) => {
+    const rank = (t) => {
+      if (t.isFree) return 0;
+      if (t.tier === "premium") return 2;
+      return 1;
+    };
+    const tierDiff = rank(a) - rank(b);
+    if (tierDiff !== 0) return tierDiff;
+    return Number(a.priceCoins || 0) - Number(b.priceCoins || 0);
+  });
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="font-display text-2xl font-semibold">Theme Shop</h2>
-          <p className="text-sm text-slate-200">Unlock premium gradients with coins.</p>
+          <p className="eyebrow">Visual Identity</p>
+          <h2 className="mt-2 font-display text-3xl font-semibold tracking-[-0.05em]">Theme Shop</h2>
+          <p className="mt-2 text-sm text-slate-200/84">Unlock premium backgrounds and advanced fill effects with coins.</p>
         </div>
-        <GlassCard className="px-4 py-2">
+        <GlassCard className="px-4 py-3">
           <div className="flex items-center gap-2 text-sm font-semibold">
             <Coins size={16} />
             <span>{state.economy.coins} coins</span>
@@ -25,7 +36,7 @@ export default function ShopPage() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        {themes.map((theme) => {
+        {orderedThemes.map((theme) => {
           const unlocked = state.shop.unlockedThemeIds.includes(theme.id) || theme.isFree;
           const selected = state.user.preferences.selectedThemeId === theme.id;
           const affordable = state.economy.coins >= theme.priceCoins;
