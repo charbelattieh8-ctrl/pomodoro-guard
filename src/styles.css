@@ -32,8 +32,9 @@ body {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.22),
     0 14px 35px rgba(2, 6, 23, 0.24);
-  backdrop-filter: blur(18px) saturate(145%);
-  -webkit-backdrop-filter: blur(18px) saturate(145%);
+  backdrop-filter: blur(12px) saturate(135%);
+  -webkit-backdrop-filter: blur(12px) saturate(135%);
+  will-change: transform, opacity;
 }
 
 .glass::after {
@@ -57,9 +58,9 @@ body {
 
 .mesh-overlay {
   background-image:
-    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.18), transparent 33%),
-    radial-gradient(circle at 75% 10%, rgba(255, 255, 255, 0.12), transparent 40%),
-    radial-gradient(circle at 50% 75%, rgba(255, 255, 255, 0.12), transparent 45%);
+    radial-gradient(ellipse at 18% 18%, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.1) 18%, rgba(255, 255, 255, 0.04) 36%, transparent 62%),
+    radial-gradient(ellipse at 78% 12%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.08) 20%, rgba(255, 255, 255, 0.03) 38%, transparent 64%),
+    radial-gradient(ellipse at 52% 74%, rgba(255, 255, 255, 0.11) 0%, rgba(255, 255, 255, 0.07) 22%, rgba(255, 255, 255, 0.02) 40%, transparent 66%);
 }
 
 .noise-overlay {
@@ -71,19 +72,32 @@ body {
   background-image:
     repeating-linear-gradient(
       115deg,
-      rgba(255, 255, 255, 0.018) 0,
-      rgba(255, 255, 255, 0.018) 1px,
+      rgba(255, 255, 255, 0.028) 0,
+      rgba(255, 255, 255, 0.028) 1px,
       transparent 1px,
       transparent 3px
     ),
     repeating-linear-gradient(
       25deg,
+      rgba(255, 255, 255, 0.018) 0,
+      rgba(255, 255, 255, 0.018) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    repeating-linear-gradient(
+      0deg,
       rgba(255, 255, 255, 0.012) 0,
       rgba(255, 255, 255, 0.012) 1px,
       transparent 1px,
-      transparent 4px
+      transparent 2px
     );
-  background-size: 220px 220px, 260px 260px;
+  background-size: 180px 180px, 220px 220px, 3px 3px;
+  mix-blend-mode: screen;
+}
+
+.grain-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.9'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
   mix-blend-mode: soft-light;
 }
 
@@ -92,6 +106,16 @@ body {
   transform: translateZ(0) scale(1.12);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 .range::-webkit-slider-thumb {
   appearance: none;
   height: 18px;

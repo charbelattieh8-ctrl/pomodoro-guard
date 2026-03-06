@@ -131,11 +131,17 @@ export default function Layout() {
 
       <motion.div
         className="banding-fix-overlay absolute inset-[-12%]"
-        style={{ opacity: reduceMotion ? 0.08 : 0.08 + sessionProgress * 0.06 }}
+        style={{ opacity: reduceMotion ? 0.12 : 0.12 + sessionProgress * 0.08 }}
         animate={cinematicMotion ? { backgroundPosition: ["0px 0px, 0px 0px", "180px 120px, -140px 160px"] } : {}}
         transition={{ duration: isBreak ? 26 : 16, repeat: Infinity, ease: "linear" }}
       />
 
+      <motion.div
+        className="grain-overlay absolute inset-[-8%]"
+        style={{ opacity: reduceMotion ? 0.07 : 0.07 + sessionProgress * 0.05 }}
+        animate={cinematicMotion ? { backgroundPosition: ["0px 0px", "120px 90px"] } : {}}
+        transition={{ duration: isBreak ? 18 : 10, repeat: Infinity, ease: "linear" }}
+      />
       {isMeme67 && (
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <motion.div
@@ -448,11 +454,11 @@ export default function Layout() {
       </motion.div>
 
       <motion.div
-        className="pointer-events-none absolute -left-1/3 top-0 h-[60vh] w-[80vw] rounded-full"
+        className="ambient-glow pointer-events-none absolute -left-[28%] top-[-8%] h-[74vh] w-[96vw] rounded-full"
         style={{
-          background: `radial-gradient(circle, ${activeTheme.accent}70 0%, transparent 65%)`,
-          filter: "blur(40px)",
-          opacity: 0.22 + sessionProgress * 0.5,
+          background: `radial-gradient(ellipse at center, ${activeTheme.accent}9e 0%, ${activeTheme.accent}66 18%, ${activeTheme.accent}2e 42%, ${activeTheme.accent}12 64%, transparent 84%)`,
+          filter: "blur(86px)",
+          opacity: 0.18 + sessionProgress * 0.22,
         }}
         animate={
           cinematicMotion
