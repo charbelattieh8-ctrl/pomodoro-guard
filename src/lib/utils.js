@@ -19,10 +19,19 @@ export const getYesterdayISO = (isoDate) => {
   return toLocalISODate(d.getTime());
 };
 
-export const formatMs = (ms) => {
+export const formatMs = (ms, style = "minutesSeconds") => {
   const s = Math.max(0, Math.floor(ms / 1000));
-  const mm = String(Math.floor(s / 60)).padStart(2, "0");
+  const hours = Math.floor(s / 3600);
+  const minutes = Math.floor((s % 3600) / 60);
   const ss = String(s % 60).padStart(2, "0");
+
+  if (style === "hoursMinutesSeconds") {
+    const hh = String(hours).padStart(2, "0");
+    const mm = String(minutes).padStart(2, "0");
+    return `${hh}:${mm}:${ss}`;
+  }
+
+  const mm = String(Math.floor(s / 60)).padStart(2, "0");
   return `${mm}:${ss}`;
 };
 

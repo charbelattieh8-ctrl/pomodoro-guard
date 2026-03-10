@@ -67,6 +67,7 @@ const DEFAULT_STATE = {
       breakMinutes: 5,
       longBreakMinutes: 15,
       cyclesBeforeLongBreak: 4,
+      displayFormat: "minutesSeconds",
     },
   },
   economy: {

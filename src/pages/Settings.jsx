@@ -46,6 +46,20 @@ export default function SettingsPage() {
   const inputClass =
     "mt-1 w-full rounded-xl border border-white/20 bg-white/10 px-3 py-2 outline-none transition focus:border-white/40";
   const avatar = useMemo(() => photoURL || profile?.photoURL || "", [photoURL, profile?.photoURL]);
+  const timerFormatOptions = [
+    {
+      value: "minutesSeconds",
+      label: "Minutes:Seconds",
+      example: "25:00",
+      help: "Keeps the current display style and rolls total minutes upward.",
+    },
+    {
+      value: "hoursMinutesSeconds",
+      label: "Hours:Minutes:Seconds",
+      example: "00:25:00",
+      help: "Shows a dedicated hours field for longer timers.",
+    },
+  ];
 
   useEffect(() => {
     setDisplayName(profile?.displayName || "");
@@ -170,6 +184,39 @@ export default function SettingsPage() {
               }
             />
           </label>
+
+          <div className="space-y-3">
+            <div>
+              <p className="text-sm text-slate-100">Timer Display Format</p>
+              <p className="mt-1 text-xs text-slate-300">
+                Choose how the countdown appears on the timer page.
+              </p>
+            </div>
+
+            <div className="grid gap-2">
+              {timerFormatOptions.map((option) => {
+                const isActive = (timer.displayFormat || "minutesSeconds") === option.value;
+                return (
+                  <button
+                    key={option.value}
+                    type="button"
+                    onClick={() => actions.updateUserTimerSettings({ displayFormat: option.value })}
+                    className={`rounded-xl border px-3 py-3 text-left transition ${
+                      isActive
+                        ? "border-white/50 bg-white/20"
+                        : "border-white/20 bg-white/10 hover:bg-white/15"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="text-sm font-medium text-white">{option.label}</span>
+                      <span className="font-mono text-sm text-slate-200">{option.example}</span>
+                    </div>
+                    <p className="mt-1 text-xs text-slate-300">{option.help}</p>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </GlassCard>
 
         <GlassCard className="space-y-4 p-4">

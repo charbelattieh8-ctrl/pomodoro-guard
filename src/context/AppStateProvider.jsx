@@ -686,6 +686,8 @@ export function AppStateProvider({ children }) {
         breakMinutes: Number(nextRaw.breakMinutes),
         longBreakMinutes: Number(nextRaw.longBreakMinutes),
         cyclesBeforeLongBreak: Number(nextRaw.cyclesBeforeLongBreak),
+        displayFormat:
+          nextRaw.displayFormat === "hoursMinutesSeconds" ? "hoursMinutesSeconds" : "minutesSeconds",
       };
       const shouldResetRemaining = prev.sessions.current.status === "idle";
       const mode = prev.sessions.current.mode;

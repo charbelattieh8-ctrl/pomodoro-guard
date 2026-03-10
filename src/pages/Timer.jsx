@@ -17,6 +17,7 @@ const modeLabel = {
 export default function TimerPage() {
   const { state, actions, sessionProgress, currentRemainingMs } = useAppState();
   const { current } = state.sessions;
+  const { displayFormat = "minutesSeconds" } = state.user.timer;
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [ringSize, setRingSize] = useState(320);
@@ -47,7 +48,7 @@ export default function TimerPage() {
               <div className="text-center">
                 <p className="text-sm uppercase tracking-[0.2em] text-slate-200">{modeLabel[current.mode]}</p>
                 <p className="mt-2 font-display text-5xl font-semibold sm:text-6xl md:text-7xl">
-                  {formatMs(currentRemainingMs)}
+                  {formatMs(currentRemainingMs, displayFormat)}
                 </p>
                 <p className="mt-2 text-xs text-slate-300">Cycle {current.cycleCount}</p>
               </div>
@@ -55,49 +56,55 @@ export default function TimerPage() {
           </div>
         </GlassCard>
 
-        <GlassCard className="w-full max-w-xl p-4">
-          <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:justify-center">
-            {current.status !== "running" && (
+        <div className="flex w-full max-w-xl flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <GlassCard className="w-full p-4 sm:w-auto">
+            <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:justify-center">
+              {current.status !== "running" && (
+                <PrimaryButton
+                  className="flex items-center justify-center gap-2"
+                  onClick={current.status === "paused" ? actions.resumeTimer : actions.startTimer}
+                >
+                  <Play size={16} />
+                  {current.status === "paused" ? "Resume" : "Start"}
+                </PrimaryButton>
+              )}
+
+              {current.status === "running" && (
+                <PrimaryButton className="flex items-center justify-center gap-2" onClick={actions.pauseTimer}>
+                  <Pause size={16} /> Pause
+                </PrimaryButton>
+              )}
+
               <PrimaryButton
                 className="flex items-center justify-center gap-2"
-                onClick={current.status === "paused" ? actions.resumeTimer : actions.startTimer}
+                variant="ghost"
+                onClick={actions.resetTimer}
               >
-                <Play size={16} />
-                {current.status === "paused" ? "Resume" : "Start"}
+                <RotateCcw size={16} /> Reset
               </PrimaryButton>
-            )}
+            </div>
+          </GlassCard>
 
-            {current.status === "running" && (
-              <PrimaryButton className="flex items-center justify-center gap-2" onClick={actions.pauseTimer}>
-                <Pause size={16} /> Pause
+          <GlassCard className="w-full p-4 sm:w-auto">
+            <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:justify-center">
+              <PrimaryButton
+                className="flex items-center justify-center gap-2"
+                variant="ghost"
+                onClick={actions.skipPhase}
+              >
+                <SkipForward size={16} /> Skip
               </PrimaryButton>
-            )}
 
-            <PrimaryButton
-              className="flex items-center justify-center gap-2"
-              variant="ghost"
-              onClick={actions.resetTimer}
-            >
-              <RotateCcw size={16} /> Reset
-            </PrimaryButton>
-
-            <PrimaryButton
-              className="flex items-center justify-center gap-2"
-              variant="ghost"
-              onClick={actions.skipPhase}
-            >
-              <SkipForward size={16} /> Skip
-            </PrimaryButton>
-
-            <PrimaryButton
-              className="flex items-center justify-center gap-2"
-              variant="ghost"
-              onClick={actions.addFiveMinutes}
-            >
-              <Plus size={16} /> +5 min
-            </PrimaryButton>
-          </div>
-        </GlassCard>
+              <PrimaryButton
+                className="flex items-center justify-center gap-2"
+                variant="ghost"
+                onClick={actions.addFiveMinutes}
+              >
+                <Plus size={16} /> +5 min
+              </PrimaryButton>
+            </div>
+          </GlassCard>
+        </div>
       </div>
     </motion.div>
   );
