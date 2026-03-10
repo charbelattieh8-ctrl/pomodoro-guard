@@ -21,14 +21,31 @@ export default function TimerPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [ringSize, setRingSize] = useState(320);
+  const isHoursFormat = displayFormat === "hoursMinutesSeconds";
 
   useEffect(() => {
-    const applySize = () =>
-      setRingSize(window.innerWidth < 480 ? 240 : window.innerWidth < 768 ? 280 : 320);
+    const applySize = () => {
+      const nextSize = isHoursFormat
+        ? window.innerWidth < 480
+          ? 220
+          : window.innerWidth < 768
+            ? 252
+            : 292
+        : window.innerWidth < 480
+          ? 240
+          : window.innerWidth < 768
+            ? 280
+            : 320;
+      setRingSize(nextSize);
+    };
     applySize();
     window.addEventListener("resize", applySize);
     return () => window.removeEventListener("resize", applySize);
-  }, []);
+  }, [isHoursFormat]);
+
+  const timerTextClass = isHoursFormat
+    ? "mt-2 font-display text-4xl font-semibold sm:text-5xl md:text-6xl"
+    : "mt-2 font-display text-5xl font-semibold sm:text-6xl md:text-7xl";
 
   useEffect(() => {
     const preset = Number(searchParams.get("minutes") || 0);
@@ -47,7 +64,7 @@ export default function TimerPage() {
             <ProgressRing progress={sessionProgress} size={ringSize}>
               <div className="text-center">
                 <p className="text-sm uppercase tracking-[0.2em] text-slate-200">{modeLabel[current.mode]}</p>
-                <p className="mt-2 font-display text-5xl font-semibold sm:text-6xl md:text-7xl">
+                <p className={timerTextClass}>
                   {formatMs(currentRemainingMs, displayFormat)}
                 </p>
                 <p className="mt-2 text-xs text-slate-300">Cycle {current.cycleCount}</p>
