@@ -8,14 +8,63 @@ import Toast from "./Toast";
 import TopBar from "./TopBar";
 
 const LIQUID_BUBBLES = [
-  { left: "8%", size: 5, drift: 10, duration: 5.5, delay: 0.2 },
-  { left: "18%", size: 7, drift: -12, duration: 7.2, delay: 1.1 },
-  { left: "31%", size: 4, drift: 8, duration: 4.8, delay: 0.6 },
-  { left: "46%", size: 6, drift: -8, duration: 6.9, delay: 1.8 },
-  { left: "58%", size: 5, drift: 11, duration: 6.1, delay: 0.3 },
-  { left: "70%", size: 8, drift: -10, duration: 8.4, delay: 2.1 },
-  { left: "84%", size: 5, drift: 9, duration: 5.7, delay: 1.4 },
+  { left: "5%", size: 6, drift: 12, duration: 6.8, delay: 0.2 },
+  { left: "15%", size: 8, drift: -14, duration: 8.2, delay: 1.3 },
+  { left: "28%", size: 5, drift: 9, duration: 5.8, delay: 0.8 },
+  { left: "42%", size: 7, drift: -10, duration: 7.9, delay: 2.1 },
+  { left: "55%", size: 6, drift: 13, duration: 7.1, delay: 0.5 },
+  { left: "68%", size: 9, drift: -11, duration: 9.4, delay: 2.5 },
+  { left: "82%", size: 6, drift: 10, duration: 6.7, delay: 1.8 },
+  { left: "92%", size: 5, drift: -8, duration: 5.2, delay: 3.1 },
 ];
+
+const PREMIUM_BUBBLES = [
+  { left: "6%", size: 12, drift: 16, duration: 5.1, delay: 0.2 },
+  { left: "14%", size: 8, drift: -10, duration: 4.6, delay: 1.1 },
+  { left: "23%", size: 16, drift: 12, duration: 6.2, delay: 0.4 },
+  { left: "36%", size: 10, drift: -14, duration: 5.5, delay: 1.7 },
+  { left: "49%", size: 14, drift: 9, duration: 6.8, delay: 0.8 },
+  { left: "62%", size: 9, drift: -11, duration: 5.3, delay: 1.9 },
+  { left: "74%", size: 18, drift: 14, duration: 6.9, delay: 0.6 },
+  { left: "86%", size: 11, drift: -8, duration: 4.9, delay: 1.3 },
+];
+
+const SNOW_FLAKES = [
+  { left: "4%", size: 4, duration: 8.2, delay: 0.6 },
+  { left: "10%", size: 6, duration: 11.4, delay: 1.2 },
+  { left: "18%", size: 5, duration: 9.8, delay: 0.1 },
+  { left: "25%", size: 3, duration: 7.9, delay: 1.8 },
+  { left: "31%", size: 5, duration: 10.7, delay: 0.4 },
+  { left: "39%", size: 4, duration: 8.9, delay: 2.1 },
+  { left: "46%", size: 6, duration: 11.8, delay: 1.4 },
+  { left: "53%", size: 3, duration: 7.6, delay: 0.5 },
+  { left: "60%", size: 5, duration: 9.5, delay: 1.1 },
+  { left: "68%", size: 4, duration: 8.7, delay: 2.4 },
+  { left: "75%", size: 6, duration: 12.1, delay: 0.9 },
+  { left: "82%", size: 4, duration: 9.1, delay: 1.7 },
+  { left: "90%", size: 5, duration: 10.2, delay: 0.3 },
+  { left: "96%", size: 3, duration: 8.1, delay: 2.2 },
+];
+
+const FROST_CRACKS = [
+  { left: "8%", top: "22%", width: "24%", rotate: -18, delay: 0.1 },
+  { left: "22%", top: "36%", width: "18%", rotate: 22, delay: 0.4 },
+  { left: "38%", top: "18%", width: "26%", rotate: -12, delay: 0.7 },
+  { left: "56%", top: "30%", width: "20%", rotate: 19, delay: 0.9 },
+  { left: "72%", top: "16%", width: "22%", rotate: -24, delay: 1.2 },
+];
+
+const EMBER_PARTICLES = [
+  { left: "8%", size: 8, drift: 12, duration: 5.8, delay: 0.3 },
+  { left: "18%", size: 6, drift: -10, duration: 6.4, delay: 1.1 },
+  { left: "30%", size: 9, drift: 8, duration: 7.1, delay: 0.9 },
+  { left: "44%", size: 7, drift: -9, duration: 5.3, delay: 1.7 },
+  { left: "57%", size: 10, drift: 12, duration: 7.6, delay: 0.6 },
+  { left: "70%", size: 6, drift: -11, duration: 6.2, delay: 1.9 },
+  { left: "84%", size: 8, drift: 9, duration: 5.9, delay: 1.2 },
+];
+
+const RING_RADII = [42, 68, 98, 132];
 
 const MEME_67_MARKS = [
   { left: "6%", top: "10%", size: 22, rotate: -12 },
@@ -50,9 +99,10 @@ export default function Layout() {
   const location = useLocation();
   const { pauseTimer, resumeTimer } = actions;
   const reduceMotion = state.user.preferences.reduceMotion;
+  const isPremiumTheme = activeTheme.tier === "premium";
   const highMotionPage =
     location.pathname === "/timer" || location.pathname.startsWith("/rooms");
-  const cinematicMotion = !reduceMotion && highMotionPage;
+  const cinematicMotion = !reduceMotion && (highMotionPage || isPremiumTheme);
   const isMeme67 = activeTheme.id === "theme_meme_67";
   const isBreak = state.sessions.current.mode !== "focus";
   const isRunning = state.sessions.current.status === "running";
@@ -60,15 +110,16 @@ export default function Layout() {
   const overlayOpacity = reduceMotion ? 0.2 + sessionProgress * 0.12 : 0.22 + sessionProgress * 0.36;
   const bloomScale = reduceMotion ? 1 : 1 + sessionProgress * 1.6;
   const fillValue = Math.max(0, Math.min(100, sessionProgress * 100));
-  const fillHeight = `${fillValue}%`;
-  const topInset = `${100 - fillValue}%`;
-  const unfilledInsetBottom = `${fillValue}%`;
+  const displayFillValue = isPremiumTheme ? Math.max(fillValue, 14) : fillValue;
+  const fillHeight = `${displayFillValue}%`;
+  const topInset = `${100 - displayFillValue}%`;
+  const unfilledInsetBottom = `${displayFillValue}%`;
   const bgDuration = isBreak ? 36 : 20;
   const surfaceDuration = isBreak ? 18 : 11;
   const smoothEase = [0.42, 0, 0.2, 1];
-  const liquidDuration = isBreak ? 14 : 9;
+  const liquidDuration = isBreak ? 18 : 12;
   const liquidSpeedMultiplier = isRunning ? 1 : 1.45;
-  const crestDuration = (isBreak ? 9 : 5.2) * liquidSpeedMultiplier;
+  const fillStyle = activeTheme.fillStyle || "tide";
 
   useEffect(() => {
     const onKeyDown = (event) => {
@@ -142,97 +193,63 @@ export default function Layout() {
         animate={cinematicMotion ? { backgroundPosition: ["0px 0px", "120px 90px"] } : {}}
         transition={{ duration: isBreak ? 18 : 10, repeat: Infinity, ease: "linear" }}
       />
-      {isMeme67 && (
+
+      {fillStyle === "bubble" && cinematicMotion && (
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <motion.div
-            className="absolute -left-[10%] top-[18%] font-display text-[20vw] font-black leading-none text-yellow-300/10"
-            style={{ transform: "rotate(-10deg)" }}
-            animate={cinematicMotion ? { x: [0, 40, 0], y: [0, -12, 0], opacity: [0.08, 0.16, 0.08] } : {}}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          >
-            67
-          </motion.div>
-
-          <motion.div
-            className="absolute -right-[8%] bottom-[2%] font-display text-[18vw] font-black leading-none text-amber-200/10"
-            style={{ transform: "rotate(12deg)" }}
-            animate={cinematicMotion ? { x: [0, -34, 0], y: [0, 10, 0], opacity: [0.07, 0.15, 0.07] } : {}}
-            transition={{ duration: 7.6, repeat: Infinity, ease: "easeInOut" }}
-          >
-            67
-          </motion.div>
-
-          {MEME_67_MARKS.map((mark, idx) => (
+          {PREMIUM_BUBBLES.map((bubble, index) => (
             <motion.span
-              key={`meme67-${idx}`}
-              className="absolute select-none font-display font-bold text-yellow-200/25"
-              style={{
-                left: mark.left,
-                top: mark.top,
-                fontSize: `${mark.size}px`,
-                transform: `rotate(${mark.rotate}deg)`,
-                textShadow: "0 0 18px rgba(250,204,21,0.18)",
+              key={`bubble-atmo-${index}`}
+              className="absolute bottom-[-10%] rounded-full border border-white/30 bg-white/5"
+              style={{ left: bubble.left, width: bubble.size + 10, height: bubble.size + 10 }}
+              animate={{
+                y: [0, -950],
+                x: [0, bubble.drift * 1.2, 0],
+                opacity: [0, 0.5, 0],
+                scale: [0.5, 1, 1.2],
               }}
-              animate={
-                cinematicMotion
-                  ? {
-                      y: [0, -6, 0, 5, 0],
-                      opacity: [0.2, 0.35, 0.2],
-                    }
-                  : {}
-              }
               transition={{
-                duration: 3.4 + (idx % 5) * 0.7,
+                duration: bubble.duration + 3,
+                delay: bubble.delay * 0.7,
                 repeat: Infinity,
-                ease: "easeInOut",
-                delay: (idx % 4) * 0.2,
+                ease: "easeOut",
               }}
-            >
-              67
-            </motion.span>
+            />
           ))}
-
-          {MEME_67_STICKERS.map((sticker, idx) => (
-            <motion.div
-              key={`meme67-sticker-${idx}`}
-              className={`absolute rounded-xl border border-yellow-100/35 bg-black/25 px-3 py-1 font-display font-bold text-yellow-100/80 shadow-[0_0_20px_rgba(250,204,21,0.25)] backdrop-blur-sm ${sticker.size}`}
-              style={{ left: sticker.left, top: sticker.top, transform: `rotate(${sticker.rotate}deg)` }}
-              animate={
-                cinematicMotion
-                  ? {
-                      y: [0, -5, 0, 4, 0],
-                      scale: [1, 1.04, 1],
-                      opacity: [0.74, 0.95, 0.74],
-                    }
-                  : {}
-              }
-              transition={{
-                duration: 2.6 + idx * 0.45,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            >
-              {sticker.text}
-            </motion.div>
-          ))}
-
-          <motion.div
-            className="absolute left-[10%] top-[78%] rounded-full border border-yellow-100/30 bg-black/30 px-4 py-2 text-sm font-black text-yellow-100/80 shadow-[0_0_18px_rgba(250,204,21,0.22)]"
-            animate={cinematicMotion ? { y: [0, -4, 0], rotate: [0, -1.2, 0, 1.2, 0] } : {}}
-            transition={{ duration: 2.9, repeat: Infinity, ease: "easeInOut" }}
-          >
-            (•_•) 67
-          </motion.div>
-
-          <motion.div
-            className="absolute right-[8%] top-[70%] rounded-2xl border border-yellow-100/25 bg-black/25 px-4 py-2 text-xs font-bold tracking-wider text-yellow-50/80"
-            animate={cinematicMotion ? { y: [0, 3, 0, -3, 0], x: [0, -3, 0, 3, 0] } : {}}
-            transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut" }}
-          >
-            OG INTERNET ENERGY
-          </motion.div>
         </div>
       )}
+
+      {fillStyle === "snow" && cinematicMotion && (
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          {SNOW_FLAKES.map((flake, index) => (
+            <motion.span
+              key={`snow-atmo-${index}`}
+              className="absolute top-[-8%] rounded-full bg-white/90"
+              style={{ left: flake.left, width: flake.size + 1, height: flake.size + 1 }}
+              animate={{ y: ["0vh", "110vh"], x: [0, index % 2 ? -14 : 14, 0], opacity: [0, 0.9, 0.9, 0] }}
+              transition={{
+                duration: flake.duration,
+                delay: flake.delay,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            />
+          ))}
+        </div>
+      )}
+
+      {fillStyle === "frost" && (
+        <motion.div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(circle at 12% 14%, rgba(255,255,255,0.22), transparent 30%), radial-gradient(circle at 88% 8%, rgba(255,255,255,0.16), transparent 34%), radial-gradient(circle at 50% 0%, rgba(255,255,255,0.14), transparent 46%)",
+          }}
+          animate={cinematicMotion ? { opacity: [0.3, 0.56, 0.3] } : {}}
+          transition={{ duration: 5.6, repeat: Infinity, ease: "easeInOut" }}
+        />
+      )}
+
+
 
       <motion.div
         className="ambient-glow pointer-events-none absolute -left-[18%] top-[-4%] h-[56vh] w-[54vw] rounded-full"
@@ -300,158 +317,508 @@ export default function Layout() {
         transition={{ duration: isBreak ? 18 : 10, repeat: Infinity, ease: smoothEase }}
       />
 
-      <motion.div
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] overflow-visible"
-        style={{ height: fillHeight }}
-        animate={
-          cinematicMotion
-            ? {
-                x: [0, 1, -1, 0],
-                y: [0, -1, 0, 0],
-                rotate: [0, 0.08, -0.08, 0],
-              }
-            : {}
-        }
-        transition={{
-          duration: liquidDuration * liquidSpeedMultiplier,
-          repeat: Infinity,
-          ease: smoothEase,
-        }}
-        >
-        <motion.div
-          className="absolute inset-0"
-          style={{
-            background: `linear-gradient(0deg, ${activeTheme.accent}f2 0%, ${activeTheme.accent}bf 38%, ${activeTheme.accent}66 75%, transparent 100%)`,
-            opacity: reduceMotion ? 0.55 : 0.65,
-          }}
-          animate={cinematicMotion ? { opacity: [0.6, 0.76, 0.6] } : {}}
-          transition={{
-            duration: liquidDuration * liquidSpeedMultiplier,
-            repeat: Infinity,
-            ease: smoothEase,
-          }}
-        />
-
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(165deg, rgba(255,255,255,0.26) 0%, rgba(255,255,255,0.12) 42%, rgba(255,255,255,0.07) 100%)",
-            backdropFilter: "blur(12px) saturate(140%)",
-            WebkitBackdropFilter: "blur(12px) saturate(140%)",
-            opacity: 0.66,
-          }}
-        />
-
-        <motion.div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(circle at 22% 78%, rgba(255,255,255,0.32) 0 2px, transparent 3px), radial-gradient(circle at 68% 88%, rgba(255,255,255,0.22) 0 1.5px, transparent 3px), radial-gradient(circle at 48% 72%, rgba(255,255,255,0.22) 0 1.8px, transparent 3px)",
-            opacity: reduceMotion ? 0.18 : 0.3,
-          }}
-          animate={cinematicMotion ? { backgroundPosition: ["0px 0px", "40px -92px"] } : {}}
-          transition={{
-            duration: (isBreak ? 16 : 8) * liquidSpeedMultiplier,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-        />
-
-        <motion.svg
-          className="absolute left-0 top-0 w-full"
-          viewBox="0 0 1200 180"
-          preserveAspectRatio="none"
-          style={{ height: "88px", transform: "translateY(-38%)", opacity: reduceMotion ? 0.86 : 0.96 }}
-          animate={
-            cinematicMotion
-              ? {
-                  y: [0, -14, 8, -4, 0],
-                  scaleY: [1, 1.08, 0.94, 1.02, 1],
-                }
-              : {}
-          }
-          transition={{
-            duration: (isBreak ? 6.6 : 3.2) * liquidSpeedMultiplier,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          <motion.path
-            d="M0,114 C140,92 280,134 430,114 C620,88 760,136 930,114 C1030,102 1120,108 1200,114 L1200,180 L0,180 Z"
-            fill={`${activeTheme.accent}ee`}
-            animate={
-              cinematicMotion
-                ? {
-                    d: [
-                      "M0,114 C140,92 280,134 430,114 C620,88 760,136 930,114 C1030,102 1120,108 1200,114 L1200,180 L0,180 Z",
-                      "M0,118 C160,98 300,128 450,118 C620,96 760,128 920,118 C1030,108 1120,114 1200,118 L1200,180 L0,180 Z",
-                      "M0,114 C140,92 280,134 430,114 C620,88 760,136 930,114 C1030,102 1120,108 1200,114 L1200,180 L0,180 Z",
-                    ],
-                  }
-                : {}
-            }
-            transition={{
-              duration: (isBreak ? 5.6 : 2.8) * liquidSpeedMultiplier,
-              repeat: Infinity,
-              ease: "easeInOut",
+      {fillStyle === "bubble" && (
+        <motion.div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] overflow-hidden" style={{ height: fillHeight }}>
+          <div
+            className="absolute inset-0"
+            style={{
+              background: `linear-gradient(0deg, ${activeTheme.accent}80 0%, ${activeTheme.gradient.via}66 70%, transparent 100%)`,
             }}
           />
-          <motion.path
-            d="M0,118 C160,98 300,128 450,118 C620,96 760,128 920,118 C1030,108 1120,114 1200,118"
-            stroke="rgba(255,255,255,0.92)"
-            strokeWidth="2.6"
-            fill="none"
-            animate={
-              cinematicMotion
-                ? {
-                    opacity: [0.65, 0.95, 0.65],
-                  }
-                : {}
-            }
-            transition={{
-              duration: (isBreak ? 4.8 : 2.4) * liquidSpeedMultiplier,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-        </motion.svg>
-
-        <motion.div
-          className="absolute inset-x-0 top-0"
-          style={{
-            height: "24px",
-            transform: "translateY(-26%)",
-            background:
-              "linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.22) 45%, transparent 100%)",
-            opacity: reduceMotion ? 0.38 : 0.52,
-            filter: "blur(2px)",
-          }}
-          animate={cinematicMotion ? { opacity: [0.44, 0.62, 0.44] } : {}}
-          transition={{ duration: (isBreak ? 6.4 : 3.2) * liquidSpeedMultiplier, repeat: Infinity, ease: "easeInOut" }}
-        />
-
-        {cinematicMotion &&
-          LIQUID_BUBBLES.map((bubble, index) => (
+          {PREMIUM_BUBBLES.map((bubble, index) => (
             <motion.span
-              key={`bubble-${index}`}
-              className="absolute bottom-0 rounded-full bg-white/65"
-              style={{ left: bubble.left, width: bubble.size, height: bubble.size }}
-              animate={{
-                y: [0, -160 - index * 16],
-                x: [0, bubble.drift, 0],
-                opacity: [0, 0.55, 0],
-                scale: [0.6, 1, 1.12],
+              key={`premium-bubble-${index}`}
+              className="absolute bottom-0 rounded-full border border-white/45 bg-white/10"
+              style={{
+                left: bubble.left,
+                width: bubble.size,
+                height: bubble.size,
+                boxShadow: `inset 0 0 0 1px rgba(255,255,255,0.25), 0 0 18px ${activeTheme.accent}66`,
               }}
+              animate={
+                cinematicMotion
+                  ? {
+                      y: [0, -190 - index * 10],
+                      x: [0, bubble.drift, 0],
+                      opacity: [0, 0.9, 0],
+                      scale: [0.5, 1.1, 1.2],
+                    }
+                  : {
+                      opacity: [0.2, 0.6, 0.2],
+                    }
+              }
               transition={{
-                duration: bubble.duration * liquidSpeedMultiplier,
+                duration: bubble.duration,
                 delay: bubble.delay,
                 repeat: Infinity,
                 ease: "easeOut",
               }}
             />
           ))}
-      </motion.div>
+          <motion.div
+            className="absolute inset-x-0 top-0 h-6"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0.22) 40%, transparent 100%)",
+              filter: "blur(1px)",
+            }}
+            animate={cinematicMotion ? { opacity: [0.45, 0.75, 0.45] } : {}}
+            transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </motion.div>
+      )}
+
+      {fillStyle === "frost" && (
+        <motion.div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] overflow-hidden" style={{ height: fillHeight }}>
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background: `linear-gradient(0deg, rgba(220,245,255,0.86) 0%, ${activeTheme.accent}66 45%, rgba(186,230,253,0.25) 100%)`,
+              backdropFilter: "blur(3px)",
+              WebkitBackdropFilter: "blur(3px)",
+            }}
+            animate={cinematicMotion ? { opacity: [0.75, 0.95, 0.75] } : {}}
+            transition={{ duration: 4.4, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "repeating-linear-gradient(125deg, rgba(255,255,255,0.2) 0 1px, transparent 1px 10px), repeating-linear-gradient(35deg, rgba(255,255,255,0.16) 0 1px, transparent 1px 12px)",
+              opacity: 0.5,
+            }}
+          />
+          {FROST_CRACKS.map((crack, index) => (
+            <motion.span
+              key={`frost-crack-${index}`}
+              className="absolute h-[2px] origin-left rounded-full bg-white/75"
+              style={{
+                left: crack.left,
+                top: crack.top,
+                width: crack.width,
+                transform: `rotate(${crack.rotate}deg)`,
+                boxShadow: "0 0 10px rgba(255,255,255,0.35)",
+              }}
+              animate={cinematicMotion ? { scaleX: [0.2, 1], opacity: [0.2, 0.85, 0.65] } : {}}
+              transition={{
+                duration: 1.6,
+                delay: crack.delay,
+                repeat: Infinity,
+                repeatDelay: 4.8,
+                ease: "easeOut",
+              }}
+            />
+          ))}
+          <motion.div
+            className="absolute inset-x-0 top-0 h-5"
+            style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.18), transparent)" }}
+            animate={cinematicMotion ? { opacity: [0.45, 0.8, 0.45] } : {}}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </motion.div>
+      )}
+
+      {fillStyle === "snow" && (
+        <>
+          {cinematicMotion && (
+            <div className="pointer-events-none absolute inset-0 z-[2] overflow-hidden">
+              {SNOW_FLAKES.map((flake, index) => (
+                <motion.span
+                  key={`snow-flake-${index}`}
+                  className="absolute top-[-6%] rounded-full bg-white/85"
+                  style={{ left: flake.left, width: flake.size, height: flake.size }}
+                  animate={{
+                    y: ["0vh", "112vh"],
+                    x: [0, index % 2 ? -10 : 10, 0],
+                    opacity: [0, 0.9, 0.9, 0],
+                  }}
+                  transition={{
+                    duration: flake.duration,
+                    delay: flake.delay,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                />
+              ))}
+            </div>
+          )}
+
+          <motion.div className="pointer-events-none absolute inset-x-0 bottom-0 z-[3] overflow-hidden" style={{ height: fillHeight }}>
+            <div className="absolute inset-0 bg-white/85" />
+            <motion.svg
+              className="absolute left-0 top-0 w-full"
+              viewBox="0 0 1200 160"
+              preserveAspectRatio="none"
+              style={{ height: "76px", transform: "translateY(-48%)" }}
+              animate={cinematicMotion ? { y: [0, -6, 0] } : {}}
+              transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <path
+                d="M0,114 C110,88 230,136 360,110 C500,84 640,136 790,110 C910,90 1040,122 1200,108 L1200,160 L0,160 Z"
+                fill="rgba(255,255,255,0.98)"
+              />
+            </motion.svg>
+          </motion.div>
+        </>
+      )}
+
+      {fillStyle === "grid" && (
+        <motion.div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] overflow-hidden" style={{ height: fillHeight }}>
+          <div className="absolute inset-0" style={{ background: `linear-gradient(0deg, ${activeTheme.accent}bf 0%, ${activeTheme.gradient.via}99 80%, transparent 100%)` }} />
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(rgba(255,255,255,0.22) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.22) 1px, transparent 1px)",
+              backgroundSize: "40px 34px",
+              transform: "perspective(420px) rotateX(65deg)",
+              transformOrigin: "bottom center",
+              opacity: 0.55,
+            }}
+            animate={cinematicMotion ? { backgroundPositionY: ["0px", "68px"] } : {}}
+            transition={{ duration: 2.6, repeat: Infinity, ease: "linear" }}
+          />
+        </motion.div>
+      )}
+
+      {fillStyle === "comet" && (
+        <motion.div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] overflow-hidden" style={{ height: fillHeight }}>
+          <div className="absolute inset-0" style={{ background: `linear-gradient(0deg, ${activeTheme.accent}d9 0%, ${activeTheme.gradient.to}99 100%)` }} />
+          {cinematicMotion &&
+            [0, 1, 2, 3].map((i) => (
+              <motion.span
+                key={`comet-${i}`}
+                className="absolute h-[2px] w-40 rounded-full"
+                style={{
+                  left: `${8 + i * 22}%`,
+                  top: `${22 + (i % 2) * 18}%`,
+                  background: "linear-gradient(90deg, rgba(255,255,255,0.9), rgba(255,255,255,0))",
+                  filter: "drop-shadow(0 0 6px rgba(255,255,255,0.8))",
+                  transform: "rotate(-22deg)",
+                }}
+                animate={{ x: ["-10%", "120%"], opacity: [0, 1, 0] }}
+                transition={{ duration: 3.8 + i * 0.7, repeat: Infinity, ease: "easeOut", delay: i * 0.8 }}
+              />
+            ))}
+        </motion.div>
+      )}
+
+      {fillStyle === "auroraBands" && (
+        <motion.div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] overflow-hidden" style={{ height: fillHeight }}>
+          <div className="absolute inset-0" style={{ background: `linear-gradient(0deg, ${activeTheme.accent}d9 0%, ${activeTheme.gradient.via}88 72%, transparent 100%)` }} />
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(110deg, rgba(255,255,255,0.08) 10%, rgba(255,255,255,0.35) 30%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.28) 70%, rgba(255,255,255,0.08) 90%)",
+              mixBlendMode: "screen",
+              filter: "blur(3px)",
+            }}
+            animate={cinematicMotion ? { x: ["-8%", "8%", "-8%"], y: ["0%", "-4%", "0%"] } : {}}
+            transition={{ duration: 7.2, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </motion.div>
+      )}
+
+      {fillStyle === "tide" && (
+        <motion.div
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] overflow-visible"
+          style={{ height: fillHeight }}
+          animate={
+            cinematicMotion
+              ? {
+                  x: [0, 1, -1, 0],
+                  y: [0, -1, 0, 0],
+                  rotate: [0, 0.08, -0.08, 0],
+                }
+              : {}
+          }
+          transition={{
+            duration: liquidDuration * liquidSpeedMultiplier,
+            repeat: Infinity,
+            ease: smoothEase,
+          }}
+        >
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background: `linear-gradient(0deg, ${activeTheme.accent}f2 0%, ${activeTheme.accent}bf 38%, ${activeTheme.accent}66 75%, transparent 100%)`,
+              opacity: reduceMotion ? 0.55 : 0.65,
+            }}
+            animate={cinematicMotion ? { opacity: [0.6, 0.76, 0.6] } : {}}
+            transition={{
+              duration: liquidDuration * liquidSpeedMultiplier,
+              repeat: Infinity,
+              ease: smoothEase,
+            }}
+          />
+
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(165deg, rgba(255,255,255,0.26) 0%, rgba(255,255,255,0.12) 42%, rgba(255,255,255,0.07) 100%)",
+              backdropFilter: "blur(12px) saturate(140%)",
+              WebkitBackdropFilter: "blur(12px) saturate(140%)",
+              opacity: 0.66,
+            }}
+          />
+
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(circle at 22% 78%, rgba(255,255,255,0.32) 0 2px, transparent 3px), radial-gradient(circle at 68% 88%, rgba(255,255,255,0.22) 0 1.5px, transparent 3px), radial-gradient(circle at 48% 72%, rgba(255,255,255,0.22) 0 1.8px, transparent 3px)",
+              opacity: reduceMotion ? 0.18 : 0.3,
+            }}
+            animate={cinematicMotion ? { backgroundPosition: ["0px 0px", "40px -92px"] } : {}}
+            transition={{
+              duration: (isBreak ? 16 : 8) * liquidSpeedMultiplier,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          />
+
+          <motion.svg
+            className="absolute left-0 top-0 w-full"
+            viewBox="0 0 1200 180"
+            preserveAspectRatio="none"
+            style={{ height: "88px", transform: "translateY(-38%)", opacity: reduceMotion ? 0.86 : 0.96 }}
+            animate={
+              cinematicMotion
+                ? {
+                    y: [0, -14, 8, -4, 0],
+                    scaleY: [1, 1.08, 0.94, 1.02, 1],
+                  }
+                : {}
+            }
+            transition={{
+              duration: (isBreak ? 6.6 : 3.2) * liquidSpeedMultiplier,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            <motion.path
+              d="M0,114 C140,92 280,134 430,114 C620,88 760,136 930,114 C1030,102 1120,108 1200,114 L1200,180 L0,180 Z"
+              fill={`${activeTheme.accent}ee`}
+              animate={
+                cinematicMotion
+                  ? {
+                      d: [
+                        "M0,114 C140,92 280,134 430,114 C620,88 760,136 930,114 C1030,102 1120,108 1200,114 L1200,180 L0,180 Z",
+                        "M0,118 C160,98 300,128 450,118 C620,96 760,128 920,118 C1030,108 1120,114 1200,118 L1200,180 L0,180 Z",
+                        "M0,114 C150,96 290,130 440,114 C630,92 770,132 940,114 C1040,104 1130,110 1200,114 L1200,180 L0,180 Z",
+                        "M0,114 C140,92 280,134 430,114 C620,88 760,136 930,114 C1030,102 1120,108 1200,114 L1200,180 L0,180 Z",
+                      ],
+                    }
+                  : {}
+              }
+              transition={{
+                duration: (isBreak ? 7.2 : 3.8) * liquidSpeedMultiplier,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+            <motion.path
+              d="M0,118 C160,98 300,128 450,118 C620,96 760,128 920,118 C1030,108 1120,114 1200,118"
+              stroke="rgba(255,255,255,0.92)"
+              strokeWidth="2.6"
+              fill="none"
+              animate={
+                cinematicMotion
+                  ? {
+                      opacity: [0.65, 0.95, 0.65],
+                    }
+                  : {}
+              }
+              transition={{
+                duration: (isBreak ? 5.8 : 2.9) * liquidSpeedMultiplier,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+          </motion.svg>
+
+          <motion.div
+            className="absolute inset-x-0 top-0"
+            style={{
+              height: "24px",
+              transform: "translateY(-26%)",
+              background:
+                "linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.22) 45%, transparent 100%)",
+              opacity: reduceMotion ? 0.38 : 0.52,
+              filter: "blur(2px)",
+            }}
+            animate={cinematicMotion ? { opacity: [0.44, 0.62, 0.44] } : {}}
+            transition={{ duration: (isBreak ? 6.4 : 3.2) * liquidSpeedMultiplier, repeat: Infinity, ease: "easeInOut" }}
+          />
+
+          {cinematicMotion &&
+            LIQUID_BUBBLES.map((bubble, index) => (
+              <motion.span
+                key={`bubble-${index}`}
+                className="absolute bottom-0 rounded-full bg-white/65"
+                style={{ left: bubble.left, width: bubble.size, height: bubble.size }}
+                animate={{
+                  y: [0, -160 - index * 16],
+                  x: [0, bubble.drift, 0],
+                  opacity: [0, 0.55, 0],
+                  scale: [0.6, 1, 1.12],
+                }}
+                transition={{
+                  duration: bubble.duration * liquidSpeedMultiplier,
+                  delay: bubble.delay,
+                  repeat: Infinity,
+                  ease: "easeOut",
+                }}
+              />
+            ))}
+        </motion.div>
+      )}
+
+      {fillStyle === "prism" && (
+        <motion.div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] overflow-hidden" style={{ height: fillHeight }}>
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background: `linear-gradient(150deg, ${activeTheme.accent}d9 0%, ${activeTheme.gradient.via}99 46%, ${activeTheme.gradient.to}cc 100%)`,
+              clipPath: "polygon(0 12%, 24% 0, 54% 18%, 84% 4%, 100% 20%, 100% 100%, 0 100%)",
+            }}
+            animate={cinematicMotion ? { x: ["0%", "2%", "0%"], y: ["0%", "-2%", "0%"] } : {}}
+            transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.2) 42%, transparent 62%)",
+              mixBlendMode: "screen",
+            }}
+            animate={cinematicMotion ? { x: ["-20%", "100%"] } : {}}
+            transition={{ duration: 3.6, repeat: Infinity, ease: "linear" }}
+          />
+        </motion.div>
+      )}
+
+      {fillStyle === "scanline" && (
+        <motion.div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] overflow-hidden" style={{ height: fillHeight }}>
+          <div
+            className="absolute inset-0"
+            style={{
+              background: `linear-gradient(0deg, ${activeTheme.accent}cc 0%, ${activeTheme.gradient.via}cc 65%, transparent 100%)`,
+            }}
+          />
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background:
+                "repeating-linear-gradient(0deg, rgba(255,255,255,0.22) 0 1px, rgba(255,255,255,0) 1px 8px)",
+            }}
+            animate={cinematicMotion ? { backgroundPositionY: ["0px", "-120px"] } : {}}
+            transition={{ duration: 1.8, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.div
+            className="absolute inset-0"
+            style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.28) 0%, transparent 38%)" }}
+            animate={cinematicMotion ? { y: [0, -8, 0] } : {}}
+            transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </motion.div>
+      )}
+
+      {fillStyle === "nebula" && (
+        <motion.div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] overflow-hidden" style={{ height: fillHeight }}>
+          <motion.div
+            className="absolute -left-[10%] top-[8%] h-[65%] w-[45%] rounded-full"
+            style={{ background: `radial-gradient(circle, ${activeTheme.accent}aa 0%, transparent 72%)`, filter: "blur(18px)" }}
+            animate={cinematicMotion ? { x: ["0%", "12%", "0%"], y: ["0%", "-8%", "0%"] } : {}}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute right-[-8%] bottom-[6%] h-[72%] w-[52%] rounded-full"
+            style={{ background: `radial-gradient(circle, ${activeTheme.gradient.via}bb 0%, transparent 70%)`, filter: "blur(22px)" }}
+            animate={cinematicMotion ? { x: ["0%", "-10%", "0%"], y: ["0%", "6%", "0%"] } : {}}
+            transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </motion.div>
+      )}
+
+      {fillStyle === "embers" && (
+        <motion.div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] overflow-hidden" style={{ height: fillHeight }}>
+          <div
+            className="absolute inset-0"
+            style={{
+              background: `linear-gradient(0deg, ${activeTheme.accent}d9 0%, ${activeTheme.gradient.from}66 58%, transparent 100%)`,
+            }}
+          />
+          {cinematicMotion &&
+            EMBER_PARTICLES.map((particle, index) => (
+              <motion.span
+                key={`ember-${index}`}
+                className="absolute bottom-0 rounded-full"
+                style={{
+                  left: particle.left,
+                  width: particle.size,
+                  height: particle.size,
+                  background: "rgba(255,255,255,0.85)",
+                  boxShadow: `0 0 16px ${activeTheme.accent}`,
+                }}
+                animate={{
+                  y: [0, -220 - index * 14],
+                  x: [0, particle.drift, 0],
+                  opacity: [0, 0.9, 0],
+                  scale: [0.7, 1.1, 0.9],
+                }}
+                transition={{
+                  duration: particle.duration,
+                  delay: particle.delay,
+                  repeat: Infinity,
+                  ease: "easeOut",
+                }}
+              />
+            ))}
+        </motion.div>
+      )}
+
+      {fillStyle === "rings" && (
+        <motion.div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] overflow-hidden" style={{ height: fillHeight }}>
+          <div className="absolute inset-0" style={{ background: `linear-gradient(0deg, ${activeTheme.accent}cc 0%, transparent 85%)` }} />
+          {RING_RADII.map((radius, index) => (
+            <motion.div
+              key={`ring-${radius}`}
+              className="absolute left-1/2 -translate-x-1/2 rounded-full border"
+              style={{
+                bottom: "-10%",
+                width: `${radius * 2}%`,
+                height: `${radius * 2}%`,
+                borderColor: "rgba(255,255,255,0.26)",
+              }}
+              animate={cinematicMotion ? { scale: [0.96, 1.05, 0.96], opacity: [0.3, 0.55, 0.3] } : {}}
+              transition={{
+                duration: 4.2 + index * 0.65,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
+        </motion.div>
+      )}
+
+      {fillStyle === "sunburst" && (
+        <motion.div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] overflow-hidden" style={{ height: fillHeight }}>
+          <div className="absolute inset-0" style={{ background: `linear-gradient(0deg, ${activeTheme.accent}e6 0%, ${activeTheme.gradient.via}b3 62%, transparent 100%)` }} />
+          <motion.div
+            className="absolute left-1/2 top-[14%] h-[160%] w-[160%] -translate-x-1/2 rounded-full"
+            style={{
+              background:
+                "conic-gradient(from 0deg, rgba(255,255,255,0.34), rgba(255,255,255,0.06), rgba(255,255,255,0.34), rgba(255,255,255,0.08), rgba(255,255,255,0.34))",
+              mixBlendMode: "screen",
+            }}
+            animate={cinematicMotion ? { rotate: [0, 360] } : {}}
+            transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+          />
+        </motion.div>
+      )}
 
       <motion.div
         className="ambient-glow pointer-events-none absolute -left-[28%] top-[-8%] h-[74vh] w-[96vw] rounded-full"

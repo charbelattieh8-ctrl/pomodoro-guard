@@ -4,6 +4,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import { onAuthStateChanged } from "firebase/auth";
@@ -52,6 +53,18 @@ export function AuthProvider({ children }) {
   const [leaderboard, setLeaderboard] = useState([]);
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState("");
+  const [authTransitioning, setAuthTransitioning] = useState(false);
+  const authTransitioningRef = useRef(false);
+  const userUidRef = useRef(null);
+  const pendingSignedOutTimerRef = useRef(null);
+
+  useEffect(() => {
+    authTransitioningRef.current = authTransitioning;
+  }, [authTransitioning]);
+
+  useEffect(() => {
+    userUidRef.current = user?.uid || null;
+  }, [user]);
 
   useEffect(() => {
     if (!auth || !db) {
@@ -59,34 +72,82 @@ export function AuthProvider({ children }) {
       return undefined;
     }
 
+    const clearPendingSignedOut = () => {
+      if (pendingSignedOutTimerRef.current) {
+        clearTimeout(pendingSignedOutTimerRef.current);
+        pendingSignedOutTimerRef.current = null;
+      }
+    };
+
+    const finalizeSignedOut = () => {
+      setUser(null);
+      setProfile(null);
+      setProfileResolved(false);
+      setDailyStats([]);
+      setIncomingRequests([]);
+      setOutgoingRequests([]);
+      setFriendUids([]);
+      setLeaderboard([]);
+      setLoading(false);
+      setAuthTransitioning(false);
+    };
+
     const unsub = onAuthStateChanged(auth, async (nextUser) => {
-      setUser(nextUser);
+      clearPendingSignedOut();
       setAuthError("");
       if (!nextUser) {
-        setProfile(null);
-        setProfileResolved(false);
-        setDailyStats([]);
-        setIncomingRequests([]);
-        setOutgoingRequests([]);
-        setFriendUids([]);
-        setLeaderboard([]);
-        setLoading(false);
+        if (authTransitioningRef.current) {
+          pendingSignedOutTimerRef.current = setTimeout(finalizeSignedOut, 4000);
+          return;
+        }
+        finalizeSignedOut();
         return;
       }
 
+      if (nextUser.uid === userUidRef.current) {
+        setUser(nextUser);
+        setLoading(false);
+        setAuthTransitioning(false);
+        return;
+      }
+
+      setUser(nextUser);
       setProfileResolved(false);
-      await createInitialProfile(db, nextUser);
-      setLoading(false);
+      try {
+        await createInitialProfile(db, nextUser);
+      } catch (err) {
+        setAuthError(err?.message || "Failed to initialize profile");
+      } finally {
+        setLoading(false);
+        setAuthTransitioning(false);
+      }
     });
 
-    return () => unsub();
+    return () => {
+      clearPendingSignedOut();
+      unsub();
+    };
   }, []);
 
   useEffect(() => {
     if (!db || !user) return undefined;
     const unsub = watchUserProfile(db, user.uid, (nextProfile) => {
+      if (!nextProfile) {
+        setProfile(null);
+        setProfileResolved(false);
+        createInitialProfile(db, user)
+          .then(() => {
+            setLoading(false);
+          })
+          .catch((err) => {
+            setAuthError(err?.message || "Failed to load profile");
+            setLoading(false);
+          });
+        return;
+      }
       setProfile(nextProfile);
       setProfileResolved(true);
+      setLoading(false);
     });
     return () => unsub();
   }, [user]);
@@ -143,10 +204,18 @@ export function AuthProvider({ children }) {
 
   const wrapAuth = async (fn) => {
     setAuthError("");
+    setAuthTransitioning(true);
+    setLoading(true);
     try {
-      await fn();
+      const result = await fn();
+      if (result?.user) {
+        setUser(result.user);
+      }
+      return result;
     } catch (err) {
       setAuthError(err?.message || "Auth failed");
+      setAuthTransitioning(false);
+      setLoading(false);
       throw err;
     }
   };
@@ -161,7 +230,11 @@ export function AuthProvider({ children }) {
       logout: () => logoutUser(auth),
       claimProfileUsername: (username) => {
         if (!user) throw new Error("Sign in first");
-        return claimUniqueUsername(db, user.uid, username);
+        const cleaned = String(username || "").trim().toLowerCase();
+        return claimUniqueUsername(db, user.uid, cleaned).then(() => {
+          setProfile((prev) => (prev ? { ...prev, username: cleaned } : prev));
+          setProfileResolved(true);
+        });
       },
       searchUsers: (term) => {
         if (!user) throw new Error("Sign in first");
@@ -205,10 +278,11 @@ export function AuthProvider({ children }) {
     friendUids,
     leaderboard,
     loading,
+    authTransitioning,
     profileLoading: Boolean(user) && !profileResolved,
     authError,
     isAuthenticated: Boolean(user),
-    needsUsername: Boolean(user && profileResolved && !profile?.username),
+    needsUsername: Boolean(user && profileResolved && profile && !profile.username),
     actions,
   };
 
