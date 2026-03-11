@@ -34,15 +34,17 @@ try {
   const root = document.getElementById("root");
   if (!root) throw new Error("Missing #root element");
   ReactDOM.createRoot(root).render(
-    <BrowserRouter>
-      <AuthProvider>
-        <AuthGate>
-          <AppStateProvider>
-            <App />
-          </AppStateProvider>
-        </AuthGate>
-      </AuthProvider>
-    </BrowserRouter>
+    <React.StrictMode>
+      <BrowserRouter>
+        <AuthProvider>
+          <AuthGate>
+            <AppStateProvider>
+              <App />
+            </AppStateProvider>
+          </AuthGate>
+        </AuthProvider>
+      </BrowserRouter>
+    </React.StrictMode>
   );
 } catch (error) {
   renderFatal(error?.message || error);
