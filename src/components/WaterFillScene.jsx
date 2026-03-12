@@ -32,61 +32,63 @@ function clamp01(value) {
 function WaterBody({ fillPercent, reduceMotion }) {
   return (
     <motion.div
-      className="timer-water-fill absolute inset-x-0 bottom-0 overflow-hidden"
+      className="timer-water-fill absolute inset-x-0 bottom-0"
       animate={{ height: `${Math.max(fillPercent * 100, 0)}%` }}
       transition={{
         duration: reduceMotion ? 0.2 : 0.65,
         ease: [0.22, 0.8, 0.2, 1],
       }}
     >
-      <div className="timer-water-gradient absolute inset-0" />
+      <div className="timer-water-body absolute inset-0 overflow-hidden">
+        <div className="timer-water-gradient absolute inset-0" />
 
-      <div className="timer-water-crest-fade absolute inset-x-0 top-0 h-28" />
+        <div className="timer-water-crest-fade absolute inset-x-0 top-0 h-28" />
 
-      <motion.div
-        className="timer-water-texture absolute inset-0"
-        style={{ backgroundImage: `url(${waterRippleTexture})` }}
-        animate={
-          reduceMotion
-            ? {}
-            : {
-                backgroundPosition: ["0px 0px", "96px -64px", "0px -128px"],
-              }
-        }
-        transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-      />
+        <motion.div
+          className="timer-water-texture absolute inset-0"
+          style={{ backgroundImage: `url(${waterRippleTexture})` }}
+          animate={
+            reduceMotion
+              ? {}
+              : {
+                  backgroundPosition: ["0px 0px", "96px -64px", "0px -128px"],
+                }
+          }
+          transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+        />
 
-      <motion.div
-        className="timer-water-caustics absolute inset-0"
-        animate={
-          reduceMotion
-            ? {}
-            : {
-                backgroundPosition: ["0% 0%", "22% 100%", "0% 0%"],
-                opacity: [0.12, 0.2, 0.12],
-              }
-        }
-        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-      />
+        <motion.div
+          className="timer-water-caustics absolute inset-0"
+          animate={
+            reduceMotion
+              ? {}
+              : {
+                  backgroundPosition: ["0% 0%", "22% 100%", "0% 0%"],
+                  opacity: [0.12, 0.2, 0.12],
+                }
+          }
+          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+        />
 
-      <motion.div
-        className="timer-water-highlight absolute inset-x-0 top-0 h-14"
-        animate={reduceMotion ? {} : { opacity: [0.18, 0.28, 0.18] }}
-        transition={{ duration: 5.4, repeat: Infinity, ease: "easeInOut" }}
-      />
+        <motion.div
+          className="timer-water-highlight absolute inset-x-0 top-0 h-14"
+          animate={reduceMotion ? {} : { opacity: [0.18, 0.28, 0.18] }}
+          transition={{ duration: 5.4, repeat: Infinity, ease: "easeInOut" }}
+        />
 
-      <motion.div
-        className="timer-water-specular absolute inset-x-0 top-0"
-        animate={
-          reduceMotion
-            ? {}
-            : {
-                x: ["-10%", "12%", "-10%"],
-                opacity: [0.14, 0.22, 0.14],
-              }
-        }
-        transition={{ duration: 9.5, repeat: Infinity, ease: "easeInOut" }}
-      />
+        <motion.div
+          className="timer-water-specular absolute inset-x-0 top-0"
+          animate={
+            reduceMotion
+              ? {}
+              : {
+                  x: ["-10%", "12%", "-10%"],
+                  opacity: [0.14, 0.22, 0.14],
+                }
+          }
+          transition={{ duration: 9.5, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </div>
 
       <WaterSurface reduceMotion={reduceMotion} />
     </motion.div>
