@@ -44,6 +44,72 @@ const MEME_67_STICKERS = [
   { text: "SHEESH", left: "80%", top: "44%", rotate: 6, size: "text-lg" },
 ];
 
+const SURFACE_WAVES = [
+  {
+    fillOpacity: 0.94,
+    strokeOpacity: 0.92,
+    height: 96,
+    yOffset: "-42%",
+    duration: 1,
+    sway: [0, -10, 5, -3, 0],
+    scaleY: [1, 1.08, 0.95, 1.03, 1],
+    primaryPath: [
+      "M0,114 C130,90 278,138 425,114 C610,86 750,140 920,114 C1016,100 1112,108 1200,114 L1200,180 L0,180 Z",
+      "M0,119 C156,100 296,126 448,117 C622,94 766,130 930,117 C1032,108 1124,114 1200,118 L1200,180 L0,180 Z",
+      "M0,112 C144,92 286,134 438,112 C618,88 754,138 924,113 C1024,101 1118,106 1200,112 L1200,180 L0,180 Z",
+      "M0,114 C130,90 278,138 425,114 C610,86 750,140 920,114 C1016,100 1112,108 1200,114 L1200,180 L0,180 Z",
+    ],
+    strokePath: [
+      "M0,114 C130,90 278,138 425,114 C610,86 750,140 920,114 C1016,100 1112,108 1200,114",
+      "M0,119 C156,100 296,126 448,117 C622,94 766,130 930,117 C1032,108 1124,114 1200,118",
+      "M0,112 C144,92 286,134 438,112 C618,88 754,138 924,113 C1024,101 1118,106 1200,112",
+      "M0,114 C130,90 278,138 425,114 C610,86 750,140 920,114 C1016,100 1112,108 1200,114",
+    ],
+  },
+  {
+    fillOpacity: 0.58,
+    strokeOpacity: 0.52,
+    height: 84,
+    yOffset: "-31%",
+    duration: 1.32,
+    sway: [0, 8, -6, 4, 0],
+    scaleY: [1.02, 0.96, 1.05, 0.98, 1.02],
+    primaryPath: [
+      "M0,120 C166,96 300,138 458,120 C638,98 770,132 938,120 C1036,112 1126,116 1200,120 L1200,180 L0,180 Z",
+      "M0,124 C178,104 314,130 468,124 C636,104 778,126 944,123 C1042,116 1132,120 1200,124 L1200,180 L0,180 Z",
+      "M0,118 C158,94 294,142 448,118 C628,94 766,136 934,118 C1034,108 1122,112 1200,118 L1200,180 L0,180 Z",
+      "M0,120 C166,96 300,138 458,120 C638,98 770,132 938,120 C1036,112 1126,116 1200,120 L1200,180 L0,180 Z",
+    ],
+    strokePath: [
+      "M0,120 C166,96 300,138 458,120 C638,98 770,132 938,120 C1036,112 1126,116 1200,120",
+      "M0,124 C178,104 314,130 468,124 C636,104 778,126 944,123 C1042,116 1132,120 1200,124",
+      "M0,118 C158,94 294,142 448,118 C628,94 766,136 934,118 C1034,108 1122,112 1200,118",
+      "M0,120 C166,96 300,138 458,120 C638,98 770,132 938,120 C1036,112 1126,116 1200,120",
+    ],
+  },
+  {
+    fillOpacity: 0.34,
+    strokeOpacity: 0.28,
+    height: 76,
+    yOffset: "-18%",
+    duration: 1.74,
+    sway: [0, -6, 7, -4, 0],
+    scaleY: [0.98, 1.04, 0.97, 1.02, 0.98],
+    primaryPath: [
+      "M0,130 C182,108 324,144 484,130 C664,114 796,136 960,130 C1052,126 1138,126 1200,130 L1200,180 L0,180 Z",
+      "M0,134 C192,116 336,138 492,134 C668,120 804,132 964,134 C1056,128 1140,130 1200,134 L1200,180 L0,180 Z",
+      "M0,128 C176,106 318,148 480,128 C660,112 792,140 956,128 C1048,122 1136,124 1200,128 L1200,180 L0,180 Z",
+      "M0,130 C182,108 324,144 484,130 C664,114 796,136 960,130 C1052,126 1138,126 1200,130 L1200,180 L0,180 Z",
+    ],
+    strokePath: [
+      "M0,130 C182,108 324,144 484,130 C664,114 796,136 960,130 C1052,126 1138,126 1200,130",
+      "M0,134 C192,116 336,138 492,134 C668,120 804,132 964,134 C1056,128 1140,130 1200,134",
+      "M0,128 C176,106 318,148 480,128 C660,112 792,140 956,128 C1048,122 1136,124 1200,128",
+      "M0,130 C182,108 324,144 484,130 C664,114 796,136 960,130 C1052,126 1138,126 1200,130",
+    ],
+  },
+];
+
 export default function Layout() {
   const { state, sessionProgress, activeTheme, toasts, removeToast, celebration, actions } =
     useAppState();
@@ -358,64 +424,63 @@ export default function Layout() {
           }}
         />
 
-        <motion.svg
-          className="absolute left-0 top-0 w-full"
-          viewBox="0 0 1200 180"
-          preserveAspectRatio="none"
-          style={{ height: "88px", transform: "translateY(-38%)", opacity: reduceMotion ? 0.86 : 0.96 }}
-          animate={
-            cinematicMotion
-              ? {
-                  y: [0, -14, 8, -4, 0],
-                  scaleY: [1, 1.08, 0.94, 1.02, 1],
-                }
-              : {}
-          }
-          transition={{
-            duration: (isBreak ? 6.6 : 3.2) * liquidSpeedMultiplier,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          <motion.path
-            d="M0,114 C140,92 280,134 430,114 C620,88 760,136 930,114 C1030,102 1120,108 1200,114 L1200,180 L0,180 Z"
-            fill={`${activeTheme.accent}ee`}
+        {SURFACE_WAVES.map((wave, index) => (
+          <motion.svg
+            key={`surface-wave-${index}`}
+            className="absolute left-0 top-0 w-full"
+            viewBox="0 0 1200 180"
+            preserveAspectRatio="none"
+            style={{
+              height: `${wave.height}px`,
+              transform: `translateY(${wave.yOffset})`,
+              opacity: reduceMotion ? wave.fillOpacity * 0.9 : wave.fillOpacity,
+            }}
             animate={
               cinematicMotion
                 ? {
-                    d: [
-                      "M0,114 C140,92 280,134 430,114 C620,88 760,136 930,114 C1030,102 1120,108 1200,114 L1200,180 L0,180 Z",
-                      "M0,118 C160,98 300,128 450,118 C620,96 760,128 920,118 C1030,108 1120,114 1200,118 L1200,180 L0,180 Z",
-                      "M0,114 C140,92 280,134 430,114 C620,88 760,136 930,114 C1030,102 1120,108 1200,114 L1200,180 L0,180 Z",
-                    ],
+                    x: index === 1 ? [0, 10, -6, 0] : [0, -8, 5, 0],
+                    y: wave.sway,
+                    scaleY: wave.scaleY,
                   }
                 : {}
             }
             transition={{
-              duration: (isBreak ? 5.6 : 2.8) * liquidSpeedMultiplier,
+              duration: crestDuration * wave.duration,
               repeat: Infinity,
               ease: "easeInOut",
             }}
-          />
-          <motion.path
-            d="M0,118 C160,98 300,128 450,118 C620,96 760,128 920,118 C1030,108 1120,114 1200,118"
-            stroke="rgba(255,255,255,0.92)"
-            strokeWidth="2.6"
-            fill="none"
-            animate={
-              cinematicMotion
-                ? {
-                    opacity: [0.65, 0.95, 0.65],
-                  }
-                : {}
-            }
-            transition={{
-              duration: (isBreak ? 4.8 : 2.4) * liquidSpeedMultiplier,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-        </motion.svg>
+          >
+            <motion.path
+              d={wave.primaryPath[0]}
+              fill={`${activeTheme.accent}${index === 0 ? "ee" : index === 1 ? "a8" : "66"}`}
+              animate={cinematicMotion ? { d: wave.primaryPath } : {}}
+              transition={{
+                duration: crestDuration * (wave.duration + 0.08),
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+            <motion.path
+              d={wave.strokePath[0]}
+              stroke={`rgba(255,255,255,${wave.strokeOpacity})`}
+              strokeWidth={index === 0 ? "2.6" : index === 1 ? "1.9" : "1.4"}
+              fill="none"
+              animate={
+                cinematicMotion
+                  ? {
+                      d: wave.strokePath,
+                      opacity: [wave.strokeOpacity * 0.7, wave.strokeOpacity, wave.strokeOpacity * 0.7],
+                    }
+                  : {}
+              }
+              transition={{
+                duration: crestDuration * (wave.duration + 0.02),
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+          </motion.svg>
+        ))}
 
         <motion.div
           className="absolute inset-x-0 top-0"

@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useLocation, useRoutes } from "react-router-dom";
 import SeoManager from "./components/SeoManager";
@@ -11,11 +10,7 @@ export default function App() {
     <>
       <SeoManager />
       <AnimatePresence mode="wait">
-        <Suspense
-          fallback={<div className="min-h-screen bg-slate-950/90" />}
-        >
-          <div key={location.pathname}>{element}</div>
-        </Suspense>
+        <div key={location.pathname}>{element}</div>
       </AnimatePresence>
     </>
   );
