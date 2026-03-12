@@ -180,7 +180,7 @@ body {
   top: -38px;
   width: 112%;
   height: clamp(90px, 12vw, 114px);
-  overflow: hidden;
+  overflow: visible;
   filter: drop-shadow(0 6px 10px rgba(80, 190, 245, 0.12));
   will-change: transform;
   transform: translateZ(0);
