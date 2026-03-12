@@ -171,17 +171,51 @@ body {
   position: absolute;
   left: -6%;
   width: 112%;
-  height: clamp(56px, 9vw, 78px);
+  height: clamp(54px, 8vw, 72px);
   overflow: hidden;
   filter: drop-shadow(0 8px 14px rgba(80, 190, 245, 0.18));
   will-change: transform;
   transform: translateZ(0);
 }
 
-.timer-water-surface-lottie {
-  height: clamp(112px, 17vw, 150px);
-  transform: translate3d(0, clamp(-25px, -3vw, -18px), 0) scaleX(1.04) scaleY(0.84);
-  opacity: 0.9;
+.timer-water-surface-svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 200%;
+  height: 100%;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.timer-water-wave-front {
+  z-index: 2;
+}
+
+.timer-water-wave-back {
+  z-index: 1;
+  filter: blur(0.4px);
+}
+
+.timer-water-wave-fill {
+  fill: rgba(112, 214, 247, 0.96);
+}
+
+.timer-water-wave-back .timer-water-wave-fill {
+  fill: rgba(171, 232, 250, 0.42);
+}
+
+.timer-water-wave-stroke {
+  fill: none;
+  stroke: rgba(242, 251, 255, 0.94);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.timer-water-wave-back .timer-water-wave-stroke {
+  stroke-width: 1.35;
+  stroke: rgba(240, 250, 255, 0.62);
 }
 
 .timer-water-overlay {
@@ -201,6 +235,10 @@ body {
 
   .timer-water-caustics {
     opacity: 0.78;
+  }
+
+  .timer-water-surface-window {
+    height: 52px;
   }
 }
 

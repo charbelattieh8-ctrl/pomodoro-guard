@@ -1,10 +1,30 @@
 import { useMemo } from "react";
 import { motion } from "framer-motion";
-import Lottie from "lottie-react";
-import waterSurfaceAnimation from "../assets/water/water-surface-lottie.json";
 import waterRippleTexture from "../assets/water/water-ripple-texture.png";
 
 const SURFACE_OVERLAP_PX = 8;
+const WAVE_LAYERS = [
+  {
+    id: "back",
+    duration: 13.5,
+    amplitude: 7,
+    opacity: 0.38,
+    strokeOpacity: 0.24,
+    className: "timer-water-wave-back",
+    path: "M0,44 C70,40 130,32 198,36 C266,40 330,54 402,52 C472,50 536,34 606,30 C676,26 744,34 812,42 C882,50 944,56 1010,52 C1082,48 1146,32 1216,30 C1286,28 1356,40 1440,46 L1440,120 L0,120 Z",
+    stroke: "M0,44 C70,40 130,32 198,36 C266,40 330,54 402,52 C472,50 536,34 606,30 C676,26 744,34 812,42 C882,50 944,56 1010,52 C1082,48 1146,32 1216,30 C1286,28 1356,40 1440,46",
+  },
+  {
+    id: "front",
+    duration: 9.5,
+    amplitude: 11,
+    opacity: 0.7,
+    strokeOpacity: 0.56,
+    className: "timer-water-wave-front",
+    path: "M0,52 C60,46 122,34 194,36 C266,38 336,56 404,58 C474,60 538,44 606,38 C676,32 746,40 816,50 C886,60 950,68 1020,64 C1090,60 1150,42 1216,40 C1284,38 1352,48 1440,56 L1440,120 L0,120 Z",
+    stroke: "M0,52 C60,46 122,34 194,36 C266,38 336,56 404,58 C474,60 538,44 606,38 C676,32 746,40 816,50 C886,60 950,68 1020,64 C1090,60 1150,42 1216,40 C1284,38 1352,48 1440,56",
+  },
+];
 
 function clamp01(value) {
   return Math.max(0, Math.min(1, value || 0));
@@ -71,16 +91,6 @@ function WaterBody({ fillPercent, reduceMotion }) {
 }
 
 function WaterSurface({ fillPercent, reduceMotion }) {
-  const lottieOptions = useMemo(
-    () => ({
-      animationData: waterSurfaceAnimation,
-      loop: true,
-      autoplay: true,
-      rendererSettings: { preserveAspectRatio: "xMidYMid slice" },
-    }),
-    []
-  );
-
   const bottom = useMemo(
     () => `calc(${fillPercent * 100}% - ${SURFACE_OVERLAP_PX}px)`,
     [fillPercent]
@@ -96,12 +106,56 @@ function WaterSurface({ fillPercent, reduceMotion }) {
       }}
     >
       <div className="timer-water-surface-window">
-        <Lottie
-          {...lottieOptions}
-          renderer="svg"
-          speed={reduceMotion ? 0.18 : 0.42}
-          className="timer-water-surface-lottie"
-        />
+        {WAVE_LAYERS.map((layer) => (
+          <motion.svg
+            key={layer.id}
+            className={`timer-water-surface-svg ${layer.className}`}
+            viewBox="0 0 2880 120"
+            preserveAspectRatio="none"
+            animate={
+              reduceMotion
+                ? {}
+                : {
+                    x: ["0%", "-50%"],
+                    y:
+                      layer.id === "front"
+                        ? [0, -layer.amplitude * 0.24, 0, layer.amplitude * 0.18, 0]
+                        : [0, -layer.amplitude * 0.16, 0, layer.amplitude * 0.12, 0],
+                  }
+            }
+            transition={{
+              x: {
+                duration: layer.duration,
+                repeat: Infinity,
+                ease: "linear",
+              },
+              y: {
+                duration: layer.duration * 0.8,
+                repeat: Infinity,
+                ease: "easeInOut",
+              },
+            }}
+          >
+            <defs>
+              <path id={`water-fill-${layer.id}`} d={layer.path} />
+              <path id={`water-stroke-${layer.id}`} d={layer.stroke} />
+            </defs>
+            <use href={`#water-fill-${layer.id}`} x="0" className="timer-water-wave-fill" opacity={layer.opacity} />
+            <use href={`#water-fill-${layer.id}`} x="1440" className="timer-water-wave-fill" opacity={layer.opacity} />
+            <use
+              href={`#water-stroke-${layer.id}`}
+              x="0"
+              className="timer-water-wave-stroke"
+              opacity={layer.strokeOpacity}
+            />
+            <use
+              href={`#water-stroke-${layer.id}`}
+              x="1440"
+              className="timer-water-wave-stroke"
+              opacity={layer.strokeOpacity}
+            />
+          </motion.svg>
+        ))}
       </div>
     </motion.div>
   );
