@@ -1,6 +1,6 @@
+import { lazy } from "react";
 import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
-import Timer from "./pages/Timer";
 import Shop from "./pages/Shop";
 import Milestones from "./pages/Milestones";
 import Stats from "./pages/Stats";
@@ -10,6 +10,8 @@ import Friends from "./pages/Friends";
 import FriendProfile from "./pages/FriendProfile";
 import Rooms from "./pages/Rooms";
 import Challenges from "./pages/Challenges";
+
+const Timer = lazy(() => import("./pages/Timer"));
 
 const routes = [
   {
