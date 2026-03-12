@@ -9,16 +9,6 @@ import TopBar from "./TopBar";
 
 const WaterFillScene = lazy(() => import("./WaterFillScene"));
 
-const LIQUID_BUBBLES = [
-  { left: "8%", size: 5, drift: 10, duration: 5.5, delay: 0.2 },
-  { left: "18%", size: 7, drift: -12, duration: 7.2, delay: 1.1 },
-  { left: "31%", size: 4, drift: 8, duration: 4.8, delay: 0.6 },
-  { left: "46%", size: 6, drift: -8, duration: 6.9, delay: 1.8 },
-  { left: "58%", size: 5, drift: 11, duration: 6.1, delay: 0.3 },
-  { left: "70%", size: 8, drift: -10, duration: 8.4, delay: 2.1 },
-  { left: "84%", size: 5, drift: 9, duration: 5.7, delay: 1.4 },
-];
-
 const MEME_67_MARKS = [
   { left: "6%", top: "10%", size: 22, rotate: -12 },
   { left: "16%", top: "28%", size: 26, rotate: 8 },
@@ -46,100 +36,21 @@ const MEME_67_STICKERS = [
   { text: "SHEESH", left: "80%", top: "44%", rotate: 6, size: "text-lg" },
 ];
 
-const SURFACE_WAVES = [
-  {
-    fillOpacity: 0.94,
-    strokeOpacity: 0.88,
-    height: 92,
-    yOffset: "-38%",
-    duration: 1,
-    drift: [0, -6, 4, 0],
-    bob: [0, -6, 2, -2, 0],
-    scaleY: [1, 1.04, 0.98, 1.02, 1],
-    primaryPath: [
-      "M0,116 C132,96 270,136 418,116 C606,92 752,138 922,116 C1022,104 1118,110 1200,116 L1200,180 L0,180 Z",
-      "M0,120 C148,102 286,130 434,120 C612,100 758,132 924,120 C1028,110 1122,116 1200,120 L1200,180 L0,180 Z",
-      "M0,114 C136,94 276,140 426,114 C610,90 754,142 926,114 C1024,102 1118,108 1200,114 L1200,180 L0,180 Z",
-      "M0,116 C132,96 270,136 418,116 C606,92 752,138 922,116 C1022,104 1118,110 1200,116 L1200,180 L0,180 Z",
-    ],
-    strokePath: [
-      "M0,116 C132,96 270,136 418,116 C606,92 752,138 922,116 C1022,104 1118,110 1200,116",
-      "M0,120 C148,102 286,130 434,120 C612,100 758,132 924,120 C1028,110 1122,116 1200,120",
-      "M0,114 C136,94 276,140 426,114 C610,90 754,142 926,114 C1024,102 1118,108 1200,114",
-      "M0,116 C132,96 270,136 418,116 C606,92 752,138 922,116 C1022,104 1118,110 1200,116",
-    ],
-  },
-  {
-    fillOpacity: 0.58,
-    strokeOpacity: 0.48,
-    height: 84,
-    yOffset: "-27%",
-    duration: 1.26,
-    drift: [0, 5, -3, 0],
-    bob: [0, 4, -3, 2, 0],
-    scaleY: [1.01, 0.98, 1.03, 1, 1.01],
-    primaryPath: [
-      "M0,122 C164,104 300,136 454,122 C636,102 770,132 936,122 C1038,114 1128,118 1200,122 L1200,180 L0,180 Z",
-      "M0,126 C176,110 310,130 466,126 C640,108 776,128 942,125 C1042,118 1130,122 1200,126 L1200,180 L0,180 Z",
-      "M0,120 C160,100 298,140 450,120 C634,100 772,136 938,120 C1040,112 1128,116 1200,120 L1200,180 L0,180 Z",
-      "M0,122 C164,104 300,136 454,122 C636,102 770,132 936,122 C1038,114 1128,118 1200,122 L1200,180 L0,180 Z",
-    ],
-    strokePath: [
-      "M0,122 C164,104 300,136 454,122 C636,102 770,132 936,122 C1038,114 1128,118 1200,122",
-      "M0,126 C176,110 310,130 466,126 C640,108 776,128 942,125 C1042,118 1130,122 1200,126",
-      "M0,120 C160,100 298,140 450,120 C634,100 772,136 938,120 C1040,112 1128,116 1200,120",
-      "M0,122 C164,104 300,136 454,122 C636,102 770,132 936,122 C1038,114 1128,118 1200,122",
-    ],
-  },
-  {
-    fillOpacity: 0.34,
-    strokeOpacity: 0.26,
-    height: 76,
-    yOffset: "-15%",
-    duration: 1.54,
-    drift: [0, -4, 3, 0],
-    bob: [0, -3, 3, -1, 0],
-    scaleY: [0.99, 1.02, 0.98, 1.01, 0.99],
-    primaryPath: [
-      "M0,130 C176,114 322,142 482,130 C664,114 798,136 960,130 C1054,126 1138,128 1200,130 L1200,180 L0,180 Z",
-      "M0,134 C190,120 336,138 494,134 C668,120 804,132 964,134 C1058,130 1140,132 1200,134 L1200,180 L0,180 Z",
-      "M0,128 C174,112 320,146 480,128 C662,112 798,140 960,128 C1052,124 1138,126 1200,128 L1200,180 L0,180 Z",
-      "M0,130 C176,114 322,142 482,130 C664,114 798,136 960,130 C1054,126 1138,128 1200,130 L1200,180 L0,180 Z",
-    ],
-    strokePath: [
-      "M0,130 C176,114 322,142 482,130 C664,114 798,136 960,130 C1054,126 1138,128 1200,130",
-      "M0,134 C190,120 336,138 494,134 C668,120 804,132 964,134 C1058,130 1140,132 1200,134",
-      "M0,128 C174,112 320,146 480,128 C662,112 798,140 960,128 C1052,124 1138,126 1200,128",
-      "M0,130 C176,114 322,142 482,130 C664,114 798,136 960,130 C1054,126 1138,128 1200,130",
-    ],
-  },
-];
 
 export default function Layout() {
   const { state, sessionProgress, activeTheme, toasts, removeToast, celebration, actions } =
     useAppState();
   const location = useLocation();
   const { pauseTimer, resumeTimer } = actions;
-  const isTimerPage = location.pathname === "/timer";
   const reduceMotion = state.user.preferences.reduceMotion;
   const highMotionPage = location.pathname.startsWith("/rooms");
   const cinematicMotion = !reduceMotion && highMotionPage;
   const isMeme67 = activeTheme.id === "theme_meme_67";
-  const isBreak = state.sessions.current.mode !== "focus";
-  const isRunning = state.sessions.current.status === "running";
 
   const overlayOpacity = reduceMotion ? 0.2 + sessionProgress * 0.12 : 0.22 + sessionProgress * 0.36;
-  const bloomScale = reduceMotion ? 1 : 1 + sessionProgress * 1.6;
-  const fillValue = Math.max(0, Math.min(100, sessionProgress * 100));
-  const fillHeight = `${fillValue}%`;
-  const topInset = `${100 - fillValue}%`;
-  const unfilledInsetBottom = `${fillValue}%`;
-  const bgDuration = isBreak ? 36 : 20;
-  const surfaceDuration = isBreak ? 18 : 11;
+  const bgDuration = state.sessions.current.mode !== "focus" ? 36 : 20;
+  const surfaceDuration = state.sessions.current.mode !== "focus" ? 18 : 11;
   const smoothEase = [0.42, 0, 0.2, 1];
-  const liquidDuration = isBreak ? 14 : 9;
-  const liquidSpeedMultiplier = isRunning ? 1 : 1.45;
-  const crestDuration = (isBreak ? 9 : 5.2) * liquidSpeedMultiplier;
 
   useEffect(() => {
     const onKeyDown = (event) => {
@@ -186,44 +97,39 @@ export default function Layout() {
         }}
       />
 
-      {isTimerPage && (
-        <Suspense fallback={<div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,12,24,0.2),rgba(2,8,16,0.7))]" />}>
-          <WaterFillScene progress={sessionProgress} reduceMotion={reduceMotion} />
-        </Suspense>
-      )}
+      <Suspense fallback={<div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,12,24,0.2),rgba(2,8,16,0.7))]" />}>
+        <WaterFillScene progress={sessionProgress} reduceMotion={reduceMotion} />
+      </Suspense>
 
-      {!isTimerPage && (
-        <>
-          <motion.div
-            className="mesh-overlay absolute inset-0"
-            animate={cinematicMotion ? { opacity: [overlayOpacity * 0.7, overlayOpacity, overlayOpacity * 0.7] } : {}}
-            transition={{ duration: surfaceDuration, repeat: Infinity, ease: smoothEase }}
-            style={{ opacity: overlayOpacity }}
-          />
+      <motion.div
+        className="mesh-overlay absolute inset-0"
+        animate={cinematicMotion ? { opacity: [overlayOpacity * 0.7, overlayOpacity, overlayOpacity * 0.7] } : {}}
+        transition={{ duration: surfaceDuration, repeat: Infinity, ease: smoothEase }}
+        style={{ opacity: overlayOpacity }}
+      />
 
-          <motion.div
-            className="noise-overlay absolute inset-0"
-            style={{ opacity: reduceMotion ? 0.1 : 0.1 + sessionProgress * 0.15 }}
-            animate={cinematicMotion ? { backgroundPosition: ["0px 0px", "48px 24px"] } : {}}
-            transition={{ duration: isBreak ? 24 : 14, repeat: Infinity, ease: "linear" }}
-          />
+      <motion.div
+        className="noise-overlay absolute inset-0"
+        style={{ opacity: reduceMotion ? 0.1 : 0.1 + sessionProgress * 0.15 }}
+        animate={cinematicMotion ? { backgroundPosition: ["0px 0px", "48px 24px"] } : {}}
+        transition={{ duration: state.sessions.current.mode !== "focus" ? 24 : 14, repeat: Infinity, ease: "linear" }}
+      />
 
-          <motion.div
-            className="banding-fix-overlay absolute inset-[-12%]"
-            style={{ opacity: reduceMotion ? 0.12 : 0.12 + sessionProgress * 0.08 }}
-            animate={cinematicMotion ? { backgroundPosition: ["0px 0px, 0px 0px", "180px 120px, -140px 160px"] } : {}}
-            transition={{ duration: isBreak ? 26 : 16, repeat: Infinity, ease: "linear" }}
-          />
+      <motion.div
+        className="banding-fix-overlay absolute inset-[-12%]"
+        style={{ opacity: reduceMotion ? 0.12 : 0.12 + sessionProgress * 0.08 }}
+        animate={cinematicMotion ? { backgroundPosition: ["0px 0px, 0px 0px", "180px 120px, -140px 160px"] } : {}}
+        transition={{ duration: state.sessions.current.mode !== "focus" ? 26 : 16, repeat: Infinity, ease: "linear" }}
+      />
 
-          <motion.div
-            className="grain-overlay absolute inset-[-8%]"
-            style={{ opacity: reduceMotion ? 0.07 : 0.07 + sessionProgress * 0.05 }}
-            animate={cinematicMotion ? { backgroundPosition: ["0px 0px", "120px 90px"] } : {}}
-            transition={{ duration: isBreak ? 18 : 10, repeat: Infinity, ease: "linear" }}
-          />
-        </>
-      )}
-      {!isTimerPage && isMeme67 && (
+      <motion.div
+        className="grain-overlay absolute inset-[-8%]"
+        style={{ opacity: reduceMotion ? 0.07 : 0.07 + sessionProgress * 0.05 }}
+        animate={cinematicMotion ? { backgroundPosition: ["0px 0px", "120px 90px"] } : {}}
+        transition={{ duration: state.sessions.current.mode !== "focus" ? 18 : 10, repeat: Infinity, ease: "linear" }}
+      />
+
+      {isMeme67 && (
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <motion.div
             className="absolute -left-[10%] top-[18%] font-display text-[20vw] font-black leading-none text-yellow-300/10"
@@ -314,263 +220,29 @@ export default function Layout() {
           </motion.div>
         </div>
       )}
+      <motion.div
+        className="ambient-glow pointer-events-none absolute -left-[18%] top-[-4%] h-[56vh] w-[54vw] rounded-full"
+        style={{
+          background: `radial-gradient(ellipse at center, ${activeTheme.accent}b3 0%, ${activeTheme.accent}7a 22%, ${activeTheme.accent}38 48%, ${activeTheme.accent}14 68%, transparent 84%)`,
+          filter: "blur(64px)",
+          opacity: 0.34,
+        }}
+        animate={cinematicMotion ? { x: ["0%", "14%", "0%"], y: ["0%", "-6%", "0%"] } : {}}
+        transition={{ duration: state.sessions.current.mode !== "focus" ? 28 : 18, repeat: Infinity, ease: smoothEase }}
+      />
 
-      {!isTimerPage && (
-        <>
-          <motion.div
-            className="ambient-glow pointer-events-none absolute -left-[18%] top-[-4%] h-[56vh] w-[54vw] rounded-full"
-            style={{
-              background: `radial-gradient(ellipse at center, ${activeTheme.accent}b3 0%, ${activeTheme.accent}7a 22%, ${activeTheme.accent}38 48%, ${activeTheme.accent}14 68%, transparent 84%)`,
-              filter: "blur(64px)",
-              opacity: 0.34,
-            }}
-            animate={cinematicMotion ? { x: ["0%", "14%", "0%"], y: ["0%", "-6%", "0%"] } : {}}
-            transition={{ duration: isBreak ? 28 : 18, repeat: Infinity, ease: smoothEase }}
-          />
-
-          <motion.div
-            className="ambient-glow pointer-events-none absolute -right-[24%] bottom-[-8%] h-[60vh] w-[58vw] rounded-full"
-            style={{
-              background: `radial-gradient(ellipse at center, ${activeTheme.gradient.via}c2 0%, ${activeTheme.gradient.via}8f 24%, ${activeTheme.gradient.via}42 52%, ${activeTheme.gradient.via}14 72%, transparent 86%)`,
-              filter: "blur(72px)",
-              opacity: 0.4,
-            }}
-            animate={cinematicMotion ? { x: ["0%", "-12%", "0%"], y: ["0%", "8%", "0%"] } : {}}
-            transition={{ duration: isBreak ? 34 : 20, repeat: Infinity, ease: smoothEase }}
-          />
-
-          <motion.div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background: `linear-gradient(180deg, rgba(255,255,255,0.02) 0%, ${activeTheme.accent}4a 44%, ${activeTheme.accent}cc 100%)`,
-              clipPath: `inset(${topInset} 0 0 0)`,
-              opacity: reduceMotion ? 0.28 : 0.34 + sessionProgress * 0.34,
-              mixBlendMode: "plus-lighter",
-            }}
-            animate={
-              cinematicMotion
-                ? {
-                    backgroundPosition: ["50% 0%", "50% 100%", "50% 0%"],
-                    opacity: [0.38 + sessionProgress * 0.1, 0.5 + sessionProgress * 0.16, 0.38 + sessionProgress * 0.1],
-                  }
-                : {}
-            }
-            transition={{
-              duration: isBreak ? 22 : 12,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-
-          <motion.div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              clipPath: `inset(0 0 ${unfilledInsetBottom} 0)`,
-              background:
-                "linear-gradient(165deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 40%, rgba(255,255,255,0.02) 100%)",
-              backgroundSize: "140% 140%",
-              opacity: reduceMotion ? 0.3 : 0.32,
-              mixBlendMode: "screen",
-            }}
-            animate={
-              cinematicMotion
-                ? {
-                    opacity: [0.28, 0.4, 0.28],
-                    backgroundPosition: ["0% 0%", "12% 100%", "0% 0%"],
-                  }
-                : {}
-            }
-            transition={{ duration: isBreak ? 18 : 10, repeat: Infinity, ease: smoothEase }}
-          />
-
-          <motion.div
-            className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] overflow-visible"
-            style={{ height: fillHeight }}
-            animate={
-              cinematicMotion
-                ? {
-                    x: [0, 1, -1, 0],
-                    y: [0, -1, 0, 0],
-                    rotate: [0, 0.08, -0.08, 0],
-                  }
-                : {}
-            }
-            transition={{
-              duration: liquidDuration * liquidSpeedMultiplier,
-              repeat: Infinity,
-              ease: smoothEase,
-            }}
-          >
-        <motion.div
-          className="absolute inset-0"
-          style={{
-            background: `linear-gradient(0deg, ${activeTheme.accent}f2 0%, ${activeTheme.accent}bf 38%, ${activeTheme.accent}66 75%, transparent 100%)`,
-            opacity: reduceMotion ? 0.55 : 0.65,
-          }}
-          animate={cinematicMotion ? { opacity: [0.6, 0.76, 0.6] } : {}}
-          transition={{
-            duration: liquidDuration * liquidSpeedMultiplier,
-            repeat: Infinity,
-            ease: smoothEase,
-          }}
-        />
-
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(165deg, rgba(255,255,255,0.26) 0%, rgba(255,255,255,0.12) 42%, rgba(255,255,255,0.07) 100%)",
-            backdropFilter: "blur(12px) saturate(140%)",
-            WebkitBackdropFilter: "blur(12px) saturate(140%)",
-            opacity: 0.66,
-          }}
-        />
-
-        <motion.div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(circle at 22% 78%, rgba(255,255,255,0.32) 0 2px, transparent 3px), radial-gradient(circle at 68% 88%, rgba(255,255,255,0.22) 0 1.5px, transparent 3px), radial-gradient(circle at 48% 72%, rgba(255,255,255,0.22) 0 1.8px, transparent 3px)",
-            opacity: reduceMotion ? 0.18 : 0.3,
-          }}
-          animate={cinematicMotion ? { backgroundPosition: ["0px 0px", "40px -92px"] } : {}}
-          transition={{
-            duration: (isBreak ? 16 : 8) * liquidSpeedMultiplier,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-        />
-
-        {SURFACE_WAVES.map((wave, index) => (
-          <motion.svg
-            key={`surface-wave-${index}`}
-            className="absolute left-0 top-0 w-full"
-            viewBox="0 0 1200 180"
-            preserveAspectRatio="none"
-            style={{
-              height: `${wave.height}px`,
-              transform: `translateY(${wave.yOffset})`,
-              opacity: reduceMotion ? wave.fillOpacity * 0.9 : wave.fillOpacity,
-              filter: index === 0 ? "none" : "blur(0.4px)",
-            }}
-            animate={
-              cinematicMotion
-                ? {
-                    x: wave.drift,
-                    y: wave.bob,
-                    scaleY: wave.scaleY,
-                  }
-                : {}
-            }
-            transition={{
-              duration: crestDuration * wave.duration,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          >
-            <motion.path
-              d={wave.primaryPath[0]}
-              fill={`${activeTheme.accent}${index === 0 ? "ee" : index === 1 ? "a6" : "54"}`}
-              animate={cinematicMotion ? { d: wave.primaryPath } : {}}
-              transition={{
-                duration: crestDuration * wave.duration,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-            <motion.path
-              d={wave.strokePath[0]}
-              stroke={`rgba(255,255,255,${wave.strokeOpacity})`}
-              strokeWidth={index === 0 ? "2.4" : index === 1 ? "1.7" : "1.2"}
-              fill="none"
-              animate={
-                cinematicMotion
-                  ? {
-                      d: wave.strokePath,
-                      opacity: [wave.strokeOpacity * 0.72, wave.strokeOpacity, wave.strokeOpacity * 0.72],
-                    }
-                  : {}
-              }
-              transition={{
-                duration: crestDuration * (wave.duration + 0.02),
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-          </motion.svg>
-        ))}
-
-        <motion.div
-          className="absolute inset-x-0 top-0"
-          style={{
-            height: "24px",
-            transform: "translateY(-26%)",
-            background:
-              "linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.22) 45%, transparent 100%)",
-            opacity: reduceMotion ? 0.38 : 0.52,
-            filter: "blur(2px)",
-          }}
-          animate={cinematicMotion ? { opacity: [0.44, 0.62, 0.44] } : {}}
-          transition={{ duration: (isBreak ? 6.4 : 3.2) * liquidSpeedMultiplier, repeat: Infinity, ease: "easeInOut" }}
-        />
-
-        {cinematicMotion &&
-          LIQUID_BUBBLES.map((bubble, index) => (
-            <motion.span
-              key={`bubble-${index}`}
-              className="absolute bottom-0 rounded-full bg-white/65"
-              style={{ left: bubble.left, width: bubble.size, height: bubble.size }}
-              animate={{
-                y: [0, -160 - index * 16],
-                x: [0, bubble.drift, 0],
-                opacity: [0, 0.55, 0],
-                scale: [0.6, 1, 1.12],
-              }}
-              transition={{
-                duration: bubble.duration * liquidSpeedMultiplier,
-                delay: bubble.delay,
-                repeat: Infinity,
-                ease: "easeOut",
-              }}
-            />
-          ))}
-          </motion.div>
-
-          <motion.div
-            className="ambient-glow pointer-events-none absolute -left-[28%] top-[-8%] h-[74vh] w-[96vw] rounded-full"
-            style={{
-              background: `radial-gradient(ellipse at center, ${activeTheme.accent}9e 0%, ${activeTheme.accent}66 18%, ${activeTheme.accent}2e 42%, ${activeTheme.accent}12 64%, transparent 84%)`,
-              filter: "blur(86px)",
-              opacity: 0.18 + sessionProgress * 0.22,
-            }}
-            animate={
-              cinematicMotion
-                ? { x: ["0%", "120%", "0%"], y: ["0%", "24%", "0%"], scale: [1, bloomScale, 1] }
-                : { x: "10%" }
-            }
-            transition={{ duration: isBreak ? 28 : 16, repeat: Infinity, ease: smoothEase }}
-          />
-        </>
-      )}
+      <motion.div
+        className="ambient-glow pointer-events-none absolute -right-[24%] bottom-[-8%] h-[60vh] w-[58vw] rounded-full"
+        style={{
+          background: `radial-gradient(ellipse at center, ${activeTheme.gradient.via}c2 0%, ${activeTheme.gradient.via}8f 24%, ${activeTheme.gradient.via}42 52%, ${activeTheme.gradient.via}14 72%, transparent 86%)`,
+          filter: "blur(72px)",
+          opacity: 0.4,
+        }}
+        animate={cinematicMotion ? { x: ["0%", "-12%", "0%"], y: ["0%", "8%", "0%"] } : {}}
+        transition={{ duration: state.sessions.current.mode !== "focus" ? 34 : 20, repeat: Infinity, ease: smoothEase }}
+      />
 
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/15 via-transparent to-black/40" />
-
-      {!isTimerPage && (
-        <div className="pointer-events-none absolute right-3 top-1/2 z-10 hidden -translate-y-1/2 md:block">
-        <div className="glass flex h-44 w-9 items-end rounded-full border border-white/30 p-1">
-          <motion.div
-            className="w-full rounded-full"
-            style={{
-              height: fillHeight,
-              background: `linear-gradient(180deg, ${activeTheme.accent}66 0%, ${activeTheme.accent}ee 100%)`,
-            }}
-            animate={cinematicMotion ? { opacity: [0.85, 1, 0.85] } : {}}
-            transition={{ duration: isBreak ? 8 : 5, repeat: Infinity, ease: smoothEase }}
-          />
-        </div>
-        <p className="mt-2 text-center text-xs font-semibold text-white/90">{Math.round(fillValue)}%</p>
-        </div>
-      )}
 
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl items-start gap-4 p-4 pb-32 md:pb-6">
         <Sidebar />
