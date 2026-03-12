@@ -1,11 +1,13 @@
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { useAppState } from "../context/AppStateProvider";
 import CelebrationOverlay from "./CelebrationOverlay";
 import Sidebar from "./Sidebar";
 import Toast from "./Toast";
 import TopBar from "./TopBar";
+
+const WaterFillScene = lazy(() => import("./WaterFillScene"));
 
 const LIQUID_BUBBLES = [
   { left: "8%", size: 5, drift: 10, duration: 5.5, delay: 0.2 },
@@ -183,6 +185,12 @@ export default function Layout() {
           ease: "easeInOut",
         }}
       />
+
+      {isTimerPage && (
+        <Suspense fallback={<div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,12,24,0.2),rgba(2,8,16,0.7))]" />}>
+          <WaterFillScene progress={sessionProgress} reduceMotion={reduceMotion} />
+        </Suspense>
+      )}
 
       {!isTimerPage && (
         <>

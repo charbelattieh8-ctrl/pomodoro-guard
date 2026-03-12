@@ -61,20 +61,41 @@ export function AppStateProvider({ children }) {
   const syncedCloudSessionIdsRef = useRef(new Set());
   const audioCtxRef = useRef(null);
   const audioUnlockedRef = useRef(false);
+  const nowTickerRef = useRef(0);
 
   useEffect(() => {
     saveState(state);
     writeCache(state);
   }, [state]);
 
+  const stopNowTicker = useCallback(() => {
+    if (!nowTickerRef.current) return;
+    window.cancelAnimationFrame(nowTickerRef.current);
+    nowTickerRef.current = 0;
+  }, []);
+
   useEffect(() => {
-    const isRunning = state.sessions.current.status === "running";
-    const intervalMs = isRunning ? 500 : 2500;
-    const interval = window.setInterval(() => setNow(Date.now()), intervalMs);
-    return () => {
-      clearInterval(interval);
+    stopNowTicker();
+    setNow(Date.now());
+
+    if (state.sessions.current.status !== "running") {
+      return stopNowTicker;
+    }
+
+    let active = true;
+    const tick = () => {
+      if (!active) return;
+      setNow(Date.now());
+      nowTickerRef.current = window.requestAnimationFrame(tick);
     };
-  }, [state.sessions.current.status]);
+
+    nowTickerRef.current = window.requestAnimationFrame(tick);
+
+    return () => {
+      active = false;
+      stopNowTicker();
+    };
+  }, [state.sessions.current.status, stopNowTicker]);
 
   const addToast = useCallback((message, type = "info") => {
     const id = uid();
@@ -357,6 +378,8 @@ export function AppStateProvider({ children }) {
 
   const startTimer = useCallback(() => {
     ensureAudioReady();
+    const startAt = Date.now();
+    setNow(startAt);
     setState((prev) => {
       const current = prev.sessions.current;
       if (current.status === "running") return prev;
@@ -369,7 +392,6 @@ export function AppStateProvider({ children }) {
         Number.isFinite(Number(current.totalMs)) && Number(current.totalMs) > 0
           ? Number(current.totalMs)
           : Math.max(durationMs, defaultModeMs);
-      const startAt = Date.now();
       return {
         ...prev,
         sessions: {
@@ -389,6 +411,8 @@ export function AppStateProvider({ children }) {
   }, [ensureAudioReady]);
 
   const pauseTimer = useCallback(() => {
+    const pauseAt = Date.now();
+    setNow(pauseAt);
     setState((prev) => {
       const current = prev.sessions.current;
       if (current.status !== "running") return prev;
@@ -399,7 +423,7 @@ export function AppStateProvider({ children }) {
           current: {
             ...current,
             status: "paused",
-            remainingMs: calcRemainingMs(current),
+            remainingMs: calcRemainingMs(current, pauseAt),
             endsAt: null,
           },
         },
@@ -409,10 +433,11 @@ export function AppStateProvider({ children }) {
 
   const resumeTimer = useCallback(() => {
     ensureAudioReady();
+    const startAt = Date.now();
+    setNow(startAt);
     setState((prev) => {
       const current = prev.sessions.current;
       if (current.status !== "paused") return prev;
-      const startAt = Date.now();
       return {
         ...prev,
         sessions: {
@@ -430,6 +455,8 @@ export function AppStateProvider({ children }) {
   }, [ensureAudioReady]);
 
   const resetTimer = useCallback(() => {
+    const resetAt = Date.now();
+    setNow(resetAt);
     setState((prev) => {
       const current = prev.sessions.current;
       let history = prev.sessions.history;
@@ -439,9 +466,9 @@ export function AppStateProvider({ children }) {
           id: current.sessionId,
           mode: current.mode,
           startedAt: current.startedAt,
-          endedAt: Date.now(),
+          endedAt: resetAt,
           plannedMinutes,
-          actualMinutes: Math.floor((Date.now() - current.startedAt) / 60000),
+          actualMinutes: Math.floor((resetAt - current.startedAt) / 60000),
           completed: false,
         });
       }

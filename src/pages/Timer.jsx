@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Play, Pause, RotateCcw, SkipForward, Plus } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -7,8 +7,6 @@ import PrimaryButton from "../components/PrimaryButton";
 import ProgressRing from "../components/ProgressRing";
 import { useAppState } from "../context/AppStateProvider";
 import { formatMs } from "../lib/utils";
-
-const WaterFillScene = lazy(() => import("../components/WaterFillScene"));
 
 const modeLabel = {
   focus: "Focus",
@@ -20,7 +18,6 @@ export default function TimerPage() {
   const { state, actions, sessionProgress, currentRemainingMs } = useAppState();
   const { current } = state.sessions;
   const { displayFormat = "minutesSeconds" } = state.user.timer;
-  const reduceMotion = state.user.preferences.reduceMotion;
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [ringSize, setRingSize] = useState(320);
@@ -63,12 +60,8 @@ export default function TimerPage() {
     <motion.div
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
-      className="relative min-h-[72vh] overflow-hidden"
+      className="relative min-h-[72vh]"
     >
-      <Suspense fallback={<div className="absolute inset-0 rounded-[2rem] bg-[linear-gradient(180deg,rgba(4,12,24,0.26),rgba(2,8,16,0.58))]" />}>
-        <WaterFillScene progress={sessionProgress} reduceMotion={reduceMotion} />
-      </Suspense>
-
       <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center justify-center gap-5 pt-6 md:pt-10">
         <GlassCard className="w-full max-w-xl p-6 md:p-10">
           <div className="grid place-items-center">
