@@ -47,45 +47,69 @@ const MEME_67_STICKERS = [
 const SURFACE_WAVES = [
   {
     fillOpacity: 0.94,
-    strokeOpacity: 0.78,
-    height: 96,
-    yOffset: "-42%",
-    duration: 1.35,
-    drift: ["0%", "-33.333%"],
-    bob: [0, -4, 2, 0],
-    scaleY: [1, 1.04, 0.98, 1],
-    primaryPath:
-      "M0,116 C96,96 188,100 288,116 C394,132 498,138 602,118 C704,99 808,96 912,114 C1016,132 1112,136 1200,118 L1200,180 L0,180 Z",
-    strokePath:
-      "M0,116 C96,96 188,100 288,116 C394,132 498,138 602,118 C704,99 808,96 912,114 C1016,132 1112,136 1200,118",
+    strokeOpacity: 0.88,
+    height: 92,
+    yOffset: "-38%",
+    duration: 1,
+    drift: [0, -6, 4, 0],
+    bob: [0, -6, 2, -2, 0],
+    scaleY: [1, 1.04, 0.98, 1.02, 1],
+    primaryPath: [
+      "M0,116 C132,96 270,136 418,116 C606,92 752,138 922,116 C1022,104 1118,110 1200,116 L1200,180 L0,180 Z",
+      "M0,120 C148,102 286,130 434,120 C612,100 758,132 924,120 C1028,110 1122,116 1200,120 L1200,180 L0,180 Z",
+      "M0,114 C136,94 276,140 426,114 C610,90 754,142 926,114 C1024,102 1118,108 1200,114 L1200,180 L0,180 Z",
+      "M0,116 C132,96 270,136 418,116 C606,92 752,138 922,116 C1022,104 1118,110 1200,116 L1200,180 L0,180 Z",
+    ],
+    strokePath: [
+      "M0,116 C132,96 270,136 418,116 C606,92 752,138 922,116 C1022,104 1118,110 1200,116",
+      "M0,120 C148,102 286,130 434,120 C612,100 758,132 924,120 C1028,110 1122,116 1200,120",
+      "M0,114 C136,94 276,140 426,114 C610,90 754,142 926,114 C1024,102 1118,108 1200,114",
+      "M0,116 C132,96 270,136 418,116 C606,92 752,138 922,116 C1022,104 1118,110 1200,116",
+    ],
   },
   {
     fillOpacity: 0.58,
-    strokeOpacity: 0.44,
+    strokeOpacity: 0.48,
     height: 84,
-    yOffset: "-28%",
-    duration: 1.9,
-    drift: ["-8%", "-41.333%"],
-    bob: [0, 3, -2, 0],
-    scaleY: [1.01, 0.97, 1.03, 1.01],
-    primaryPath:
-      "M0,122 C84,110 176,98 270,110 C374,124 470,138 578,126 C682,114 786,100 890,110 C1004,122 1106,136 1200,126 L1200,180 L0,180 Z",
-    strokePath:
-      "M0,122 C84,110 176,98 270,110 C374,124 470,138 578,126 C682,114 786,100 890,110 C1004,122 1106,136 1200,126",
+    yOffset: "-27%",
+    duration: 1.26,
+    drift: [0, 5, -3, 0],
+    bob: [0, 4, -3, 2, 0],
+    scaleY: [1.01, 0.98, 1.03, 1, 1.01],
+    primaryPath: [
+      "M0,122 C164,104 300,136 454,122 C636,102 770,132 936,122 C1038,114 1128,118 1200,122 L1200,180 L0,180 Z",
+      "M0,126 C176,110 310,130 466,126 C640,108 776,128 942,125 C1042,118 1130,122 1200,126 L1200,180 L0,180 Z",
+      "M0,120 C160,100 298,140 450,120 C634,100 772,136 938,120 C1040,112 1128,116 1200,120 L1200,180 L0,180 Z",
+      "M0,122 C164,104 300,136 454,122 C636,102 770,132 936,122 C1038,114 1128,118 1200,122 L1200,180 L0,180 Z",
+    ],
+    strokePath: [
+      "M0,122 C164,104 300,136 454,122 C636,102 770,132 936,122 C1038,114 1128,118 1200,122",
+      "M0,126 C176,110 310,130 466,126 C640,108 776,128 942,125 C1042,118 1130,122 1200,126",
+      "M0,120 C160,100 298,140 450,120 C634,100 772,136 938,120 C1040,112 1128,116 1200,120",
+      "M0,122 C164,104 300,136 454,122 C636,102 770,132 936,122 C1038,114 1128,118 1200,122",
+    ],
   },
   {
     fillOpacity: 0.34,
-    strokeOpacity: 0.24,
+    strokeOpacity: 0.26,
     height: 76,
-    yOffset: "-16%",
-    duration: 2.45,
-    drift: ["-16%", "-49.333%"],
-    bob: [0, -2, 3, 0],
-    scaleY: [0.99, 1.03, 0.98, 0.99],
-    primaryPath:
-      "M0,132 C102,126 194,112 292,118 C392,124 486,138 592,134 C696,130 790,116 892,118 C996,120 1096,134 1200,132 L1200,180 L0,180 Z",
-    strokePath:
-      "M0,132 C102,126 194,112 292,118 C392,124 486,138 592,134 C696,130 790,116 892,118 C996,120 1096,134 1200,132",
+    yOffset: "-15%",
+    duration: 1.54,
+    drift: [0, -4, 3, 0],
+    bob: [0, -3, 3, -1, 0],
+    scaleY: [0.99, 1.02, 0.98, 1.01, 0.99],
+    primaryPath: [
+      "M0,130 C176,114 322,142 482,130 C664,114 798,136 960,130 C1054,126 1138,128 1200,130 L1200,180 L0,180 Z",
+      "M0,134 C190,120 336,138 494,134 C668,120 804,132 964,134 C1058,130 1140,132 1200,134 L1200,180 L0,180 Z",
+      "M0,128 C174,112 320,146 480,128 C662,112 798,140 960,128 C1052,124 1138,126 1200,128 L1200,180 L0,180 Z",
+      "M0,130 C176,114 322,142 482,130 C664,114 798,136 960,130 C1054,126 1138,128 1200,130 L1200,180 L0,180 Z",
+    ],
+    strokePath: [
+      "M0,130 C176,114 322,142 482,130 C664,114 798,136 960,130 C1054,126 1138,128 1200,130",
+      "M0,134 C190,120 336,138 494,134 C668,120 804,132 964,134 C1058,130 1140,132 1200,134",
+      "M0,128 C174,112 320,146 480,128 C662,112 798,140 960,128 C1052,124 1138,126 1200,128",
+      "M0,130 C176,114 322,142 482,130 C664,114 798,136 960,130 C1054,126 1138,128 1200,130",
+    ],
   },
 ];
 
@@ -407,14 +431,13 @@ export default function Layout() {
           <motion.svg
             key={`surface-wave-${index}`}
             className="absolute left-0 top-0 w-full"
-            viewBox="0 0 3600 180"
+            viewBox="0 0 1200 180"
             preserveAspectRatio="none"
             style={{
-              width: "300%",
-              left: "-100%",
               height: `${wave.height}px`,
               transform: `translateY(${wave.yOffset})`,
               opacity: reduceMotion ? wave.fillOpacity * 0.9 : wave.fillOpacity,
+              filter: index === 0 ? "none" : "blur(0.4px)",
             }}
             animate={
               cinematicMotion
@@ -431,34 +454,35 @@ export default function Layout() {
               ease: "easeInOut",
             }}
           >
-            <defs>
-              <path id={`surface-fill-${index}`} d={wave.primaryPath} />
-              <path id={`surface-stroke-${index}`} d={wave.strokePath} />
-            </defs>
-            {[-1200, 0, 1200].map((offset) => (
-              <use
-                key={`fill-${index}-${offset}`}
-                href={`#surface-fill-${index}`}
-                x={offset}
-                fill={`${activeTheme.accent}${index === 0 ? "ee" : index === 1 ? "a8" : "66"}`}
-              />
-            ))}
-            {[-1200, 0, 1200].map((offset) => (
-              <motion.use
-                key={`stroke-${index}-${offset}`}
-                href={`#surface-stroke-${index}`}
-                x={offset}
-                stroke={`rgba(255,255,255,${wave.strokeOpacity})`}
-                strokeWidth={index === 0 ? "2.2" : index === 1 ? "1.6" : "1.2"}
-                fill="none"
-                animate={cinematicMotion ? { opacity: [wave.strokeOpacity * 0.72, wave.strokeOpacity, wave.strokeOpacity * 0.72] } : {}}
-                transition={{
-                  duration: crestDuration * (wave.duration + 0.05),
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              />
-            ))}
+            <motion.path
+              d={wave.primaryPath[0]}
+              fill={`${activeTheme.accent}${index === 0 ? "ee" : index === 1 ? "a6" : "54"}`}
+              animate={cinematicMotion ? { d: wave.primaryPath } : {}}
+              transition={{
+                duration: crestDuration * wave.duration,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+            <motion.path
+              d={wave.strokePath[0]}
+              stroke={`rgba(255,255,255,${wave.strokeOpacity})`}
+              strokeWidth={index === 0 ? "2.4" : index === 1 ? "1.7" : "1.2"}
+              fill="none"
+              animate={
+                cinematicMotion
+                  ? {
+                      d: wave.strokePath,
+                      opacity: [wave.strokeOpacity * 0.72, wave.strokeOpacity, wave.strokeOpacity * 0.72],
+                    }
+                  : {}
+              }
+              transition={{
+                duration: crestDuration * (wave.duration + 0.02),
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
           </motion.svg>
         ))}
 
