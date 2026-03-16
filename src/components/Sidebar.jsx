@@ -74,24 +74,28 @@ export default function Sidebar() {
         </nav>
       </aside>
 
-      <nav className="glass fixed bottom-3 left-1/2 z-30 flex w-[calc(100%-1rem)] max-w-md -translate-x-1/2 items-center justify-around rounded-2xl px-2 py-2 shadow-glow ring-1 ring-white/20 md:hidden">
-        {navItems.slice(0, 5).map((item) => {
+      <nav className="glass fixed bottom-2 left-1/2 z-30 flex w-[calc(100%-0.75rem)] max-w-3xl -translate-x-1/2 rounded-2xl px-2 py-2 shadow-glow ring-1 ring-white/20 md:hidden">
+        <div className="mobile-nav-scroll flex w-full gap-1 overflow-x-auto px-1 py-1">
+          {navItems.map((item) => {
           const Icon = item.icon;
           return (
             <NavLink
               key={item.to}
               to={item.to}
               className={({ isActive }) =>
-                `flex min-h-11 min-w-11 items-center justify-center rounded-xl transition ${
+                `flex min-w-[72px] shrink-0 flex-col items-center justify-center gap-1 rounded-xl px-2 py-2 text-[11px] font-medium transition ${
                   isActive ? "bg-white/12 text-white" : "text-slate-300"
                 }`
               }
               end={item.to === "/"}
+              title={item.label}
             >
-              <Icon size={19} />
+              <Icon size={18} />
+              <span className="whitespace-nowrap leading-none">{item.label}</span>
             </NavLink>
           );
-        })}
+          })}
+        </div>
       </nav>
     </>
   );

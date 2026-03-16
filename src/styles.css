@@ -17,12 +17,18 @@ body,
 html {
   overflow-x: hidden;
   -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
   @apply m-0 font-sans text-slate-100 antialiased;
   background: #020617;
   overflow-x: hidden;
+}
+
+#root {
+  position: relative;
+  isolation: isolate;
 }
 
 .glass {
@@ -110,6 +116,15 @@ body {
 .ambient-glow {
   will-change: transform, opacity;
   transform: translateZ(0) scale(1.12);
+}
+
+.mobile-nav-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.mobile-nav-scroll::-webkit-scrollbar {
+  display: none;
 }
 
 .timer-water-backdrop {
@@ -269,6 +284,13 @@ body {
 @media (max-width: 900px) {
   .ambient-glow {
     opacity: 0.24 !important;
+  }
+}
+
+@media (max-width: 767px) {
+  html,
+  body {
+    overflow-y: auto;
   }
 }
 

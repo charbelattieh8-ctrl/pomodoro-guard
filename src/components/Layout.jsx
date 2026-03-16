@@ -78,7 +78,7 @@ export default function Layout() {
   return (
     <div className="relative min-h-screen overflow-x-hidden">
       <motion.div
-        className="absolute inset-0"
+        className="fixed inset-0"
         style={{
           background: `linear-gradient(130deg, ${activeTheme.gradient.from}, ${activeTheme.gradient.via}, ${activeTheme.gradient.to})`,
           backgroundSize: "180% 180%",
@@ -97,40 +97,40 @@ export default function Layout() {
         }}
       />
 
-      <Suspense fallback={<div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,12,24,0.2),rgba(2,8,16,0.7))]" />}>
+      <Suspense fallback={<div className="fixed inset-0 bg-[linear-gradient(180deg,rgba(4,12,24,0.2),rgba(2,8,16,0.7))]" />}>
         <WaterFillScene progress={sessionProgress} reduceMotion={reduceMotion} />
       </Suspense>
 
       <motion.div
-        className="mesh-overlay absolute inset-0"
+        className="mesh-overlay fixed inset-0"
         animate={cinematicMotion ? { opacity: [overlayOpacity * 0.7, overlayOpacity, overlayOpacity * 0.7] } : {}}
         transition={{ duration: surfaceDuration, repeat: Infinity, ease: smoothEase }}
         style={{ opacity: overlayOpacity }}
       />
 
       <motion.div
-        className="noise-overlay absolute inset-0"
+        className="noise-overlay fixed inset-0"
         style={{ opacity: reduceMotion ? 0.1 : 0.1 + sessionProgress * 0.15 }}
         animate={cinematicMotion ? { backgroundPosition: ["0px 0px", "48px 24px"] } : {}}
         transition={{ duration: state.sessions.current.mode !== "focus" ? 24 : 14, repeat: Infinity, ease: "linear" }}
       />
 
       <motion.div
-        className="banding-fix-overlay absolute inset-[-12%]"
+        className="banding-fix-overlay fixed inset-[-12%]"
         style={{ opacity: reduceMotion ? 0.12 : 0.12 + sessionProgress * 0.08 }}
         animate={cinematicMotion ? { backgroundPosition: ["0px 0px, 0px 0px", "180px 120px, -140px 160px"] } : {}}
         transition={{ duration: state.sessions.current.mode !== "focus" ? 26 : 16, repeat: Infinity, ease: "linear" }}
       />
 
       <motion.div
-        className="grain-overlay absolute inset-[-8%]"
+        className="grain-overlay fixed inset-[-8%]"
         style={{ opacity: reduceMotion ? 0.07 : 0.07 + sessionProgress * 0.05 }}
         animate={cinematicMotion ? { backgroundPosition: ["0px 0px", "120px 90px"] } : {}}
         transition={{ duration: state.sessions.current.mode !== "focus" ? 18 : 10, repeat: Infinity, ease: "linear" }}
       />
 
       {isMeme67 && (
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="pointer-events-none fixed inset-0 overflow-hidden">
           <motion.div
             className="absolute -left-[10%] top-[18%] font-display text-[20vw] font-black leading-none text-yellow-300/10"
             style={{ transform: "rotate(-10deg)" }}
@@ -221,7 +221,7 @@ export default function Layout() {
         </div>
       )}
       <motion.div
-        className="ambient-glow pointer-events-none absolute -left-[18%] top-[-4%] h-[56vh] w-[54vw] rounded-full"
+        className="ambient-glow pointer-events-none fixed -left-[18%] top-[-4%] h-[56vh] w-[54vw] rounded-full"
         style={{
           background: `radial-gradient(ellipse at center, ${activeTheme.accent}b3 0%, ${activeTheme.accent}7a 22%, ${activeTheme.accent}38 48%, ${activeTheme.accent}14 68%, transparent 84%)`,
           filter: "blur(64px)",
@@ -232,7 +232,7 @@ export default function Layout() {
       />
 
       <motion.div
-        className="ambient-glow pointer-events-none absolute -right-[24%] bottom-[-8%] h-[60vh] w-[58vw] rounded-full"
+        className="ambient-glow pointer-events-none fixed -right-[24%] bottom-[-8%] h-[60vh] w-[58vw] rounded-full"
         style={{
           background: `radial-gradient(ellipse at center, ${activeTheme.gradient.via}c2 0%, ${activeTheme.gradient.via}8f 24%, ${activeTheme.gradient.via}42 52%, ${activeTheme.gradient.via}14 72%, transparent 86%)`,
           filter: "blur(72px)",
@@ -242,9 +242,9 @@ export default function Layout() {
         transition={{ duration: state.sessions.current.mode !== "focus" ? 34 : 20, repeat: Infinity, ease: smoothEase }}
       />
 
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/15 via-transparent to-black/40" />
+      <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-black/15 via-transparent to-black/40" />
 
-      <div className="relative z-10 mx-auto flex min-h-[100dvh] w-full max-w-7xl flex-col gap-3 px-3 pb-28 pt-3 sm:px-4 sm:pb-32 md:min-h-screen md:flex-row md:items-start md:gap-4 md:p-4 md:pb-6">
+      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col gap-3 px-3 pb-32 pt-3 sm:px-4 sm:pb-36 md:min-h-screen md:flex-row md:items-start md:gap-4 md:p-4 md:pb-6">
         <Sidebar />
         <main className="min-w-0 flex-1">
           <TopBar />

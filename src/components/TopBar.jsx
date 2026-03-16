@@ -45,7 +45,7 @@ export default function TopBar() {
 
   if (isTimerPage) {
     return (
-      <div className="sticky top-3 z-20 mb-4 flex flex-col gap-3 md:top-4 md:flex-row md:items-center md:justify-between">
+      <div className="z-20 mb-4 flex flex-col gap-3 md:sticky md:top-4 md:flex-row md:items-center md:justify-between">
         <GlassCard className="w-full px-4 py-3 md:w-auto">{identity}</GlassCard>
         <GlassCard className="w-full px-4 py-3 md:w-auto">
           <div className="flex justify-end">{controls}</div>
@@ -55,7 +55,7 @@ export default function TopBar() {
   }
 
   return (
-    <header className="glass sticky top-3 z-20 mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl px-4 py-3 shadow-glow ring-1 ring-white/20 md:top-4 md:flex-nowrap">
+    <header className="glass z-20 mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl px-4 py-3 shadow-glow ring-1 ring-white/20 md:sticky md:top-4 md:flex-nowrap">
       {identity}
       {controls}
     </header>
