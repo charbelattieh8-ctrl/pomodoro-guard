@@ -159,7 +159,7 @@ export default function WaterFillScene({ progress, reduceMotion = false, classNa
   const fillPercent = clamp01(progress);
 
   return (
-    <div className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`.trim()}>
+    <div className={`pointer-events-none fixed inset-0 overflow-hidden ${className}`.trim()}>
       <div className="timer-water-backdrop absolute inset-0" />
       <div className="timer-water-vignette absolute inset-0" />
       <WaterBody fillPercent={fillPercent} reduceMotion={reduceMotion} />

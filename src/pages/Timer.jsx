@@ -27,8 +27,13 @@ export default function TimerPage() {
     const applySize = () => {
       const viewportWidth = window.innerWidth;
       const viewportHeight = window.visualViewport?.height || window.innerHeight;
-      const horizontalPadding = viewportWidth < 640 ? 56 : viewportWidth < 768 ? 88 : 140;
-      const verticalAllowance = viewportHeight < 760 ? viewportHeight * 0.38 : viewportHeight * 0.46;
+      const isLandscapeViewport = viewportWidth > viewportHeight;
+      const horizontalPadding = viewportWidth < 640 ? 44 : viewportWidth < 768 ? 72 : 140;
+      const verticalAllowance = isLandscapeViewport
+        ? viewportHeight * 0.56
+        : viewportHeight < 760
+          ? viewportHeight * 0.38
+          : viewportHeight * 0.46;
       const maxSize = isHoursFormat ? 292 : 320;
       const minSize = isHoursFormat ? 210 : 228;
       const nextSize = Math.max(minSize, Math.min(maxSize, viewportWidth - horizontalPadding, verticalAllowance));
@@ -56,9 +61,9 @@ export default function TimerPage() {
     <motion.div
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
-      className="relative min-h-[calc(100dvh-11rem)] md:min-h-[72vh]"
+      className="relative min-h-[calc(100dvh-10rem)] md:min-h-[72vh] landscape:min-h-[calc(100dvh-7rem)]"
     >
-      <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center justify-center gap-4 pt-2 sm:gap-5 sm:pt-4 md:pt-8">
+      <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center justify-center gap-4 pt-2 sm:gap-5 sm:pt-4 md:pt-8 landscape:gap-3 landscape:pt-1">
         <GlassCard className="w-full max-w-xl p-4 sm:p-6 md:p-10">
           <div className="grid place-items-center">
             <ProgressRing progress={sessionProgress} size={ringSize}>
@@ -71,7 +76,7 @@ export default function TimerPage() {
           </div>
         </GlassCard>
 
-        <div className="flex w-full max-w-xl flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+        <div className="flex w-full max-w-xl flex-col gap-3 landscape:gap-2 lg:flex-row lg:items-start lg:justify-between">
           <GlassCard className="w-full p-3 sm:p-4 lg:w-auto">
             <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:flex lg:flex-wrap lg:justify-center">
               {current.status !== "running" && (
