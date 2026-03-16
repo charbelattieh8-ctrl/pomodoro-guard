@@ -25,17 +25,13 @@ export default function TimerPage() {
 
   useEffect(() => {
     const applySize = () => {
-      const nextSize = isHoursFormat
-        ? window.innerWidth < 480
-          ? 220
-          : window.innerWidth < 768
-            ? 252
-            : 292
-        : window.innerWidth < 480
-          ? 240
-          : window.innerWidth < 768
-            ? 280
-            : 320;
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.visualViewport?.height || window.innerHeight;
+      const horizontalPadding = viewportWidth < 640 ? 56 : viewportWidth < 768 ? 88 : 140;
+      const verticalAllowance = viewportHeight < 760 ? viewportHeight * 0.38 : viewportHeight * 0.46;
+      const maxSize = isHoursFormat ? 292 : 320;
+      const minSize = isHoursFormat ? 210 : 228;
+      const nextSize = Math.max(minSize, Math.min(maxSize, viewportWidth - horizontalPadding, verticalAllowance));
       setRingSize(nextSize);
     };
     applySize();
@@ -60,14 +56,14 @@ export default function TimerPage() {
     <motion.div
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
-      className="relative min-h-[72vh]"
+      className="relative min-h-[calc(100dvh-11rem)] md:min-h-[72vh]"
     >
-      <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center justify-center gap-5 pt-6 md:pt-10">
-        <GlassCard className="w-full max-w-xl p-6 md:p-10">
+      <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center justify-center gap-4 pt-2 sm:gap-5 sm:pt-4 md:pt-8">
+        <GlassCard className="w-full max-w-xl p-4 sm:p-6 md:p-10">
           <div className="grid place-items-center">
             <ProgressRing progress={sessionProgress} size={ringSize}>
               <div className="text-center">
-                <p className="text-sm uppercase tracking-[0.2em] text-slate-200">{modeLabel[current.mode]}</p>
+                <p className="text-[11px] uppercase tracking-[0.2em] text-slate-200 sm:text-sm">{modeLabel[current.mode]}</p>
                 <p className={timerTextClass}>{formatMs(currentRemainingMs, displayFormat)}</p>
                 <p className="mt-2 text-xs text-slate-300">Cycle {current.cycleCount}</p>
               </div>
@@ -75,9 +71,9 @@ export default function TimerPage() {
           </div>
         </GlassCard>
 
-        <div className="flex w-full max-w-xl flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-          <GlassCard className="w-full p-4 sm:w-auto">
-            <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:justify-center">
+        <div className="flex w-full max-w-xl flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+          <GlassCard className="w-full p-3 sm:p-4 lg:w-auto">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:flex lg:flex-wrap lg:justify-center">
               {current.status !== "running" && (
                 <PrimaryButton
                   className="flex items-center justify-center gap-2"
@@ -104,8 +100,8 @@ export default function TimerPage() {
             </div>
           </GlassCard>
 
-          <GlassCard className="w-full p-4 sm:w-auto">
-            <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:justify-center">
+          <GlassCard className="w-full p-3 sm:p-4 lg:w-auto">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:flex lg:flex-wrap lg:justify-center">
               <PrimaryButton
                 className="flex items-center justify-center gap-2"
                 variant="ghost"

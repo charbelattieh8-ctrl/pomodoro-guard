@@ -14,9 +14,15 @@ body,
   min-height: 100%;
 }
 
+html {
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   @apply m-0 font-sans text-slate-100 antialiased;
   background: #020617;
+  overflow-x: hidden;
 }
 
 .glass {
@@ -181,24 +187,26 @@ body {
 
 .timer-water-surface-window {
   position: absolute;
-  left: -6%;
-  top: -38px;
-  width: 112%;
+  left: -8%;
+  top: -40px;
+  width: 116%;
   height: clamp(90px, 12vw, 114px);
   overflow: visible;
   filter: drop-shadow(0 6px 10px rgba(80, 190, 245, 0.12));
   will-change: transform;
   transform: translateZ(0);
+  contain: paint;
 }
 
 .timer-water-surface-svg {
   position: absolute;
-  left: 0;
+  left: -2px;
   top: 0;
-  width: 200%;
+  width: calc(200% + 4px);
   height: 100%;
   will-change: transform;
   transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .timer-water-wave-front {
@@ -251,8 +259,16 @@ body {
   }
 
   .timer-water-surface-window {
-    top: -24px;
-    height: 78px;
+    left: -10%;
+    top: -22px;
+    width: 120%;
+    height: 74px;
+  }
+}
+
+@media (max-width: 900px) {
+  .ambient-glow {
+    opacity: 0.24 !important;
   }
 }
 

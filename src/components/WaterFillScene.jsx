@@ -128,6 +128,7 @@ function WaterSurface({ reduceMotion }) {
                 ease: "easeInOut",
               },
             }}
+            style={{ left: "-2px" }}
           >
             <defs>
               <path id={`water-fill-${layer.id}`} d={layer.path} />

@@ -16,7 +16,7 @@ export default function TopBar() {
   );
 
   const controls = (
-    <div className="flex items-center gap-3 text-sm">
+    <div className="flex flex-wrap items-center justify-end gap-2 text-sm sm:gap-3">
       <Link to="/settings" className="h-9 w-9 overflow-hidden rounded-full border border-white/25 bg-white/10">
         {profile?.photoURL ? (
           <img src={profile.photoURL} alt="me" className="h-full w-full object-cover" />
@@ -45,7 +45,7 @@ export default function TopBar() {
 
   if (isTimerPage) {
     return (
-      <div className="sticky top-4 z-20 mx-4 mb-4 flex flex-col gap-3 md:mx-0 md:flex-row md:items-center md:justify-between">
+      <div className="sticky top-3 z-20 mb-4 flex flex-col gap-3 md:top-4 md:flex-row md:items-center md:justify-between">
         <GlassCard className="w-full px-4 py-3 md:w-auto">{identity}</GlassCard>
         <GlassCard className="w-full px-4 py-3 md:w-auto">
           <div className="flex justify-end">{controls}</div>
@@ -55,7 +55,7 @@ export default function TopBar() {
   }
 
   return (
-    <header className="glass sticky top-4 z-20 mx-4 mb-4 flex items-center justify-between rounded-2xl px-4 py-3 shadow-glow ring-1 ring-white/20 md:mx-0">
+    <header className="glass sticky top-3 z-20 mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl px-4 py-3 shadow-glow ring-1 ring-white/20 md:top-4 md:flex-nowrap">
       {identity}
       {controls}
     </header>

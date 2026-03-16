@@ -74,11 +74,20 @@ export default function Sidebar() {
         </nav>
       </aside>
 
-      <nav className="glass fixed bottom-4 left-1/2 z-30 flex w-[95%] -translate-x-1/2 items-center justify-around rounded-2xl px-2 py-2 shadow-glow ring-1 ring-white/20 md:hidden">
+      <nav className="glass fixed bottom-3 left-1/2 z-30 flex w-[calc(100%-1rem)] max-w-md -translate-x-1/2 items-center justify-around rounded-2xl px-2 py-2 shadow-glow ring-1 ring-white/20 md:hidden">
         {navItems.slice(0, 5).map((item) => {
           const Icon = item.icon;
           return (
-            <NavLink key={item.to} to={item.to} className={({ isActive }) => (isActive ? "text-white" : "text-slate-300")} end={item.to === "/"}>
+            <NavLink
+              key={item.to}
+              to={item.to}
+              className={({ isActive }) =>
+                `flex min-h-11 min-w-11 items-center justify-center rounded-xl transition ${
+                  isActive ? "bg-white/12 text-white" : "text-slate-300"
+                }`
+              }
+              end={item.to === "/"}
+            >
               <Icon size={19} />
             </NavLink>
           );

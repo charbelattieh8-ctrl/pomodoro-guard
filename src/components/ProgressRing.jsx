@@ -4,6 +4,7 @@ export default function ProgressRing({ progress, size = 250, stroke = 12, childr
   const radius = (size - stroke) / 2;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference * (1 - progress);
+  const contentWidth = Math.max(size - stroke * 5, 140);
 
   return (
     <div className="relative grid place-items-center" style={{ width: size, height: size }}>
@@ -30,7 +31,9 @@ export default function ProgressRing({ progress, size = 250, stroke = 12, childr
           strokeDashoffset={offset}
         />
       </svg>
-      <div className="absolute">{children}</div>
+      <div className="absolute px-3 text-center" style={{ width: contentWidth }}>
+        {children}
+      </div>
     </div>
   );
 }
