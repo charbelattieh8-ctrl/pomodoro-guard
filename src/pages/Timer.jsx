@@ -15,29 +15,20 @@ const modeLabel = {
 };
 
 export default function TimerPage() {
-  const { state, actions, sessionProgress, currentRemainingMs } = useAppState();
+  const { state, now, actions, sessionProgress, currentRemainingMs } = useAppState();
   const { current } = state.sessions;
   const { displayFormat = "minutesSeconds" } = state.user.timer;
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [ringSize, setRingSize] = useState(320);
-  const [displayNow, setDisplayNow] = useState(() => Date.now());
   const isHoursFormat = displayFormat === "hoursMinutesSeconds";
-
-  useEffect(() => {
-    setDisplayNow(Date.now());
-
-    if (current.status === "running") return undefined;
-
-    const intervalId = window.setInterval(() => {
-      setDisplayNow(Date.now());
-    }, 1000);
-
-    return () => window.clearInterval(intervalId);
-  }, [current.status]);
-
-  const expectedFinishTime =
-    current.status === "idle" ? null : formatClockTime(displayNow + currentRemainingMs);
+  const expectedFinishAt =
+    current.status === "idle"
+      ? null
+      : current.status === "running" && current.endsAt
+        ? current.endsAt
+        : now + currentRemainingMs;
+  const expectedFinishTime = expectedFinishAt ? formatClockTime(expectedFinishAt) : null;
 
   useEffect(() => {
     const applySize = () => {
