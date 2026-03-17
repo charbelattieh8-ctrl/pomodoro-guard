@@ -35,6 +35,12 @@ export const formatMs = (ms, style = "minutesSeconds") => {
   return `${mm}:${ss}`;
 };
 
+export const formatClockTime = (value) =>
+  new Intl.DateTimeFormat(undefined, {
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(new Date(value));
+
 export const shallowMerge = (base, patch) => ({ ...base, ...patch });
 
 export const hashStringSHA256 = async (input) => {

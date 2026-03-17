@@ -6,7 +6,7 @@ import GlassCard from "../components/GlassCard";
 import PrimaryButton from "../components/PrimaryButton";
 import ProgressRing from "../components/ProgressRing";
 import { useAppState } from "../context/AppStateProvider";
-import { formatMs } from "../lib/utils";
+import { formatClockTime, formatMs } from "../lib/utils";
 
 const modeLabel = {
   focus: "Focus",
@@ -21,7 +21,23 @@ export default function TimerPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [ringSize, setRingSize] = useState(320);
+  const [displayNow, setDisplayNow] = useState(() => Date.now());
   const isHoursFormat = displayFormat === "hoursMinutesSeconds";
+
+  useEffect(() => {
+    setDisplayNow(Date.now());
+
+    if (current.status === "running") return undefined;
+
+    const intervalId = window.setInterval(() => {
+      setDisplayNow(Date.now());
+    }, 1000);
+
+    return () => window.clearInterval(intervalId);
+  }, [current.status]);
+
+  const expectedFinishTime =
+    current.status === "idle" ? null : formatClockTime(displayNow + currentRemainingMs);
 
   useEffect(() => {
     const applySize = () => {
@@ -70,6 +86,9 @@ export default function TimerPage() {
               <div className="text-center">
                 <p className="text-[11px] uppercase tracking-[0.2em] text-slate-200 sm:text-sm">{modeLabel[current.mode]}</p>
                 <p className={timerTextClass}>{formatMs(currentRemainingMs, displayFormat)}</p>
+                {expectedFinishTime ? (
+                  <p className="mt-2 text-xs text-slate-300 sm:text-sm">Ends at {expectedFinishTime}</p>
+                ) : null}
                 <p className="mt-2 text-xs text-slate-300">Cycle {current.cycleCount}</p>
               </div>
             </ProgressRing>
