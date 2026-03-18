@@ -30,7 +30,7 @@ const MEME_67_MARKS = [
 const MEME_67_STICKERS = [
   { text: "67", left: "5%", top: "7%", rotate: -14, size: "text-3xl" },
   { text: "OG BOI", left: "16%", top: "40%", rotate: 9, size: "text-xl" },
-  { text: "LOCK IN", left: "72%", top: "10%", rotate: -8, size: "text-xl" },
+  { text: "LOCK INNN", left: "72%", top: "10%", rotate: -8, size: "text-xl" },
   { text: "67 MODE", left: "60%", top: "76%", rotate: 12, size: "text-lg" },
   { text: "BRUH", left: "38%", top: "24%", rotate: -11, size: "text-lg" },
   { text: "SHEESH", left: "80%", top: "44%", rotate: 6, size: "text-lg" },
