@@ -230,7 +230,21 @@ body {
 }
 
 .timer-water-wave-front {
+  z-index: 4;
+}
+
+.timer-water-wave-mid-front {
+  z-index: 3;
+}
+
+.timer-water-wave-mid-back {
   z-index: 2;
+  filter: blur(0.6px);
+}
+
+.timer-water-wave-deep-back {
+  z-index: 1;
+  filter: blur(1px);
 }
 
 .timer-water-wave-back {
@@ -240,6 +254,22 @@ body {
 
 .timer-water-wave-fill {
   fill: rgba(117, 213, 244, 0.82);
+}
+
+.timer-water-wave-front .timer-water-wave-fill {
+  fill: rgba(102, 208, 240, 0.85);
+}
+
+.timer-water-wave-mid-front .timer-water-wave-fill {
+  fill: rgba(125, 216, 243, 0.68);
+}
+
+.timer-water-wave-mid-back .timer-water-wave-fill {
+  fill: rgba(160, 230, 248, 0.38);
+}
+
+.timer-water-wave-deep-back .timer-water-wave-fill {
+  fill: rgba(190, 238, 252, 0.18);
 }
 
 .timer-water-wave-back .timer-water-wave-fill {
@@ -254,9 +284,38 @@ body {
   stroke-linejoin: round;
 }
 
+.timer-water-wave-mid-front .timer-water-wave-stroke {
+  stroke: rgba(240, 250, 255, 0.52);
+  stroke-width: 1.5;
+}
+
+.timer-water-wave-mid-back .timer-water-wave-stroke,
+.timer-water-wave-deep-back .timer-water-wave-stroke,
 .timer-water-wave-back .timer-water-wave-stroke {
   stroke-width: 1.2;
   stroke: rgba(240, 250, 255, 0);
+}
+
+.timer-water-micro-ripples {
+  background-image:
+    radial-gradient(circle at 25% 40%, rgba(255, 255, 255, 0.06) 0, transparent 8%),
+    radial-gradient(circle at 65% 25%, rgba(255, 255, 255, 0.05) 0, transparent 6%),
+    radial-gradient(circle at 45% 70%, rgba(255, 255, 255, 0.04) 0, transparent 7%),
+    radial-gradient(circle at 80% 55%, rgba(255, 255, 255, 0.05) 0, transparent 6%);
+  background-size: 180px 180px, 150px 150px, 200px 200px, 160px 160px;
+  mix-blend-mode: overlay;
+  will-change: background-position, opacity;
+}
+
+.timer-water-foam {
+  height: clamp(18px, 3.5vw, 28px);
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(255, 255, 255, 0.18) 0, transparent 45%),
+    radial-gradient(ellipse at 70% 50%, rgba(255, 255, 255, 0.14) 0, transparent 42%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04) 50%, transparent);
+  filter: blur(8px);
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
 }
 
 .timer-water-overlay {
