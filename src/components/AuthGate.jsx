@@ -79,7 +79,7 @@ export default function AuthGate({ children }) {
       <GateShell>
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md">
           <GlassCard className="space-y-4 p-6">
-            <h2 className="font-display text-2xl font-semibold">LOCK IN</h2>
+            <h2 className="font-display text-2xl font-semibold">LOCK INNN</h2>
             <p className="text-sm text-slate-200">Continue as guest or login to sync streaks and friends.</p>
             <PrimaryButton className="w-full" disabled={busy} onClick={() => run(actions.continueGuest)}>
               Continue as Guest

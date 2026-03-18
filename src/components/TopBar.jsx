@@ -10,7 +10,7 @@ export default function TopBar() {
 
   const identity = (
     <div>
-      <h1 className="font-display text-lg font-semibold">LOCK IN</h1>
+      <h1 className="font-display text-lg font-semibold">LOCK INNN</h1>
       <p className="text-xs text-slate-200">@{profile?.username || "guest"}</p>
     </div>
   );
