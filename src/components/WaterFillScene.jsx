@@ -3,47 +3,47 @@ import waterRippleTexture from "../assets/water/water-ripple-texture.png";
 const WAVE_LAYERS = [
   {
     id: "deep-back",
-    duration: 18,
-    amplitude: 5,
-    opacity: 0.22,
+    duration: 20,
+    amplitude: 7,
+    opacity: 0.18,
     strokeOpacity: 0,
-    yOffset: 14,
+    yOffset: 16,
     className: "timer-water-wave-deep-back",
-    path: "M0,48 C90,45 150,38 230,40 C310,42 380,52 460,50 C540,48 620,38 700,36 C780,34 860,40 940,46 C1020,52 1100,54 1180,50 C1260,46 1340,40 1440,42 L1440,120 L0,120 Z",
-    stroke: "M0,48 C90,45 150,38 230,40 C310,42 380,52 460,50 C540,48 620,38 700,36 C780,34 860,40 940,46 C1020,52 1100,54 1180,50 C1260,46 1340,40 1440,42",
+    path: "M0,52 C85,48 155,40 235,42 C315,44 390,54 465,52 C540,50 615,40 695,38 C775,36 855,42 935,48 C1015,54 1095,56 1175,52 C1255,48 1335,42 1440,44 L1440,120 L0,120 Z",
+    stroke: "M0,52 C85,48 155,40 235,42 C315,44 390,54 465,52 C540,50 615,40 695,38 C775,36 855,42 935,48 C1015,54 1095,56 1175,52 C1255,48 1335,42 1440,44",
   },
   {
     id: "mid-back",
-    duration: 14.5,
-    amplitude: 8,
-    opacity: 0.35,
+    duration: 16,
+    amplitude: 9,
+    opacity: 0.32,
     strokeOpacity: 0,
-    yOffset: 10,
+    yOffset: 12,
     className: "timer-water-wave-mid-back",
-    path: "M0,46 C75,42 145,34 220,38 C295,42 365,54 440,52 C515,50 585,36 660,32 C735,28 810,36 885,44 C960,52 1035,58 1110,54 C1185,50 1260,36 1335,34 C1405,32 1370,42 1440,48 L1440,120 L0,120 Z",
-    stroke: "M0,46 C75,42 145,34 220,38 C295,42 365,54 440,52 C515,50 585,36 660,32 C735,28 810,36 885,44 C960,52 1035,58 1110,54 C1185,50 1260,36 1335,34 C1405,32 1370,42 1440,48",
+    path: "M0,48 C70,44 140,35 215,39 C290,43 360,55 435,53 C510,51 580,38 655,34 C730,30 805,38 880,46 C955,54 1030,60 1105,56 C1180,52 1255,38 1330,36 C1400,34 1365,44 1440,50 L1440,120 L0,120 Z",
+    stroke: "M0,48 C70,44 140,35 215,39 C290,43 360,55 435,53 C510,51 580,38 655,34 C730,30 805,38 880,46 C955,54 1030,60 1105,56 C1180,52 1255,38 1330,36 C1400,34 1365,44 1440,50",
   },
   {
     id: "mid-front",
-    duration: 11,
-    amplitude: 10,
-    opacity: 0.50,
-    strokeOpacity: 0.28,
-    yOffset: 5,
+    duration: 12,
+    amplitude: 12,
+    opacity: 0.48,
+    strokeOpacity: 0.32,
+    yOffset: 6,
     className: "timer-water-wave-mid-front",
-    path: "M0,50 C65,45 130,36 200,38 C270,40 340,54 410,56 C480,58 550,44 620,40 C690,36 760,42 830,50 C900,58 970,64 1040,60 C1110,56 1180,44 1250,42 C1320,40 1385,48 1440,54 L1440,120 L0,120 Z",
-    stroke: "M0,50 C65,45 130,36 200,38 C270,40 340,54 410,56 C480,58 550,44 620,40 C690,36 760,42 830,50 C900,58 970,64 1040,60 C1110,56 1180,44 1250,42 C1320,40 1385,48 1440,54",
+    path: "M0,52 C60,46 125,37 195,40 C265,43 335,56 405,58 C475,60 545,46 615,42 C685,38 755,44 825,52 C895,60 965,66 1035,62 C1105,58 1175,46 1245,44 C1315,42 1380,50 1440,56 L1440,120 L0,120 Z",
+    stroke: "M0,52 C60,46 125,37 195,40 C265,43 335,56 405,58 C475,60 545,46 615,42 C685,38 755,44 825,52 C895,60 965,66 1035,62 C1105,58 1175,46 1245,44 C1315,42 1380,50 1440,56",
   },
   {
     id: "front",
-    duration: 8.5,
-    amplitude: 13,
-    opacity: 0.72,
-    strokeOpacity: 0.62,
+    duration: 9,
+    amplitude: 15,
+    opacity: 0.68,
+    strokeOpacity: 0.58,
     yOffset: 0,
     className: "timer-water-wave-front",
-    path: "M0,54 C58,48 118,36 188,38 C258,40 328,56 398,58 C468,60 538,46 608,40 C678,34 748,40 818,50 C888,60 958,68 1028,64 C1098,60 1168,44 1238,42 C1308,40 1375,50 1440,58 L1440,120 L0,120 Z",
-    stroke: "M0,54 C58,48 118,36 188,38 C258,40 328,56 398,58 C468,60 538,46 608,40 C678,34 748,40 818,50 C888,60 958,68 1028,64 C1098,60 1168,44 1238,42 C1308,40 1375,50 1440,58",
+    path: "M0,56 C55,50 115,38 185,40 C255,42 325,58 395,60 C465,62 535,48 605,42 C675,36 745,42 815,52 C885,62 955,70 1025,66 C1095,62 1165,46 1235,44 C1305,42 1370,52 1440,60 L1440,120 L0,120 Z",
+    stroke: "M0,56 C55,50 115,38 185,40 C255,42 325,58 395,60 C465,62 535,48 605,42 C675,36 745,42 815,52 C885,62 955,70 1025,66 C1095,62 1165,46 1235,44 C1305,42 1370,52 1440,60",
   },
 ];
 
@@ -73,10 +73,10 @@ function WaterBody({ fillPercent, reduceMotion }) {
             reduceMotion
               ? {}
               : {
-                  backgroundPosition: ["0px 0px", "96px -64px", "0px -128px"],
+                  backgroundPosition: ["0px 0px", "80px -56px", "144px -112px", "48px -80px", "0px 0px"],
                 }
           }
-          transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
         />
 
         <motion.div
@@ -85,11 +85,11 @@ function WaterBody({ fillPercent, reduceMotion }) {
             reduceMotion
               ? {}
               : {
-                  backgroundPosition: ["0% 0%", "18% 85%", "32% 100%", "14% 60%", "0% 0%"],
-                  opacity: [0.10, 0.18, 0.22, 0.15, 0.10],
+                  backgroundPosition: ["0% 0%", "15% 75%", "28% 95%", "12% 55%", "0% 0%"],
+                  opacity: [0.12, 0.20, 0.24, 0.16, 0.12],
                 }
           }
-          transition={{ duration: 16, repeat: Infinity, ease: [0.42, 0, 0.58, 1] }}
+          transition={{ duration: 18, repeat: Infinity, ease: [0.40, 0, 0.60, 1] }}
         />
 
         <motion.div
@@ -107,8 +107,8 @@ function WaterBody({ fillPercent, reduceMotion }) {
 
         <motion.div
           className="timer-water-highlight absolute inset-x-0 top-0 h-14"
-          animate={reduceMotion ? {} : { opacity: [0.18, 0.32, 0.22, 0.18] }}
-          transition={{ duration: 6.2, repeat: Infinity, ease: [0.45, 0.05, 0.55, 0.95] }}
+          animate={reduceMotion ? {} : { opacity: [0.20, 0.36, 0.26, 0.20] }}
+          transition={{ duration: 7, repeat: Infinity, ease: [0.42, 0, 0.58, 1] }}
         />
 
         <motion.div
@@ -117,11 +117,11 @@ function WaterBody({ fillPercent, reduceMotion }) {
             reduceMotion
               ? {}
               : {
-                  x: ["0%", "8%", "-4%", "0%"],
-                  opacity: [0.15, 0.22, 0.18, 0.15],
+                  x: ["0%", "10%", "-5%", "6%", "0%"],
+                  opacity: [0.16, 0.24, 0.20, 0.18, 0.16],
                 }
           }
-          transition={{ duration: 7.5, repeat: Infinity, ease: [0.45, 0.05, 0.55, 0.95] }}
+          transition={{ duration: 8.5, repeat: Infinity, ease: [0.40, 0, 0.60, 1] }}
         />
 
         <motion.div
@@ -130,12 +130,12 @@ function WaterBody({ fillPercent, reduceMotion }) {
             reduceMotion
               ? {}
               : {
-                  x: ["-12%", "14%", "-12%"],
-                  y: ["0%", "-8%", "0%"],
-                  opacity: [0.12, 0.26, 0.12],
+                  x: ["-15%", "18%", "-15%"],
+                  y: ["0%", "-10%", "0%"],
+                  opacity: [0.14, 0.30, 0.14],
                 }
           }
-          transition={{ duration: 10.5, repeat: Infinity, ease: [0.42, 0, 0.58, 1] }}
+          transition={{ duration: 11, repeat: Infinity, ease: [0.38, 0, 0.62, 1] }}
         />
       </div>
 
@@ -149,40 +149,46 @@ function WaterSurface({ reduceMotion }) {
     <div className="pointer-events-none absolute inset-x-0 top-0 z-[2]">
       <div className="timer-water-surface-window">
         {WAVE_LAYERS.map((layer) => {
-          // Create more natural wave motion with varied patterns per layer
+          // Create more natural wave motion with organic patterns
           const getWaveMotion = () => {
             switch (layer.id) {
               case "deep-back":
                 return [
                   layer.yOffset,
-                  layer.yOffset - layer.amplitude * 0.14,
-                  layer.yOffset + layer.amplitude * 0.08,
-                  layer.yOffset - layer.amplitude * 0.10,
+                  layer.yOffset - layer.amplitude * 0.18,
+                  layer.yOffset + layer.amplitude * 0.10,
+                  layer.yOffset - layer.amplitude * 0.12,
+                  layer.yOffset + layer.amplitude * 0.05,
                   layer.yOffset,
                 ];
               case "mid-back":
                 return [
                   layer.yOffset,
-                  layer.yOffset - layer.amplitude * 0.18,
-                  layer.yOffset + layer.amplitude * 0.12,
-                  layer.yOffset - layer.amplitude * 0.14,
+                  layer.yOffset - layer.amplitude * 0.22,
+                  layer.yOffset + layer.amplitude * 0.14,
+                  layer.yOffset - layer.amplitude * 0.16,
+                  layer.yOffset + layer.amplitude * 0.08,
                   layer.yOffset,
                 ];
               case "mid-front":
                 return [
                   layer.yOffset,
-                  layer.yOffset - layer.amplitude * 0.22,
-                  layer.yOffset + layer.amplitude * 0.16,
-                  layer.yOffset - layer.amplitude * 0.18,
+                  layer.yOffset - layer.amplitude * 0.26,
+                  layer.yOffset + layer.amplitude * 0.18,
+                  layer.yOffset - layer.amplitude * 0.20,
+                  layer.yOffset + layer.amplitude * 0.10,
+                  layer.yOffset - layer.amplitude * 0.08,
                   layer.yOffset,
                 ];
               case "front":
                 return [
                   layer.yOffset,
-                  layer.yOffset - layer.amplitude * 0.28,
-                  layer.yOffset + layer.amplitude * 0.20,
-                  layer.yOffset - layer.amplitude * 0.24,
-                  layer.yOffset + layer.amplitude * 0.12,
+                  layer.yOffset - layer.amplitude * 0.32,
+                  layer.yOffset + layer.amplitude * 0.22,
+                  layer.yOffset - layer.amplitude * 0.26,
+                  layer.yOffset + layer.amplitude * 0.14,
+                  layer.yOffset - layer.amplitude * 0.10,
+                  layer.yOffset + layer.amplitude * 0.06,
                   layer.yOffset,
                 ];
               default:
