@@ -3,41 +3,41 @@ import waterRippleTexture from "../assets/water/water-ripple-texture.png";
 const WAVE_LAYERS = [
   {
     id: "deep-back",
-    duration: 20,
-    amplitude: 7,
+    duration: 22,
+    amplitude: 8,
     opacity: 0.18,
     strokeOpacity: 0,
-    yOffset: 16,
+    yOffset: 18,
     className: "timer-water-wave-deep-back",
     path: "M0,52 C85,48 155,40 235,42 C315,44 390,54 465,52 C540,50 615,40 695,38 C775,36 855,42 935,48 C1015,54 1095,56 1175,52 C1255,48 1335,42 1440,44 L1440,120 L0,120 Z",
     stroke: "M0,52 C85,48 155,40 235,42 C315,44 390,54 465,52 C540,50 615,40 695,38 C775,36 855,42 935,48 C1015,54 1095,56 1175,52 C1255,48 1335,42 1440,44",
   },
   {
     id: "mid-back",
-    duration: 16,
-    amplitude: 9,
+    duration: 18,
+    amplitude: 10,
     opacity: 0.32,
     strokeOpacity: 0,
-    yOffset: 12,
+    yOffset: 14,
     className: "timer-water-wave-mid-back",
     path: "M0,48 C70,44 140,35 215,39 C290,43 360,55 435,53 C510,51 580,38 655,34 C730,30 805,38 880,46 C955,54 1030,60 1105,56 C1180,52 1255,38 1330,36 C1400,34 1365,44 1440,50 L1440,120 L0,120 Z",
     stroke: "M0,48 C70,44 140,35 215,39 C290,43 360,55 435,53 C510,51 580,38 655,34 C730,30 805,38 880,46 C955,54 1030,60 1105,56 C1180,52 1255,38 1330,36 C1400,34 1365,44 1440,50",
   },
   {
     id: "mid-front",
-    duration: 12,
-    amplitude: 12,
+    duration: 14,
+    amplitude: 13,
     opacity: 0.48,
     strokeOpacity: 0.32,
-    yOffset: 6,
+    yOffset: 8,
     className: "timer-water-wave-mid-front",
     path: "M0,52 C60,46 125,37 195,40 C265,43 335,56 405,58 C475,60 545,46 615,42 C685,38 755,44 825,52 C895,60 965,66 1035,62 C1105,58 1175,46 1245,44 C1315,42 1380,50 1440,56 L1440,120 L0,120 Z",
     stroke: "M0,52 C60,46 125,37 195,40 C265,43 335,56 405,58 C475,60 545,46 615,42 C685,38 755,44 825,52 C895,60 965,66 1035,62 C1105,58 1175,46 1245,44 C1315,42 1380,50 1440,56",
   },
   {
     id: "front",
-    duration: 9,
-    amplitude: 15,
+    duration: 10,
+    amplitude: 16,
     opacity: 0.68,
     strokeOpacity: 0.58,
     yOffset: 0,
@@ -155,40 +155,44 @@ function WaterSurface({ reduceMotion }) {
               case "deep-back":
                 return [
                   layer.yOffset,
-                  layer.yOffset - layer.amplitude * 0.18,
-                  layer.yOffset + layer.amplitude * 0.10,
-                  layer.yOffset - layer.amplitude * 0.12,
-                  layer.yOffset + layer.amplitude * 0.05,
+                  layer.yOffset - layer.amplitude * 0.20,
+                  layer.yOffset + layer.amplitude * 0.12,
+                  layer.yOffset - layer.amplitude * 0.15,
+                  layer.yOffset + layer.amplitude * 0.08,
+                  layer.yOffset - layer.amplitude * 0.05,
                   layer.yOffset,
                 ];
               case "mid-back":
                 return [
                   layer.yOffset,
-                  layer.yOffset - layer.amplitude * 0.22,
-                  layer.yOffset + layer.amplitude * 0.14,
-                  layer.yOffset - layer.amplitude * 0.16,
-                  layer.yOffset + layer.amplitude * 0.08,
+                  layer.yOffset - layer.amplitude * 0.24,
+                  layer.yOffset + layer.amplitude * 0.16,
+                  layer.yOffset - layer.amplitude * 0.18,
+                  layer.yOffset + layer.amplitude * 0.10,
+                  layer.yOffset - layer.amplitude * 0.06,
                   layer.yOffset,
                 ];
               case "mid-front":
                 return [
                   layer.yOffset,
-                  layer.yOffset - layer.amplitude * 0.26,
-                  layer.yOffset + layer.amplitude * 0.18,
-                  layer.yOffset - layer.amplitude * 0.20,
-                  layer.yOffset + layer.amplitude * 0.10,
-                  layer.yOffset - layer.amplitude * 0.08,
+                  layer.yOffset - layer.amplitude * 0.28,
+                  layer.yOffset + layer.amplitude * 0.20,
+                  layer.yOffset - layer.amplitude * 0.22,
+                  layer.yOffset + layer.amplitude * 0.12,
+                  layer.yOffset - layer.amplitude * 0.10,
+                  layer.yOffset + layer.amplitude * 0.04,
                   layer.yOffset,
                 ];
               case "front":
                 return [
                   layer.yOffset,
-                  layer.yOffset - layer.amplitude * 0.32,
-                  layer.yOffset + layer.amplitude * 0.22,
-                  layer.yOffset - layer.amplitude * 0.26,
-                  layer.yOffset + layer.amplitude * 0.14,
-                  layer.yOffset - layer.amplitude * 0.10,
-                  layer.yOffset + layer.amplitude * 0.06,
+                  layer.yOffset - layer.amplitude * 0.35,
+                  layer.yOffset + layer.amplitude * 0.24,
+                  layer.yOffset - layer.amplitude * 0.28,
+                  layer.yOffset + layer.amplitude * 0.16,
+                  layer.yOffset - layer.amplitude * 0.12,
+                  layer.yOffset + layer.amplitude * 0.08,
+                  layer.yOffset - layer.amplitude * 0.04,
                   layer.yOffset,
                 ];
               default:
@@ -217,9 +221,9 @@ function WaterSurface({ reduceMotion }) {
                   ease: "linear",
                 },
                 y: {
-                  duration: layer.duration * 0.85,
+                  duration: layer.duration * 0.90,
                   repeat: Infinity,
-                  ease: [0.45, 0.05, 0.55, 0.95], // Custom easing for more natural motion
+                  ease: [0.42, 0, 0.58, 1], // Smoother easing for more natural motion
                 },
               }}
               style={{ left: "-2px" }}

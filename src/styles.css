@@ -211,14 +211,14 @@ body {
 .timer-water-surface-window {
   position: absolute;
   left: -8%;
-  top: -40px;
+  top: -60px;
   width: 116%;
-  height: clamp(90px, 12vw, 114px);
+  height: clamp(130px, 16vw, 160px);
   overflow: visible;
   filter: drop-shadow(0 6px 10px rgba(80, 190, 245, 0.12));
   will-change: transform;
   transform: translateZ(0);
-  contain: paint;
+  /* Removed contain: paint to prevent clipping at top */
 }
 
 .timer-water-surface-svg {
@@ -343,9 +343,9 @@ body {
 
   .timer-water-surface-window {
     left: -10%;
-    top: -24px;
+    top: -40px;
     width: 120%;
-    height: 76px;
+    height: 100px;
   }
 }
 
@@ -364,8 +364,8 @@ body {
 
 @media (orientation: landscape) and (max-width: 1024px) {
   .timer-water-surface-window {
-    top: -18px;
-    height: 68px;
+    top: -35px;
+    height: 90px;
   }
 }
 
