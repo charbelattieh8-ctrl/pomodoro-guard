@@ -204,7 +204,7 @@ function WaterSurface({ reduceMotion }) {
             <motion.svg
               key={layer.id}
               className={`timer-water-surface-svg ${layer.className}`}
-              viewBox="0 0 2880 120"
+              viewBox="0 -24 2880 156"
               preserveAspectRatio="none"
               animate={
                 reduceMotion

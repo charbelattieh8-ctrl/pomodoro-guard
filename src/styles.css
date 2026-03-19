@@ -227,6 +227,7 @@ body {
   top: 0;
   width: calc(200% + 4px);
   height: 100%;
+  overflow: visible;
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
