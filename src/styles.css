@@ -260,12 +260,12 @@ body {
 
 .timer-water-surface-window {
   position: absolute;
-  left: -8%;
-  top: -60px;
-  width: 116%;
-  height: clamp(130px, 16vw, 160px);
+  left: -10%;
+  top: -80px;
+  width: 120%;
+  height: clamp(160px, 20vw, 210px);
   overflow: visible;
-  filter: drop-shadow(0 6px 12px rgba(var(--water-base-rgb, 80, 190, 245), 0.10));
+  filter: drop-shadow(0 8px 18px rgba(var(--water-base-rgb, 80, 190, 245), 0.14));
   will-change: transform;
   transform: translateZ(0);
 }
@@ -282,32 +282,41 @@ body {
   backface-visibility: hidden;
 }
 
+.timer-water-wave-spray {
+  z-index: 6;
+}
+
 .timer-water-wave-front {
-  z-index: 4;
+  z-index: 5;
 }
 
 .timer-water-wave-mid-front {
-  z-index: 3;
+  z-index: 4;
+  filter: blur(0.3px);
 }
 
 .timer-water-wave-mid-back {
-  z-index: 2;
-  filter: blur(0.6px);
+  z-index: 3;
+  filter: blur(0.7px);
 }
 
 .timer-water-wave-deep-back {
-  z-index: 1;
-  filter: blur(1.2px);
+  z-index: 2;
+  filter: blur(1.4px);
 }
 
-.timer-water-wave-back {
+.timer-water-wave-deep-swell {
   z-index: 1;
-  filter: blur(0.4px);
+  filter: blur(2px);
 }
 
-/* Wave fills — themed */
+/* Wave fills — themed, 6 layers from spray (top) to deep swell (bottom) */
 .timer-water-wave-fill {
   fill: rgba(var(--water-light-rgb, 117, 213, 244), 0.78);
+}
+
+.timer-water-wave-spray .timer-water-wave-fill {
+  fill: rgba(var(--water-crest-rgb, 220, 248, 255), 0.52);
 }
 
 .timer-water-wave-front .timer-water-wave-fill {
@@ -315,39 +324,48 @@ body {
 }
 
 .timer-water-wave-mid-front .timer-water-wave-fill {
-  fill: rgba(var(--water-light-rgb, 130, 220, 245), 0.66);
+  fill: rgba(var(--water-light-rgb, 130, 220, 245), 0.62);
 }
 
 .timer-water-wave-mid-back .timer-water-wave-fill {
-  fill: rgba(var(--water-crest-rgb, 168, 232, 250), 0.36);
+  fill: rgba(var(--water-base-rgb, 90, 190, 230), 0.38);
 }
 
 .timer-water-wave-deep-back .timer-water-wave-fill {
-  fill: rgba(var(--water-crest-rgb, 195, 240, 254), 0.18);
+  fill: rgba(var(--water-base-rgb, 70, 170, 220), 0.22);
 }
 
-.timer-water-wave-back .timer-water-wave-fill {
-  fill: rgba(var(--water-crest-rgb, 187, 237, 251), 0.18);
+.timer-water-wave-deep-swell .timer-water-wave-fill {
+  fill: rgba(var(--water-deep-rgb, 40, 120, 180), 0.12);
 }
 
-/* Wave strokes — themed */
+/* Wave strokes — themed, visible on front layers, fading on deeper ones */
 .timer-water-wave-stroke {
   fill: none;
   stroke: rgba(var(--water-crest-rgb, 248, 254, 255), 0.70);
-  stroke-width: 2.0;
+  stroke-width: 2.2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-.timer-water-wave-mid-front .timer-water-wave-stroke {
-  stroke: rgba(var(--water-crest-rgb, 242, 252, 255), 0.48);
-  stroke-width: 1.6;
+.timer-water-wave-spray .timer-water-wave-stroke {
+  stroke: rgba(var(--water-crest-rgb, 255, 255, 255), 0.80);
+  stroke-width: 1.8;
 }
 
-.timer-water-wave-mid-back .timer-water-wave-stroke,
-.timer-water-wave-deep-back .timer-water-wave-stroke,
-.timer-water-wave-back .timer-water-wave-stroke {
+.timer-water-wave-mid-front .timer-water-wave-stroke {
+  stroke: rgba(var(--water-crest-rgb, 242, 252, 255), 0.38);
+  stroke-width: 1.5;
+}
+
+.timer-water-wave-mid-back .timer-water-wave-stroke {
+  stroke: rgba(var(--water-crest-rgb, 230, 248, 255), 0.12);
   stroke-width: 1.2;
+}
+
+.timer-water-wave-deep-back .timer-water-wave-stroke,
+.timer-water-wave-deep-swell .timer-water-wave-stroke {
+  stroke-width: 1.0;
   stroke: rgba(var(--water-crest-rgb, 240, 250, 255), 0);
 }
 
@@ -394,10 +412,10 @@ body {
   }
 
   .timer-water-surface-window {
-    left: -10%;
-    top: -40px;
-    width: 120%;
-    height: 100px;
+    left: -12%;
+    top: -55px;
+    width: 124%;
+    height: 130px;
   }
 }
 
@@ -416,8 +434,8 @@ body {
 
 @media (orientation: landscape) and (max-width: 1024px) {
   .timer-water-surface-window {
-    top: -35px;
-    height: 90px;
+    top: -50px;
+    height: 120px;
   }
 }
 
