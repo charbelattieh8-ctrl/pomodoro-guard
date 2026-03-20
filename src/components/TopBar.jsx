@@ -1,6 +1,6 @@
-import { LogOut, Settings } from "lucide-react";
+﻿import { LogOut, Settings } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { useAuth } from "../context/AuthProvider";
+import { useAuth } from "../context/useAuth";
 import GlassCard from "./GlassCard";
 
 export default function TopBar() {
@@ -61,3 +61,4 @@ export default function TopBar() {
     </header>
   );
 }
+

@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Pause, Play, RotateCcw, Users } from "lucide-react";
 import GlassCard from "../components/GlassCard";
 import PrimaryButton from "../components/PrimaryButton";
 import ProgressRing from "../components/ProgressRing";
-import { useAuth } from "../context/AuthProvider";
+import { useAuth } from "../context/useAuth";
 import { db } from "../lib/firebase";
 import { formatMs } from "../lib/utils";
 import {
@@ -157,7 +157,7 @@ export default function RoomsPage() {
                     {formatMs(activeRemaining)}
                   </p>
                   <p className="mt-2 text-xs text-slate-300">
-                    {activeRoom.name} · {activeRoom.status || "idle"}
+                    {activeRoom.name} Â· {activeRoom.status || "idle"}
                   </p>
                 </div>
               </ProgressRing>
@@ -226,7 +226,7 @@ export default function RoomsPage() {
             >
               <p className="font-semibold">{room.name || "Focus Room"}</p>
               <p className="text-xs text-slate-300">
-                {room.status || "idle"} · {formatMs(remaining)}
+                {room.status || "idle"} Â· {formatMs(remaining)}
               </p>
             </button>
           );
@@ -235,3 +235,4 @@ export default function RoomsPage() {
     </motion.div>
   );
 }
+

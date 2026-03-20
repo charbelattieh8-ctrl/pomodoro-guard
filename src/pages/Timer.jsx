@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Play, Pause, RotateCcw, SkipForward, Plus } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import GlassCard from "../components/GlassCard";
 import PrimaryButton from "../components/PrimaryButton";
 import ProgressRing from "../components/ProgressRing";
-import { useAppState } from "../context/AppStateProvider";
+import { useAppState } from "../context/useAppState";
 import { formatClockTime, formatMs } from "../lib/utils";
 
 const modeLabel = {
@@ -139,3 +139,4 @@ export default function TimerPage() {
     </motion.div>
   );
 }
+

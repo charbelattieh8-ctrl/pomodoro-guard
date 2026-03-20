@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Timer } from "lucide-react";
 import PrimaryButton from "../components/PrimaryButton";
@@ -6,8 +6,8 @@ import StatCard from "../components/StatCard";
 import StreakHero from "../components/StreakHero";
 import LeaderboardCard from "../components/LeaderboardCard";
 import GlassCard from "../components/GlassCard";
-import { useAppState } from "../context/AppStateProvider";
-import { useAuth } from "../context/AuthProvider";
+import { useAppState } from "../context/useAppState";
+import { useAuth } from "../context/useAuth";
 
 function makeLast14(dailyStats) {
   const map = new Map(dailyStats.map((d) => [d.id, d]));
@@ -47,7 +47,7 @@ export default function DashboardPage() {
           {cells.map((c) => (
             <div
               key={c.key}
-              title={`${c.key} � ${c.minutes} min`}
+              title={`${c.key} • ${c.minutes} min`}
               className={`rounded-lg border p-2 text-center text-xs ${
                 c.focused
                   ? "border-emerald-200/50 bg-emerald-400/30"
@@ -70,3 +70,4 @@ export default function DashboardPage() {
     </motion.div>
   );
 }
+

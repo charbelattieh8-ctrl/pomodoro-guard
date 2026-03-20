@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import GlassCard from "../components/GlassCard";
 import PrimaryButton from "../components/PrimaryButton";
 import RequestsPanel from "../components/RequestsPanel";
 import FriendCard from "../components/FriendCard";
-import { useAuth } from "../context/AuthProvider";
+import { useAuth } from "../context/useAuth";
 
 export default function FriendsPage() {
   const { incomingRequests, outgoingRequests, leaderboard, actions } = useAuth();
@@ -148,3 +148,4 @@ export default function FriendsPage() {
     </motion.div>
   );
 }
+

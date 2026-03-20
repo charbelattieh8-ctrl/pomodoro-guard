@@ -1,6 +1,6 @@
-import { motion } from "framer-motion";
+ï»¿import { motion } from "framer-motion";
 import GlassCard from "../components/GlassCard";
-import { useAppState } from "../context/AppStateProvider";
+import { useAppState } from "../context/useAppState";
 
 export default function MilestonesPage() {
   const { milestoneCards } = useAppState();
@@ -27,7 +27,7 @@ export default function MilestonesPage() {
               />
             </div>
             <p className="mt-2 text-xs text-slate-300">
-              {m.current}/{m.target} {m.earned ? "• Earned" : m.completed ? "• Ready" : ""}
+              {m.current}/{m.target} {m.earned ? "â€¢ Earned" : m.completed ? "â€¢ Ready" : ""}
             </p>
           </GlassCard>
         ))}
@@ -54,3 +54,4 @@ export default function MilestonesPage() {
     </motion.div>
   );
 }
+

@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import {
   Bar,
   BarChart,
@@ -12,7 +12,7 @@ import {
 } from "recharts";
 import GlassCard from "../components/GlassCard";
 import StatCard from "../components/StatCard";
-import { useAppState } from "../context/AppStateProvider";
+import { useAppState } from "../context/useAppState";
 import { toLocalISODate } from "../lib/utils";
 
 const build7Days = () => {
@@ -89,3 +89,4 @@ export default function StatsPage() {
     </motion.div>
   );
 }
+

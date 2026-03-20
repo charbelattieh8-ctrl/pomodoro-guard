@@ -132,9 +132,12 @@ body {
   display: none;
 }
 
+/* ========== THEMED WATER — uses CSS custom properties from WaterFillScene ========== */
+/* Fallback values are the original Ocean blue when no theme vars are set */
+
 .timer-water-backdrop {
   background:
-    radial-gradient(circle at 50% 0%, rgba(220, 248, 255, 0.18), transparent 40%),
+    radial-gradient(circle at 50% 0%, rgba(var(--water-crest-rgb, 220, 248, 255), 0.16), transparent 40%),
     linear-gradient(180deg, rgba(3, 12, 24, 0.18), rgba(2, 10, 20, 0.44) 38%, rgba(2, 8, 17, 0.74) 82%);
 }
 
@@ -151,8 +154,18 @@ body {
 
 .timer-water-gradient {
   background:
-    linear-gradient(180deg, rgba(182, 240, 255, 0.56) 0%, rgba(146, 225, 250, 0.64) 6%, rgba(118, 208, 240, 0.72) 14%, rgba(78, 178, 224, 0.84) 32%, rgba(38, 138, 198, 0.92) 56%, rgba(15, 88, 152, 0.96) 78%, rgba(8, 58, 118, 0.98) 92%, rgba(4, 42, 88, 1) 100%),
-    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.16), transparent 45%);
+    linear-gradient(
+      180deg,
+      rgba(var(--water-crest-rgb, 182, 240, 255), 0.52) 0%,
+      rgba(var(--water-light-rgb, 146, 225, 250), 0.60) 6%,
+      rgba(var(--water-light-rgb, 118, 208, 240), 0.68) 14%,
+      rgba(var(--water-base-rgb, 78, 178, 224), 0.80) 32%,
+      rgba(var(--water-base-rgb, 38, 138, 198), 0.90) 56%,
+      rgba(var(--water-deep-rgb, 15, 88, 152), 0.95) 78%,
+      rgba(var(--water-deep-rgb, 8, 58, 118), 0.98) 92%,
+      rgba(var(--water-deep-rgb, 4, 42, 88), 1) 100%
+    ),
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.14), transparent 45%);
 }
 
 .timer-water-gradient::after {
@@ -160,34 +173,41 @@ body {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.04) 16%, transparent 38%),
-    radial-gradient(circle at 50% 14%, rgba(255, 255, 255, 0.08), transparent 32%),
-    radial-gradient(circle at 30% 50%, rgba(100, 200, 240, 0.06), transparent 40%);
-  opacity: 0.50;
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03) 16%, transparent 38%),
+    radial-gradient(circle at 50% 14%, rgba(255, 255, 255, 0.06), transparent 32%),
+    radial-gradient(circle at 30% 50%, rgba(var(--water-light-rgb, 100, 200, 240), 0.05), transparent 40%);
+  opacity: 0.45;
 }
 
 .timer-water-crest-fade {
   background:
-    linear-gradient(180deg, rgba(210, 247, 255, 0.26), rgba(175, 235, 250, 0.16) 18%, rgba(120, 205, 235, 0.08) 38%, rgba(90, 190, 228, 0.04) 58%, transparent 78%);
-  filter: blur(10px);
-  opacity: 0.88;
+    linear-gradient(
+      180deg,
+      rgba(var(--water-crest-rgb, 210, 247, 255), 0.22),
+      rgba(var(--water-light-rgb, 175, 235, 250), 0.14) 18%,
+      rgba(var(--water-base-rgb, 120, 205, 235), 0.06) 38%,
+      rgba(var(--water-base-rgb, 90, 190, 228), 0.03) 58%,
+      transparent 78%
+    );
+  filter: blur(12px);
+  opacity: 0.85;
 }
 
 .timer-water-texture {
   background-repeat: repeat;
   background-size: clamp(135px, 16.5vw, 195px) clamp(135px, 16.5vw, 195px);
-  opacity: 0.14;
+  opacity: 0.12;
   mix-blend-mode: screen;
   will-change: background-position;
 }
 
 .timer-water-caustics {
   background-image:
-    radial-gradient(ellipse at 22% 32%, rgba(255, 255, 255, 0.16) 0, rgba(255, 255, 255, 0.08) 10%, transparent 18%),
-    radial-gradient(ellipse at 73% 26%, rgba(255, 255, 255, 0.14) 0, rgba(255, 255, 255, 0.07) 9%, transparent 16%),
-    radial-gradient(ellipse at 46% 70%, rgba(255, 255, 255, 0.12) 0, rgba(255, 255, 255, 0.06) 12%, transparent 20%),
-    radial-gradient(ellipse at 86% 58%, rgba(255, 255, 255, 0.10) 0, rgba(255, 255, 255, 0.05) 8%, transparent 14%),
-    radial-gradient(ellipse at 12% 68%, rgba(200, 240, 255, 0.08) 0, transparent 12%);
+    radial-gradient(ellipse at 22% 32%, rgba(var(--water-crest-rgb, 255, 255, 255), 0.14) 0, rgba(var(--water-crest-rgb, 255, 255, 255), 0.07) 10%, transparent 18%),
+    radial-gradient(ellipse at 73% 26%, rgba(var(--water-crest-rgb, 255, 255, 255), 0.12) 0, rgba(var(--water-crest-rgb, 255, 255, 255), 0.06) 9%, transparent 16%),
+    radial-gradient(ellipse at 46% 70%, rgba(var(--water-light-rgb, 255, 255, 255), 0.10) 0, rgba(var(--water-light-rgb, 255, 255, 255), 0.05) 12%, transparent 20%),
+    radial-gradient(ellipse at 86% 58%, rgba(var(--water-light-rgb, 255, 255, 255), 0.08) 0, rgba(var(--water-light-rgb, 255, 255, 255), 0.04) 8%, transparent 14%),
+    radial-gradient(ellipse at 12% 68%, rgba(var(--water-crest-rgb, 200, 240, 255), 0.06) 0, transparent 12%);
   background-size: 280px 280px, 320px 320px, 380px 380px, 240px 240px, 200px 200px;
   mix-blend-mode: soft-light;
   will-change: background-position, opacity;
@@ -195,15 +215,45 @@ body {
 
 .timer-water-highlight {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.08) 34%, transparent 78%);
-  filter: blur(10px);
+    linear-gradient(
+      180deg,
+      rgba(var(--water-crest-rgb, 255, 255, 255), 0.16),
+      rgba(var(--water-light-rgb, 255, 255, 255), 0.07) 34%,
+      transparent 78%
+    );
+  filter: blur(12px);
 }
 
 .timer-water-specular {
   height: clamp(26px, 4.5vw, 42px);
   background:
-    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08) 15%, rgba(255, 255, 255, 0.22) 50%, rgba(255, 255, 255, 0.08) 85%, transparent);
-  filter: blur(14px);
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06) 15%, rgba(255, 255, 255, 0.20) 50%, rgba(255, 255, 255, 0.06) 85%, transparent);
+  filter: blur(16px);
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+}
+
+/* Depth shimmer — slow-moving color bands deeper in the water */
+.timer-water-depth-shimmer {
+  background:
+    radial-gradient(ellipse at 35% 60%, rgba(var(--water-light-rgb, 100, 200, 240), 0.08), transparent 50%),
+    radial-gradient(ellipse at 70% 40%, rgba(var(--water-crest-rgb, 180, 230, 250), 0.06), transparent 45%);
+  background-size: 400px 400px, 500px 500px;
+  mix-blend-mode: soft-light;
+  will-change: background-position, opacity;
+}
+
+/* Sunbeam — diagonal light shaft through the water */
+.timer-water-sunbeam {
+  background:
+    linear-gradient(
+      125deg,
+      transparent 20%,
+      rgba(var(--water-crest-rgb, 255, 255, 255), 0.06) 35%,
+      rgba(255, 255, 255, 0.10) 50%,
+      rgba(var(--water-crest-rgb, 255, 255, 255), 0.06) 65%,
+      transparent 80%
+    );
   mix-blend-mode: screen;
   will-change: transform, opacity;
 }
@@ -215,10 +265,9 @@ body {
   width: 116%;
   height: clamp(130px, 16vw, 160px);
   overflow: visible;
-  filter: drop-shadow(0 6px 10px rgba(80, 190, 245, 0.12));
+  filter: drop-shadow(0 6px 12px rgba(var(--water-base-rgb, 80, 190, 245), 0.10));
   will-change: transform;
   transform: translateZ(0);
-  /* Removed contain: paint to prevent clipping at top */
 }
 
 .timer-water-surface-svg {
@@ -248,7 +297,7 @@ body {
 
 .timer-water-wave-deep-back {
   z-index: 1;
-  filter: blur(1px);
+  filter: blur(1.2px);
 }
 
 .timer-water-wave-back {
@@ -256,40 +305,42 @@ body {
   filter: blur(0.4px);
 }
 
+/* Wave fills — themed */
 .timer-water-wave-fill {
-  fill: rgba(117, 213, 244, 0.82);
+  fill: rgba(var(--water-light-rgb, 117, 213, 244), 0.78);
 }
 
 .timer-water-wave-front .timer-water-wave-fill {
-  fill: rgba(108, 212, 242, 0.88);
+  fill: rgba(var(--water-light-rgb, 108, 212, 242), 0.84);
 }
 
 .timer-water-wave-mid-front .timer-water-wave-fill {
-  fill: rgba(130, 220, 245, 0.72);
+  fill: rgba(var(--water-light-rgb, 130, 220, 245), 0.66);
 }
 
 .timer-water-wave-mid-back .timer-water-wave-fill {
-  fill: rgba(168, 232, 250, 0.42);
+  fill: rgba(var(--water-crest-rgb, 168, 232, 250), 0.36);
 }
 
 .timer-water-wave-deep-back .timer-water-wave-fill {
-  fill: rgba(195, 240, 254, 0.22);
+  fill: rgba(var(--water-crest-rgb, 195, 240, 254), 0.18);
 }
 
 .timer-water-wave-back .timer-water-wave-fill {
-  fill: rgba(187, 237, 251, 0.22);
+  fill: rgba(var(--water-crest-rgb, 187, 237, 251), 0.18);
 }
 
+/* Wave strokes — themed */
 .timer-water-wave-stroke {
   fill: none;
-  stroke: rgba(248, 254, 255, 0.75);
+  stroke: rgba(var(--water-crest-rgb, 248, 254, 255), 0.70);
   stroke-width: 2.0;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
 .timer-water-wave-mid-front .timer-water-wave-stroke {
-  stroke: rgba(242, 252, 255, 0.56);
+  stroke: rgba(var(--water-crest-rgb, 242, 252, 255), 0.48);
   stroke-width: 1.6;
 }
 
@@ -297,36 +348,36 @@ body {
 .timer-water-wave-deep-back .timer-water-wave-stroke,
 .timer-water-wave-back .timer-water-wave-stroke {
   stroke-width: 1.2;
-  stroke: rgba(240, 250, 255, 0);
+  stroke: rgba(var(--water-crest-rgb, 240, 250, 255), 0);
 }
 
 .timer-water-micro-ripples {
   background-image:
-    radial-gradient(circle at 25% 40%, rgba(255, 255, 255, 0.06) 0, transparent 8%),
-    radial-gradient(circle at 65% 25%, rgba(255, 255, 255, 0.05) 0, transparent 6%),
-    radial-gradient(circle at 45% 70%, rgba(255, 255, 255, 0.04) 0, transparent 7%),
-    radial-gradient(circle at 80% 55%, rgba(255, 255, 255, 0.05) 0, transparent 6%);
+    radial-gradient(circle at 25% 40%, rgba(var(--water-crest-rgb, 255, 255, 255), 0.05) 0, transparent 8%),
+    radial-gradient(circle at 65% 25%, rgba(var(--water-crest-rgb, 255, 255, 255), 0.04) 0, transparent 6%),
+    radial-gradient(circle at 45% 70%, rgba(var(--water-light-rgb, 255, 255, 255), 0.03) 0, transparent 7%),
+    radial-gradient(circle at 80% 55%, rgba(var(--water-light-rgb, 255, 255, 255), 0.04) 0, transparent 6%);
   background-size: 180px 180px, 150px 150px, 200px 200px, 160px 160px;
   mix-blend-mode: overlay;
   will-change: background-position, opacity;
 }
 
 .timer-water-foam {
-  height: clamp(20px, 3.8vw, 32px);
+  height: clamp(22px, 4vw, 34px);
   background:
-    radial-gradient(ellipse at 28% 50%, rgba(255, 255, 255, 0.20) 0, rgba(255, 255, 255, 0.08) 35%, transparent 48%),
-    radial-gradient(ellipse at 68% 50%, rgba(255, 255, 255, 0.16) 0, rgba(255, 255, 255, 0.06) 32%, transparent 45%),
-    radial-gradient(ellipse at 48% 60%, rgba(255, 255, 255, 0.12) 0, transparent 38%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.06) 45%, transparent);
-  filter: blur(9px);
+    radial-gradient(ellipse at 28% 50%, rgba(var(--water-crest-rgb, 255, 255, 255), 0.18) 0, rgba(var(--water-crest-rgb, 255, 255, 255), 0.07) 35%, transparent 48%),
+    radial-gradient(ellipse at 68% 50%, rgba(var(--water-crest-rgb, 255, 255, 255), 0.14) 0, rgba(var(--water-crest-rgb, 255, 255, 255), 0.05) 32%, transparent 45%),
+    radial-gradient(ellipse at 48% 60%, rgba(var(--water-crest-rgb, 255, 255, 255), 0.10) 0, transparent 38%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05) 45%, transparent);
+  filter: blur(10px);
   mix-blend-mode: screen;
   will-change: transform, opacity;
 }
 
 .timer-water-overlay {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02) 16%, transparent 20%, transparent 80%, rgba(0, 0, 0, 0.10) 92%, rgba(0, 0, 0, 0.16)),
-    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.08), transparent 42%);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02) 16%, transparent 20%, transparent 80%, rgba(0, 0, 0, 0.10) 92%, rgba(0, 0, 0, 0.16)),
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.06), transparent 42%);
 }
 
 .timer-water-vignette {

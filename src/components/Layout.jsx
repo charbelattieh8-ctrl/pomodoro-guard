@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { Suspense, lazy, useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import { useAppState } from "../context/AppStateProvider";
+import { useAppState } from "../context/useAppState";
 import CelebrationOverlay from "./CelebrationOverlay";
 import Sidebar from "./Sidebar";
 import Toast from "./Toast";
@@ -98,7 +98,7 @@ export default function Layout() {
       />
 
       <Suspense fallback={<div className="fixed inset-0 bg-[linear-gradient(180deg,rgba(4,12,24,0.2),rgba(2,8,16,0.7))]" />}>
-        <WaterFillScene progress={sessionProgress} reduceMotion={reduceMotion} />
+        <WaterFillScene progress={sessionProgress} reduceMotion={reduceMotion} theme={activeTheme} />
       </Suspense>
 
       <motion.div
@@ -208,7 +208,7 @@ export default function Layout() {
             animate={cinematicMotion ? { y: [0, -4, 0], rotate: [0, -1.2, 0, 1.2, 0] } : {}}
             transition={{ duration: 2.9, repeat: Infinity, ease: "easeInOut" }}
           >
-            (•_•) 67
+            (â€¢_â€¢) 67
           </motion.div>
 
           <motion.div
@@ -257,3 +257,4 @@ export default function Layout() {
     </div>
   );
 }
+

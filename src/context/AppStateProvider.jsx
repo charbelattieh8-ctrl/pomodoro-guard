@@ -1,7 +1,6 @@
-import {
+﻿import {
   createContext,
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -13,12 +12,12 @@ import { loadState, saveState, createDefaultState, writeCache } from "../lib/sto
 import { calcRemainingMs, calcSessionProgress, getModeMinutes, modeFromCycle } from "../lib/time";
 import { themeById } from "../lib/themes";
 import { getYesterdayISO, toLocalISODate, uid } from "../lib/utils";
-import { useAuth } from "./AuthProvider";
+import { useAuth } from "./useAuth";
 import { db } from "../lib/firebase";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { completeFocusToCloud } from "../lib/firestore";
 
-const AppStateContext = createContext(null);
+export const AppStateContext = createContext(null);
 
 const keepHistory200 = (history) => history.slice(-200);
 
@@ -287,7 +286,7 @@ export function AppStateProvider({ children }) {
             : "Great work. Break time.",
         coins,
       });
-      addToast(`Focus complete • +${coins} coins`, "success");
+      addToast(`Focus complete â€¢ +${coins} coins`, "success");
       lastCelebratedHistoryIdRef.current = latest.id;
     }
     prevCoinsRef.current = state.economy.coins;
@@ -829,8 +828,4 @@ export function AppStateProvider({ children }) {
   return <AppStateContext.Provider value={value}>{children}</AppStateContext.Provider>;
 }
 
-export const useAppState = () => {
-  const ctx = useContext(AppStateContext);
-  if (!ctx) throw new Error("useAppState must be used within AppStateProvider");
-  return ctx;
-};
+

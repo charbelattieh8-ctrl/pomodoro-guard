@@ -1,9 +1,9 @@
-import { useMemo, useState } from "react";
+﻿import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import GlassCard from "../components/GlassCard";
 import Modal from "../components/Modal";
 import PrimaryButton from "../components/PrimaryButton";
-import { useAppState } from "../context/AppStateProvider";
+import { useAppState } from "../context/useAppState";
 import { hashStringSHA256 } from "../lib/utils";
 
 export default function AdminPage() {
@@ -196,3 +196,4 @@ export default function AdminPage() {
     </motion.div>
   );
 }
+

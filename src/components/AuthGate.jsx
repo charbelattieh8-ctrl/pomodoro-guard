@@ -1,11 +1,11 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { motion } from "framer-motion";
 import GlassCard from "./GlassCard";
 import PrimaryButton from "./PrimaryButton";
 import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
 import UsernameModal from "./UsernameModal";
-import { useAuth } from "../context/AuthProvider";
+import { useAuth } from "../context/useAuth";
 
 export default function AuthGate({ children }) {
   const {
@@ -163,3 +163,4 @@ export default function AuthGate({ children }) {
 
   return children;
 }
+

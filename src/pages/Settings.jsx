@@ -1,10 +1,10 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import GlassCard from "../components/GlassCard";
 import PrimaryButton from "../components/PrimaryButton";
 import Toggle from "../components/Toggle";
-import { useAppState } from "../context/AppStateProvider";
-import { useAuth } from "../context/AuthProvider";
+import { useAppState } from "../context/useAppState";
+import { useAuth } from "../context/useAuth";
 
 async function fileToDataUrl(file) {
   const dataUrl = await new Promise((resolve, reject) => {
@@ -241,3 +241,4 @@ export default function SettingsPage() {
     </motion.div>
   );
 }
+

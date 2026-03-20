@@ -1,7 +1,5 @@
-import {
+﻿import {
   createContext,
-  useCallback,
-  useContext,
   useEffect,
   useMemo,
   useState,
@@ -39,7 +37,7 @@ import {
 } from "../lib/social";
 import { readCache } from "../lib/storage";
 
-const AuthContext = createContext(null);
+export const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -215,8 +213,4 @@ export function AuthProvider({ children }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
-export function useAuth() {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
-  return ctx;
-}
+

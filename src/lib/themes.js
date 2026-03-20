@@ -5,6 +5,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 0,
     gradient: { from: "#064e3b", via: "#059669", to: "#0f172a" },
     accent: "#34d399",
+    water: { base: "#059669", light: "#6ee7b7", crest: "#a7f3d0", deep: "#022c22" },
     isFree: true,
   },
   {
@@ -13,6 +14,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 0,
     gradient: { from: "#1e3a8a", via: "#0891b2", to: "#111827" },
     accent: "#22d3ee",
+    water: { base: "#0891b2", light: "#67e8f9", crest: "#a5f3fc", deep: "#0c4a6e" },
     isFree: true,
   },
   {
@@ -21,6 +23,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 0,
     gradient: { from: "#5b21b6", via: "#7c3aed", to: "#1e293b" },
     accent: "#a78bfa",
+    water: { base: "#7c3aed", light: "#c4b5fd", crest: "#ddd6fe", deep: "#3b0764" },
     isFree: true,
   },
   {
@@ -29,6 +32,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 0,
     gradient: { from: "#c2410c", via: "#f59e0b", to: "#7c2d12" },
     accent: "#fb923c",
+    water: { base: "#ea580c", light: "#fdba74", crest: "#fed7aa", deep: "#7c2d12" },
     isFree: true,
   },
   {
@@ -37,6 +41,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 0,
     gradient: { from: "#14532d", via: "#15803d", to: "#052e16" },
     accent: "#4ade80",
+    water: { base: "#16a34a", light: "#86efac", crest: "#bbf7d0", deep: "#052e16" },
     isFree: true,
   },
   {
@@ -45,6 +50,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 50,
     gradient: { from: "#92400e", via: "#ea580c", to: "#451a03" },
     accent: "#fb923c",
+    water: { base: "#ea580c", light: "#fb923c", crest: "#fed7aa", deep: "#451a03" },
     isFree: false,
   },
   {
@@ -53,6 +59,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 100,
     gradient: { from: "#9f1239", via: "#e11d48", to: "#312e81" },
     accent: "#fb7185",
+    water: { base: "#e11d48", light: "#fb7185", crest: "#fecdd3", deep: "#4c0519" },
     isFree: false,
   },
   {
@@ -61,6 +68,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 150,
     gradient: { from: "#4c1d95", via: "#0891b2", to: "#172554" },
     accent: "#67e8f9",
+    water: { base: "#0891b2", light: "#67e8f9", crest: "#a5f3fc", deep: "#172554" },
     isFree: false,
   },
   {
@@ -69,6 +77,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 250,
     gradient: { from: "#991b1b", via: "#f97316", to: "#881337" },
     accent: "#fdba74",
+    water: { base: "#f97316", light: "#fdba74", crest: "#fed7aa", deep: "#7c2d12" },
     isFree: false,
   },
   {
@@ -77,6 +86,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 60,
     gradient: { from: "#0c4a6e", via: "#0284c7", to: "#082f49" },
     accent: "#7dd3fc",
+    water: { base: "#0284c7", light: "#7dd3fc", crest: "#bae6fd", deep: "#082f49" },
     isFree: false,
   },
   {
@@ -85,6 +95,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 120,
     gradient: { from: "#7f1d1d", via: "#dc2626", to: "#1e1b4b" },
     accent: "#fca5a5",
+    water: { base: "#dc2626", light: "#fca5a5", crest: "#fecaca", deep: "#450a0a" },
     isFree: false,
   },
   {
@@ -93,6 +104,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 140,
     gradient: { from: "#065f46", via: "#10b981", to: "#0c4a6e" },
     accent: "#6ee7b7",
+    water: { base: "#10b981", light: "#6ee7b7", crest: "#a7f3d0", deep: "#064e3b" },
     isFree: false,
   },
   {
@@ -101,6 +113,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 160,
     gradient: { from: "#581c87", via: "#9333ea", to: "#1e293b" },
     accent: "#c084fc",
+    water: { base: "#9333ea", light: "#c084fc", crest: "#e9d5ff", deep: "#3b0764" },
     isFree: false,
   },
   {
@@ -109,6 +122,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 200,
     gradient: { from: "#a16207", via: "#facc15", to: "#713f12" },
     accent: "#fde047",
+    water: { base: "#eab308", light: "#fde047", crest: "#fef9c3", deep: "#713f12" },
     isFree: false,
   },
   {
@@ -117,6 +131,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 180,
     gradient: { from: "#1e3a8a", via: "#3b82f6", to: "#020617" },
     accent: "#93c5fd",
+    water: { base: "#3b82f6", light: "#93c5fd", crest: "#bfdbfe", deep: "#1e3a8a" },
     isFree: false,
   },
   {
@@ -125,6 +140,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 67,
     gradient: { from: "#0f172a", via: "#334155", to: "#1e293b" },
     accent: "#facc15",
+    water: { base: "#854d0e", light: "#facc15", crest: "#fef9c3", deep: "#1c1917" },
     isFree: false,
   },
   {
@@ -133,6 +149,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 80,
     gradient: { from: "#9f1239", via: "#f43f5e", to: "#3f0f1f" },
     accent: "#fda4af",
+    water: { base: "#f43f5e", light: "#fda4af", crest: "#ffe4e6", deep: "#4c0519" },
     isFree: false,
   },
   {
@@ -141,6 +158,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 90,
     gradient: { from: "#14532d", via: "#22c55e", to: "#052e16" },
     accent: "#bef264",
+    water: { base: "#22c55e", light: "#86efac", crest: "#dcfce7", deep: "#052e16" },
     isFree: false,
   },
   {
@@ -149,6 +167,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 110,
     gradient: { from: "#9a3412", via: "#ea580c", to: "#7f1d1d" },
     accent: "#fdba74",
+    water: { base: "#ea580c", light: "#fdba74", crest: "#ffedd5", deep: "#431407" },
     isFree: false,
   },
   {
@@ -157,6 +176,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 130,
     gradient: { from: "#4338ca", via: "#6366f1", to: "#1e1b4b" },
     accent: "#c4b5fd",
+    water: { base: "#6366f1", light: "#a5b4fc", crest: "#c7d2fe", deep: "#1e1b4b" },
     isFree: false,
   },
   {
@@ -165,6 +185,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 140,
     gradient: { from: "#c2410c", via: "#f97316", to: "#0f766e" },
     accent: "#fed7aa",
+    water: { base: "#f97316", light: "#fdba74", crest: "#fed7aa", deep: "#431407" },
     isFree: false,
   },
   {
@@ -173,6 +194,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 170,
     gradient: { from: "#9f1239", via: "#f43f5e", to: "#312e81" },
     accent: "#fda4af",
+    water: { base: "#e11d48", light: "#fb7185", crest: "#fecdd3", deep: "#881337" },
     isFree: false,
   },
   {
@@ -181,6 +203,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 180,
     gradient: { from: "#0f172a", via: "#0e7490", to: "#164e63" },
     accent: "#67e8f9",
+    water: { base: "#0e7490", light: "#22d3ee", crest: "#a5f3fc", deep: "#083344" },
     isFree: false,
   },
   {
@@ -189,6 +212,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 200,
     gradient: { from: "#14532d", via: "#16a34a", to: "#1e293b" },
     accent: "#86efac",
+    water: { base: "#16a34a", light: "#4ade80", crest: "#bbf7d0", deep: "#052e16" },
     isFree: false,
   },
   {
@@ -197,6 +221,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 220,
     gradient: { from: "#9a3412", via: "#fb7185", to: "#7e22ce" },
     accent: "#fecdd3",
+    water: { base: "#fb7185", light: "#fda4af", crest: "#ffe4e6", deep: "#4c0519" },
     isFree: false,
   },
   {
@@ -205,6 +230,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 260,
     gradient: { from: "#1e3a8a", via: "#2563eb", to: "#9a3412" },
     accent: "#93c5fd",
+    water: { base: "#2563eb", light: "#60a5fa", crest: "#bfdbfe", deep: "#1e3a8a" },
     isFree: false,
   },
   {
@@ -213,6 +239,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 300,
     gradient: { from: "#475569", via: "#8b5cf6", to: "#1e3a8a" },
     accent: "#ddd6fe",
+    water: { base: "#8b5cf6", light: "#a78bfa", crest: "#ddd6fe", deep: "#2e1065" },
     isFree: false,
   },
   {
@@ -221,6 +248,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 350,
     gradient: { from: "#854d0e", via: "#fbbf24", to: "#14532d" },
     accent: "#fef08a",
+    water: { base: "#eab308", light: "#fde047", crest: "#fef9c3", deep: "#422006" },
     isFree: false,
   },
   {
@@ -229,6 +257,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 420,
     gradient: { from: "#111827", via: "#be123c", to: "#374151" },
     accent: "#f9a8d4",
+    water: { base: "#be123c", light: "#fb7185", crest: "#fecdd3", deep: "#1f2937" },
     isFree: false,
   },
   {
@@ -237,6 +266,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 500,
     gradient: { from: "#1e1b4b", via: "#0891b2", to: "#be123c" },
     accent: "#a5f3fc",
+    water: { base: "#0891b2", light: "#67e8f9", crest: "#a5f3fc", deep: "#1e1b4b" },
     isFree: false,
   },
   {
@@ -245,6 +275,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 180,
     gradient: { from: "#020617", via: "#111827", to: "#0f172a" },
     accent: "#94a3b8",
+    water: { base: "#334155", light: "#94a3b8", crest: "#cbd5e1", deep: "#020617" },
     isFree: false,
   },
   {
@@ -253,6 +284,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 210,
     gradient: { from: "#09090b", via: "#3f1d2e", to: "#111827" },
     accent: "#fb7185",
+    water: { base: "#9f1239", light: "#fb7185", crest: "#fda4af", deep: "#09090b" },
     isFree: false,
   },
   {
@@ -261,6 +293,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 240,
     gradient: { from: "#030712", via: "#0f172a", to: "#082f49" },
     accent: "#22d3ee",
+    water: { base: "#0e7490", light: "#22d3ee", crest: "#67e8f9", deep: "#030712" },
     isFree: false,
   },
   {
@@ -269,6 +302,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 190,
     gradient: { from: "#020617", via: "#052e16", to: "#111827" },
     accent: "#86efac",
+    water: { base: "#15803d", light: "#4ade80", crest: "#86efac", deep: "#020617" },
     isFree: false,
   },
   {
@@ -277,6 +311,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 260,
     gradient: { from: "#020617", via: "#2e1065", to: "#0f172a" },
     accent: "#c4b5fd",
+    water: { base: "#6d28d9", light: "#a78bfa", crest: "#c4b5fd", deep: "#020617" },
     isFree: false,
   },
   {
@@ -285,6 +320,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 230,
     gradient: { from: "#030712", via: "#1f2937", to: "#0b1120" },
     accent: "#e2e8f0",
+    water: { base: "#475569", light: "#94a3b8", crest: "#e2e8f0", deep: "#030712" },
     isFree: false,
   },
   {
@@ -293,6 +329,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 280,
     gradient: { from: "#020617", via: "#1e293b", to: "#0c4a6e" },
     accent: "#67e8f9",
+    water: { base: "#0e7490", light: "#22d3ee", crest: "#67e8f9", deep: "#020617" },
     isFree: false,
   },
   {
@@ -301,6 +338,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 300,
     gradient: { from: "#09090b", via: "#1c1917", to: "#111827" },
     accent: "#facc15",
+    water: { base: "#a16207", light: "#facc15", crest: "#fef08a", deep: "#09090b" },
     isFree: false,
   },
   {
@@ -309,6 +347,7 @@ export const DEFAULT_THEMES = [
     priceCoins: 320,
     gradient: { from: "#020617", via: "#1e1b4b", to: "#064e3b" },
     accent: "#5eead4",
+    water: { base: "#0d9488", light: "#2dd4bf", crest: "#5eead4", deep: "#020617" },
     isFree: false,
   },
   {
@@ -317,6 +356,35 @@ export const DEFAULT_THEMES = [
     priceCoins: 350,
     gradient: { from: "#020617", via: "#0f172a", to: "#164e63" },
     accent: "#bae6fd",
+    water: { base: "#0284c7", light: "#38bdf8", crest: "#bae6fd", deep: "#020617" },
+    isFree: false,
+  },
+  // --- NEW THEMES ---
+  {
+    id: "theme_paid_25",
+    name: "7 Rings",
+    priceCoins: 400,
+    gradient: { from: "#1a0a2e", via: "#6b21a8", to: "#0c0015" },
+    accent: "#e9d5ff",
+    water: { base: "#7e22ce", light: "#d8b4fe", crest: "#f5d0fe", deep: "#2e0854" },
+    isFree: false,
+  },
+  {
+    id: "theme_paid_26",
+    name: "Espresso",
+    priceCoins: 280,
+    gradient: { from: "#3b1a08", via: "#92400e", to: "#1c0f05" },
+    accent: "#d6a87c",
+    water: { base: "#78350f", light: "#d6a87c", crest: "#f5deb3", deep: "#1c0a00" },
+    isFree: false,
+  },
+  {
+    id: "theme_paid_27",
+    name: "Midnight Sun",
+    priceCoins: 350,
+    gradient: { from: "#0c1445", via: "#1e3a8a", to: "#854d0e" },
+    accent: "#fbbf24",
+    water: { base: "#1d4ed8", light: "#fbbf24", crest: "#fef3c7", deep: "#0c1445" },
     isFree: false,
   },
 ];

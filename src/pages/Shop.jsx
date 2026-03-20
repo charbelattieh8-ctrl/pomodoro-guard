@@ -1,9 +1,9 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { Coins } from "lucide-react";
 import GlassCard from "../components/GlassCard";
 import PrimaryButton from "../components/PrimaryButton";
 import ThemePreview from "../components/ThemePreview";
-import { useAppState } from "../context/AppStateProvider";
+import { useAppState } from "../context/useAppState";
 
 export default function ShopPage() {
   const { state, actions } = useAppState();
@@ -56,3 +56,4 @@ export default function ShopPage() {
     </motion.div>
   );
 }
+

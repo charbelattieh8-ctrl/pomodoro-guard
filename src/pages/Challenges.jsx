@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import GlassCard from "../components/GlassCard";
 import PrimaryButton from "../components/PrimaryButton";
-import { useAuth } from "../context/AuthProvider";
+import { useAuth } from "../context/useAuth";
 import { db } from "../lib/firebase";
 import {
   completeChallenge,
@@ -157,10 +157,10 @@ export default function ChallengesPage() {
           <div key={c.id} className="rounded-xl border border-white/15 bg-white/5 p-3">
             <p className="font-semibold">{c.title || "Challenge"}</p>
             <p className="text-xs text-slate-300">
-              Target: {Number(c.targetMinutes || 0)}m · reward: {Number(c.rewardCoins || 0)} coins · status: {c.status}
+              Target: {Number(c.targetMinutes || 0)}m Â· reward: {Number(c.rewardCoins || 0)} coins Â· status: {c.status}
             </p>
             <p className="text-xs text-slate-300">
-              Deadline: {timeLeftText(c.deadlineAt)} · Your progress today: {todayMinutes}m
+              Deadline: {timeLeftText(c.deadlineAt)} Â· Your progress today: {todayMinutes}m
             </p>
             <div className="mt-2 flex flex-wrap gap-2">
               {c.status === "pending" && (
@@ -203,7 +203,7 @@ export default function ChallengesPage() {
           <div key={c.id} className="rounded-xl border border-white/15 bg-white/5 p-3">
             <p className="font-semibold">{c.title || "Challenge"}</p>
             <p className="text-xs text-slate-300">
-              Target: {Number(c.targetMinutes || 0)}m · reward: {Number(c.rewardCoins || 0)} coins · status: {c.status}
+              Target: {Number(c.targetMinutes || 0)}m Â· reward: {Number(c.rewardCoins || 0)} coins Â· status: {c.status}
             </p>
             <p className="text-xs text-slate-300">Deadline: {timeLeftText(c.deadlineAt)}</p>
             {c.status !== "pending" && (
@@ -219,3 +219,4 @@ export default function ChallengesPage() {
     </motion.div>
   );
 }
+
