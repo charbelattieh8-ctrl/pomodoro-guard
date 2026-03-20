@@ -144,7 +144,7 @@ body {
 .timer-water-fill {
   will-change: height;
   transform: translateZ(0);
-  contain: layout paint;
+  contain: layout;
   overflow: visible;
 }
 
