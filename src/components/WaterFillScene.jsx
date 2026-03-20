@@ -45,6 +45,18 @@ const WAVE_LAYERS = [
     stroke: "M0,54 C40,56 80,60 130,62 C180,64 210,62 240,54 C260,48 275,38 295,30 C315,22 330,20 350,24 C370,28 400,42 440,54 C480,62 540,66 600,64 C640,62 670,56 700,46 C720,40 740,32 760,26 C780,22 800,22 820,28 C850,36 890,50 940,60 C990,66 1050,66 1100,62 C1140,58 1170,48 1200,38 C1220,32 1240,26 1260,24 C1280,24 1310,30 1350,40 C1390,50 1420,54 1440,54",
   },
   {
+    id: "rolling",
+    duration: 22,
+    amplitude: 6,
+    opacity: 0.32,
+    strokeOpacity: 0.10,
+    yOffset: 14,
+    className: "timer-water-wave-rolling",
+    // Calm, long-wavelength rolling wave — fills the gap between choppy layers (start/end Y=58)
+    path: "M0,58 C80,56 160,52 260,50 C340,48 400,46 480,48 C560,50 640,56 720,58 C800,60 880,62 960,60 C1040,58 1120,54 1200,50 C1260,48 1320,48 1380,52 C1410,54 1430,56 1440,58 L1440,140 L0,140 Z",
+    stroke: "M0,58 C80,56 160,52 260,50 C340,48 400,46 480,48 C560,50 640,56 720,58 C800,60 880,62 960,60 C1040,58 1120,54 1200,50 C1260,48 1320,48 1380,52 C1410,54 1430,56 1440,58",
+  },
+  {
     id: "mid-front",
     duration: 16,
     amplitude: 14,
@@ -106,7 +118,7 @@ function WaterBody({ fillPercent, reduceMotion }) {
       <div className="timer-water-body absolute inset-0 overflow-hidden">
         <div className="timer-water-gradient absolute inset-0" />
 
-        <div className="timer-water-crest-fade absolute inset-x-0 top-0 h-28" />
+        <div className="timer-water-crest-fade absolute inset-x-0 top-0 h-44" />
 
         <motion.div
           className="timer-water-texture absolute inset-0"
@@ -260,6 +272,9 @@ function WaterSurface({ reduceMotion }) {
                   y - a * 0.06,
                   y,
                 ];
+              case "rolling":
+                // Gentle, slow bob — calming presence between choppy layers
+                return [y, y - a * 0.14, y + a * 0.10, y - a * 0.08, y];
               case "mid-front":
                 return [
                   y,
