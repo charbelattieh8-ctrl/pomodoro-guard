@@ -2,96 +2,102 @@ import { motion } from "framer-motion";
 import waterRippleTexture from "../assets/water/water-ripple-texture.png";
 
 /*
- * Ocean-realistic wave layers.
- * Each path uses trochoid-like shapes: sharp narrow crests, broad flat troughs.
- * Multiple wavelengths are superimposed for natural irregularity.
- * Paths are designed for a 1440-wide viewport (doubled to 2880 for seamless scroll).
+ * Calm ocean wave layers.
+ * Gentle trochoid-like shapes with reduced amplitude.
+ * Paths are 1440-wide, doubled to 2880 for seamless scroll. Start Y = End Y.
  */
 const WAVE_LAYERS = [
   {
     id: "deep-swell",
-    duration: 32,
-    amplitude: 4,
+    duration: 36,
+    amplitude: 3,
     opacity: 0.08,
     strokeOpacity: 0,
-    yOffset: 28,
+    yOffset: 24,
     className: "timer-water-wave-deep-swell",
-    // Very long wavelength, gentle undulation — deep ocean swell (start/end Y=62)
-    path: "M0,62 C120,60 240,58 360,56 C420,55 460,50 500,44 C540,38 560,36 600,38 C640,40 680,48 720,54 C800,62 920,66 1040,64 C1100,63 1140,58 1180,50 C1220,42 1240,38 1280,40 C1320,42 1380,54 1440,62 L1440,140 L0,140 Z",
-    stroke: "M0,62 C120,60 240,58 360,56 C420,55 460,50 500,44 C540,38 560,36 600,38 C640,40 680,48 720,54 C800,62 920,66 1040,64 C1100,63 1140,58 1180,50 C1220,42 1240,38 1280,40 C1320,42 1380,54 1440,62",
+    // Very gentle swell (Y range ~56-66, start/end Y=62)
+    path: "M0,62 C120,61 240,59 360,58 C420,57 480,56 540,57 C600,58 660,60 720,62 C800,64 880,66 960,65 C1040,64 1120,61 1200,58 C1260,56 1300,56 1360,58 C1400,60 1430,61 1440,62 L1440,140 L0,140 Z",
+    stroke: "M0,62 C120,61 240,59 360,58 C420,57 480,56 540,57 C600,58 660,60 720,62 C800,64 880,66 960,65 C1040,64 1120,61 1200,58 C1260,56 1300,56 1360,58 C1400,60 1430,61 1440,62",
   },
   {
     id: "deep-back",
-    duration: 26,
-    amplitude: 7,
-    opacity: 0.15,
+    duration: 28,
+    amplitude: 4,
+    opacity: 0.14,
     strokeOpacity: 0,
-    yOffset: 22,
+    yOffset: 20,
     className: "timer-water-wave-deep-back",
-    // Broad troughs, moderate crests (start/end Y=58)
-    path: "M0,58 C60,56 100,54 150,48 C180,44 200,38 230,34 C260,30 280,32 320,40 C360,48 420,58 500,62 C560,64 620,62 680,56 C720,52 750,44 790,38 C830,32 860,30 900,34 C940,38 1000,52 1060,60 C1120,64 1180,62 1220,56 C1260,50 1290,44 1330,40 C1370,38 1400,46 1440,58 L1440,140 L0,140 Z",
-    stroke: "M0,58 C60,56 100,54 150,48 C180,44 200,38 230,34 C260,30 280,32 320,40 C360,48 420,58 500,62 C560,64 620,62 680,56 C720,52 750,44 790,38 C830,32 860,30 900,34 C940,38 1000,52 1060,60 C1120,64 1180,62 1220,56 C1260,50 1290,44 1330,40 C1370,38 1400,46 1440,58",
+    // Gentle undulation (Y range ~48-64, start/end Y=58)
+    path: "M0,58 C60,56 120,54 200,50 C260,48 300,49 360,52 C420,56 500,62 580,64 C660,64 720,60 800,56 C860,52 920,49 980,50 C1040,52 1120,58 1200,62 C1260,64 1300,62 1360,58 C1400,56 1430,57 1440,58 L1440,140 L0,140 Z",
+    stroke: "M0,58 C60,56 120,54 200,50 C260,48 300,49 360,52 C420,56 500,62 580,64 C660,64 720,60 800,56 C860,52 920,49 980,50 C1040,52 1120,58 1200,62 C1260,64 1300,62 1360,58 C1400,56 1430,57 1440,58",
   },
   {
     id: "mid-back",
-    duration: 21,
-    amplitude: 10,
-    opacity: 0.26,
-    strokeOpacity: 0.06,
+    duration: 24,
+    amplitude: 5,
+    opacity: 0.24,
+    strokeOpacity: 0.05,
     yOffset: 16,
     className: "timer-water-wave-mid-back",
-    // More pronounced crests, flatter troughs (start/end Y=54)
-    path: "M0,54 C40,56 80,60 130,62 C180,64 210,62 240,54 C260,48 275,38 295,30 C315,22 330,20 350,24 C370,28 400,42 440,54 C480,62 540,66 600,64 C640,62 670,56 700,46 C720,40 740,32 760,26 C780,22 800,22 820,28 C850,36 890,50 940,60 C990,66 1050,66 1100,62 C1140,58 1170,48 1200,38 C1220,32 1240,26 1260,24 C1280,24 1310,30 1350,40 C1390,50 1420,54 1440,54 L1440,140 L0,140 Z",
-    stroke: "M0,54 C40,56 80,60 130,62 C180,64 210,62 240,54 C260,48 275,38 295,30 C315,22 330,20 350,24 C370,28 400,42 440,54 C480,62 540,66 600,64 C640,62 670,56 700,46 C720,40 740,32 760,26 C780,22 800,22 820,28 C850,36 890,50 940,60 C990,66 1050,66 1100,62 C1140,58 1170,48 1200,38 C1220,32 1240,26 1260,24 C1280,24 1310,30 1350,40 C1390,50 1420,54 1440,54",
+    // Moderate gentle waves (Y range ~42-66, start/end Y=56)
+    path: "M0,56 C50,58 100,62 160,64 C220,66 260,64 300,58 C330,54 355,48 385,44 C415,42 435,43 460,48 C490,54 530,62 580,64 C640,66 690,64 740,58 C770,54 800,48 830,44 C860,42 880,43 910,48 C950,54 1000,62 1060,66 C1120,66 1170,62 1220,56 C1260,50 1290,46 1330,44 C1360,44 1390,48 1420,54 C1432,56 1438,56 1440,56 L1440,140 L0,140 Z",
+    stroke: "M0,56 C50,58 100,62 160,64 C220,66 260,64 300,58 C330,54 355,48 385,44 C415,42 435,43 460,48 C490,54 530,62 580,64 C640,66 690,64 740,58 C770,54 800,48 830,44 C860,42 880,43 910,48 C950,54 1000,62 1060,66 C1120,66 1170,62 1220,56 C1260,50 1290,46 1330,44 C1360,44 1390,48 1420,54 C1432,56 1438,56 1440,56",
   },
   {
     id: "rolling",
-    duration: 22,
-    amplitude: 6,
-    opacity: 0.32,
-    strokeOpacity: 0.10,
+    duration: 26,
+    amplitude: 3,
+    opacity: 0.30,
+    strokeOpacity: 0.08,
     yOffset: 14,
     className: "timer-water-wave-rolling",
-    // Calm, long-wavelength rolling wave — fills the gap between choppy layers (start/end Y=58)
-    path: "M0,58 C80,56 160,52 260,50 C340,48 400,46 480,48 C560,50 640,56 720,58 C800,60 880,62 960,60 C1040,58 1120,54 1200,50 C1260,48 1320,48 1380,52 C1410,54 1430,56 1440,58 L1440,140 L0,140 Z",
-    stroke: "M0,58 C80,56 160,52 260,50 C340,48 400,46 480,48 C560,50 640,56 720,58 C800,60 880,62 960,60 C1040,58 1120,54 1200,50 C1260,48 1320,48 1380,52 C1410,54 1430,56 1440,58",
+    // Very calm, long-wavelength rolling (Y range ~52-62, start/end Y=58)
+    path: "M0,58 C100,56 200,54 320,52 C400,52 480,54 560,56 C640,58 720,60 800,62 C880,62 960,60 1040,58 C1120,56 1200,54 1280,52 C1340,52 1390,54 1420,56 C1435,57 1440,58 1440,58 L1440,140 L0,140 Z",
+    stroke: "M0,58 C100,56 200,54 320,52 C400,52 480,54 560,56 C640,58 720,60 800,62 C880,62 960,60 1040,58 C1120,56 1200,54 1280,52 C1340,52 1390,54 1420,56 C1435,57 1440,58 1440,58",
   },
   {
     id: "mid-front",
-    duration: 16,
-    amplitude: 14,
-    opacity: 0.42,
-    strokeOpacity: 0.22,
+    duration: 18,
+    amplitude: 7,
+    opacity: 0.40,
+    strokeOpacity: 0.18,
     yOffset: 10,
     className: "timer-water-wave-mid-front",
-    // Sharp trochoid crests, broad flat troughs (start/end Y=60)
-    path: "M0,60 C30,62 70,66 120,68 C170,68 200,64 225,56 C240,50 252,40 265,30 C278,20 288,16 300,18 C312,20 325,30 340,44 C360,58 400,66 460,68 C520,68 560,64 590,56 C610,50 625,38 640,28 C655,18 665,14 680,16 C695,18 712,30 735,46 C760,60 800,68 860,70 C920,70 960,64 990,54 C1010,46 1025,36 1040,26 C1055,18 1065,14 1080,16 C1095,18 1115,32 1140,48 C1170,62 1210,68 1270,70 C1320,68 1360,64 1400,60 C1420,58 1435,59 1440,60 L1440,140 L0,140 Z",
-    stroke: "M0,60 C30,62 70,66 120,68 C170,68 200,64 225,56 C240,50 252,40 265,30 C278,20 288,16 300,18 C312,20 325,30 340,44 C360,58 400,66 460,68 C520,68 560,64 590,56 C610,50 625,38 640,28 C655,18 665,14 680,16 C695,18 712,30 735,46 C760,60 800,68 860,70 C920,70 960,64 990,54 C1010,46 1025,36 1040,26 C1055,18 1065,14 1080,16 C1095,18 1115,32 1140,48 C1170,62 1210,68 1270,70 C1320,68 1360,64 1400,60 C1420,58 1435,59 1440,60",
+    // Gentle crests (Y range ~40-70, start/end Y=62)
+    path: "M0,62 C40,64 80,66 130,68 C180,70 210,68 245,62 C270,58 290,50 310,44 C330,40 345,40 365,44 C390,50 420,60 460,66 C510,70 560,70 610,66 C640,62 665,54 690,46 C710,42 725,40 745,42 C770,46 800,56 840,64 C880,68 930,70 980,68 C1020,66 1050,60 1080,52 C1100,46 1115,42 1135,42 C1155,42 1180,48 1210,58 C1250,66 1290,70 1340,68 C1380,66 1410,64 1440,62 L1440,140 L0,140 Z",
+    stroke: "M0,62 C40,64 80,66 130,68 C180,70 210,68 245,62 C270,58 290,50 310,44 C330,40 345,40 365,44 C390,50 420,60 460,66 C510,70 560,70 610,66 C640,62 665,54 690,46 C710,42 725,40 745,42 C770,46 800,56 840,64 C880,68 930,70 980,68 C1020,66 1050,60 1080,52 C1100,46 1115,42 1135,42 C1155,42 1180,48 1210,58 C1250,66 1290,70 1340,68 C1380,66 1410,64 1440,62",
   },
   {
     id: "front",
-    duration: 12,
-    amplitude: 18,
-    opacity: 0.62,
-    strokeOpacity: 0.48,
-    yOffset: 2,
+    duration: 14,
+    amplitude: 9,
+    opacity: 0.58,
+    strokeOpacity: 0.40,
+    yOffset: 4,
     className: "timer-water-wave-front",
-    // Most dramatic — steep crests, wide deep troughs (start/end Y=66)
-    path: "M0,66 C20,68 50,72 90,74 C140,74 170,72 195,64 C210,58 222,46 235,34 C248,22 256,14 268,12 C280,10 290,14 305,26 C320,38 340,54 370,66 C400,72 440,76 490,76 C540,74 570,68 595,58 C612,50 624,38 638,26 C652,14 660,10 674,10 C688,10 700,18 718,34 C738,50 760,66 800,74 C840,78 890,78 940,74 C970,70 995,60 1015,48 C1030,38 1042,26 1055,16 C1068,8 1078,6 1090,8 C1102,10 1118,24 1138,42 C1162,60 1195,74 1240,76 C1290,76 1330,74 1370,70 C1400,68 1425,66 1440,66 L1440,140 L0,140 Z",
-    stroke: "M0,66 C20,68 50,72 90,74 C140,74 170,72 195,64 C210,58 222,46 235,34 C248,22 256,14 268,12 C280,10 290,14 305,26 C320,38 340,54 370,66 C400,72 440,76 490,76 C540,74 570,68 595,58 C612,50 624,38 638,26 C652,14 660,10 674,10 C688,10 700,18 718,34 C738,50 760,66 800,74 C840,78 890,78 940,74 C970,70 995,60 1015,48 C1030,38 1042,26 1055,16 C1068,8 1078,6 1090,8 C1102,10 1118,24 1138,42 C1162,60 1195,74 1240,76 C1290,76 1330,74 1370,70 C1400,68 1425,66 1440,66",
+    // Most visible — still gentle (Y range ~36-76, start/end Y=66)
+    path: "M0,66 C30,68 70,72 120,74 C170,76 200,74 235,68 C260,62 280,54 305,46 C325,40 340,38 360,40 C380,42 405,52 435,62 C470,72 520,76 570,76 C620,74 655,68 685,60 C705,52 720,44 740,40 C755,36 770,38 790,42 C815,50 850,62 890,72 C930,76 980,76 1030,72 C1065,68 1090,60 1115,50 C1135,44 1148,40 1165,38 C1182,38 1200,42 1225,52 C1260,64 1300,74 1350,76 C1385,76 1410,72 1430,68 C1438,66 1440,66 1440,66 L1440,140 L0,140 Z",
+    stroke: "M0,66 C30,68 70,72 120,74 C170,76 200,74 235,68 C260,62 280,54 305,46 C325,40 340,38 360,40 C380,42 405,52 435,62 C470,72 520,76 570,76 C620,74 655,68 685,60 C705,52 720,44 740,40 C755,36 770,38 790,42 C815,50 850,62 890,72 C930,76 980,76 1030,72 C1065,68 1090,60 1115,50 C1135,44 1148,40 1165,38 C1182,38 1200,42 1225,52 C1260,64 1300,74 1350,76 C1385,76 1410,72 1430,68 C1438,66 1440,66 1440,66",
   },
-  {
-    id: "spray",
-    duration: 9,
-    amplitude: 22,
-    opacity: 0.38,
-    strokeOpacity: 0.65,
-    yOffset: -4,
-    className: "timer-water-wave-spray",
-    // Fast choppy surface waves with spray-like peaks (start/end Y=64)
-    path: "M0,64 C15,66 35,72 60,74 C85,74 100,70 115,62 C125,56 133,44 142,32 C151,20 158,14 168,12 C178,10 188,16 200,28 C216,44 235,62 265,72 C290,76 315,74 340,66 C355,60 365,48 378,36 C391,24 398,16 410,14 C422,12 432,18 448,32 C468,50 490,68 530,76 C560,78 590,74 615,64 C632,56 642,44 655,32 C668,20 676,14 688,12 C700,10 712,18 728,34 C748,52 775,70 810,76 C840,78 868,74 892,64 C908,56 920,44 934,32 C948,20 956,14 968,12 C980,10 992,18 1008,34 C1028,52 1055,70 1090,76 C1120,78 1148,74 1172,64 C1188,56 1200,44 1214,32 C1228,20 1236,14 1248,12 C1260,10 1272,18 1288,34 C1308,52 1335,70 1370,76 C1395,78 1415,72 1440,64 L1440,140 L0,140 Z",
-    stroke: "M0,64 C15,66 35,72 60,74 C85,74 100,70 115,62 C125,56 133,44 142,32 C151,20 158,14 168,12 C178,10 188,16 200,28 C216,44 235,62 265,72 C290,76 315,74 340,66 C355,60 365,48 378,36 C391,24 398,16 410,14 C422,12 432,18 448,32 C468,50 490,68 530,76 C560,78 590,74 615,64 C632,56 642,44 655,32 C668,20 676,14 688,12 C700,10 712,18 728,34 C748,52 775,70 810,76 C840,78 868,74 892,64 C908,56 920,44 934,32 C948,20 956,14 968,12 C980,10 992,18 1008,34 C1028,52 1055,70 1090,76 C1120,78 1148,74 1172,64 C1188,56 1200,44 1214,32 C1228,20 1236,14 1248,12 C1260,10 1272,18 1288,34 C1308,52 1335,70 1370,76 C1395,78 1415,72 1440,64",
-  },
+];
+
+/** Bubble configuration — positions and timing for rising bubbles */
+const BUBBLES = [
+  { left: "8%", size: 6, delay: 0, duration: 12, drift: 15 },
+  { left: "15%", size: 4, delay: 2.5, duration: 14, drift: -10 },
+  { left: "23%", size: 8, delay: 5, duration: 10, drift: 20 },
+  { left: "32%", size: 3, delay: 1, duration: 16, drift: -8 },
+  { left: "41%", size: 5, delay: 7, duration: 13, drift: 12 },
+  { left: "52%", size: 7, delay: 3, duration: 11, drift: -18 },
+  { left: "60%", size: 4, delay: 8, duration: 15, drift: 10 },
+  { left: "68%", size: 6, delay: 0.5, duration: 12, drift: -14 },
+  { left: "76%", size: 9, delay: 4, duration: 9, drift: 16 },
+  { left: "83%", size: 3, delay: 6, duration: 17, drift: -6 },
+  { left: "90%", size: 5, delay: 2, duration: 14, drift: 12 },
+  { left: "47%", size: 4, delay: 9, duration: 13, drift: -10 },
+  { left: "18%", size: 7, delay: 6.5, duration: 11, drift: 14 },
+  { left: "72%", size: 5, delay: 3.5, duration: 15, drift: -12 },
+  { left: "35%", size: 3, delay: 11, duration: 16, drift: 8 },
 ];
 
 function clamp01(value) {
@@ -103,6 +109,71 @@ function hexToRgb(hex) {
   const h = hex.replace("#", "");
   const n = parseInt(h, 16);
   return `${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}`;
+}
+
+function Bubbles({ reduceMotion }) {
+  if (reduceMotion) return null;
+  return (
+    <div className="timer-water-bubbles absolute inset-0 overflow-hidden">
+      {BUBBLES.map((b, i) => (
+        <motion.div
+          key={`bubble-${i}`}
+          className="timer-water-bubble absolute rounded-full"
+          style={{
+            left: b.left,
+            bottom: "-5%",
+            width: b.size,
+            height: b.size,
+          }}
+          animate={{
+            y: [0, "-110vh"],
+            x: [0, b.drift, b.drift * 0.4, b.drift * 0.8, 0],
+            opacity: [0, 0.6, 0.5, 0.3, 0],
+            scale: [0.6, 1, 1.1, 1.2, 1.3],
+          }}
+          transition={{
+            duration: b.duration,
+            repeat: Infinity,
+            delay: b.delay,
+            ease: "linear",
+            opacity: { duration: b.duration, times: [0, 0.05, 0.4, 0.85, 1] },
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function GodRays({ reduceMotion }) {
+  if (reduceMotion) return null;
+  return (
+    <div className="timer-water-godrays absolute inset-0 overflow-hidden">
+      <motion.div
+        className="timer-water-godray timer-water-godray-1 absolute"
+        animate={{
+          opacity: [0.04, 0.10, 0.06, 0.08, 0.04],
+          x: ["-5%", "3%", "-2%", "4%", "-5%"],
+        }}
+        transition={{ duration: 14, repeat: Infinity, ease: [0.42, 0, 0.58, 1] }}
+      />
+      <motion.div
+        className="timer-water-godray timer-water-godray-2 absolute"
+        animate={{
+          opacity: [0.03, 0.08, 0.05, 0.07, 0.03],
+          x: ["3%", "-4%", "2%", "-3%", "3%"],
+        }}
+        transition={{ duration: 18, repeat: Infinity, ease: [0.42, 0, 0.58, 1] }}
+      />
+      <motion.div
+        className="timer-water-godray timer-water-godray-3 absolute"
+        animate={{
+          opacity: [0.02, 0.06, 0.04, 0.05, 0.02],
+          x: ["-2%", "5%", "0%", "3%", "-2%"],
+        }}
+        transition={{ duration: 22, repeat: Infinity, ease: [0.42, 0, 0.58, 1] }}
+      />
+    </div>
+  );
 }
 
 function WaterBody({ fillPercent, reduceMotion }) {
@@ -184,11 +255,11 @@ function WaterBody({ fillPercent, reduceMotion }) {
             reduceMotion
               ? {}
               : {
-                  x: ["0%", "8%", "-4%", "5%", "0%"],
-                  opacity: [0.14, 0.22, 0.18, 0.16, 0.14],
+                  x: ["0%", "4%", "-2%", "3%", "0%"],
+                  opacity: [0.10, 0.16, 0.13, 0.12, 0.10],
                 }
           }
-          transition={{ duration: 9, repeat: Infinity, ease: [0.40, 0, 0.60, 1] }}
+          transition={{ duration: 12, repeat: Infinity, ease: [0.40, 0, 0.60, 1] }}
         />
 
         <motion.div
@@ -197,12 +268,12 @@ function WaterBody({ fillPercent, reduceMotion }) {
             reduceMotion
               ? {}
               : {
-                  x: ["-15%", "18%", "-15%"],
-                  y: ["0%", "-10%", "0%"],
-                  opacity: [0.12, 0.26, 0.12],
+                  x: ["-10%", "12%", "-10%"],
+                  y: ["0%", "-6%", "0%"],
+                  opacity: [0.08, 0.18, 0.08],
                 }
           }
-          transition={{ duration: 12, repeat: Infinity, ease: [0.38, 0, 0.62, 1] }}
+          transition={{ duration: 16, repeat: Infinity, ease: [0.38, 0, 0.62, 1] }}
         />
 
         <motion.div
@@ -211,12 +282,16 @@ function WaterBody({ fillPercent, reduceMotion }) {
             reduceMotion
               ? {}
               : {
-                  x: ["-20%", "20%", "-20%"],
-                  opacity: [0.0, 0.08, 0.0],
+                  x: ["-15%", "15%", "-15%"],
+                  opacity: [0.0, 0.06, 0.0],
                 }
           }
-          transition={{ duration: 18, repeat: Infinity, ease: [0.42, 0, 0.58, 1] }}
+          transition={{ duration: 22, repeat: Infinity, ease: [0.42, 0, 0.58, 1] }}
         />
+
+        {/* Underwater effects */}
+        <GodRays reduceMotion={reduceMotion} />
+        <Bubbles reduceMotion={reduceMotion} />
       </div>
 
       <WaterSurface reduceMotion={reduceMotion} />
@@ -227,90 +302,39 @@ function WaterBody({ fillPercent, reduceMotion }) {
 function WaterSurface({ reduceMotion }) {
   return (
     <div className="pointer-events-none absolute inset-x-0 top-0 z-[2]">
-      {/* Ocean swell — slow, large vertical breathing on the whole surface */}
+      {/* Ocean swell — slow, gentle vertical breathing */}
       <motion.div
         className="timer-water-surface-window"
         animate={
           reduceMotion
             ? {}
             : {
-                y: [0, -6, 2, -4, 0],
+                y: [0, -3, 1, -2, 0],
               }
         }
         transition={{
-          duration: 8,
+          duration: 10,
           repeat: Infinity,
           ease: [0.42, 0, 0.58, 1],
         }}
       >
         {WAVE_LAYERS.map((layer) => {
-          // Ocean-realistic vertical motion: irregular swell with different
-          // frequencies per layer (deeper = slower/gentler, surface = choppier)
           const getWaveMotion = () => {
             const y = layer.yOffset;
             const a = layer.amplitude;
             switch (layer.id) {
               case "deep-swell":
-                // Barely moves — deep ocean swell
-                return [y, y - a * 0.08, y + a * 0.05, y - a * 0.04, y];
+                return [y, y - a * 0.06, y + a * 0.04, y];
               case "deep-back":
-                return [
-                  y,
-                  y - a * 0.14,
-                  y + a * 0.08,
-                  y - a * 0.10,
-                  y + a * 0.05,
-                  y,
-                ];
+                return [y, y - a * 0.10, y + a * 0.06, y - a * 0.04, y];
               case "mid-back":
-                return [
-                  y,
-                  y - a * 0.20,
-                  y + a * 0.12,
-                  y - a * 0.16,
-                  y + a * 0.08,
-                  y - a * 0.06,
-                  y,
-                ];
+                return [y, y - a * 0.14, y + a * 0.08, y - a * 0.06, y];
               case "rolling":
-                // Gentle, slow bob — calming presence between choppy layers
-                return [y, y - a * 0.14, y + a * 0.10, y - a * 0.08, y];
+                return [y, y - a * 0.10, y + a * 0.06, y];
               case "mid-front":
-                return [
-                  y,
-                  y - a * 0.28,
-                  y + a * 0.18,
-                  y - a * 0.22,
-                  y + a * 0.12,
-                  y - a * 0.08,
-                  y + a * 0.04,
-                  y,
-                ];
+                return [y, y - a * 0.16, y + a * 0.10, y - a * 0.08, y + a * 0.04, y];
               case "front":
-                // Most dramatic — big rolling motion
-                return [
-                  y,
-                  y - a * 0.36,
-                  y + a * 0.24,
-                  y - a * 0.30,
-                  y + a * 0.16,
-                  y - a * 0.12,
-                  y + a * 0.06,
-                  y,
-                ];
-              case "spray":
-                // Choppiest — fast irregular bobbing
-                return [
-                  y,
-                  y - a * 0.40,
-                  y + a * 0.28,
-                  y - a * 0.34,
-                  y + a * 0.20,
-                  y - a * 0.14,
-                  y + a * 0.08,
-                  y - a * 0.04,
-                  y,
-                ];
+                return [y, y - a * 0.20, y + a * 0.12, y - a * 0.10, y + a * 0.05, y];
               default:
                 return [y];
             }
@@ -337,7 +361,7 @@ function WaterSurface({ reduceMotion }) {
                   ease: "linear",
                 },
                 y: {
-                  duration: layer.duration * 0.82,
+                  duration: layer.duration * 0.85,
                   repeat: Infinity,
                   ease: [0.42, 0, 0.58, 1],
                 },

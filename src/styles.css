@@ -260,6 +260,72 @@ body {
   will-change: transform, opacity;
 }
 
+/* Rising bubbles */
+.timer-water-bubble {
+  background: radial-gradient(
+    circle at 35% 35%,
+    rgba(var(--water-crest-rgb, 255, 255, 255), 0.50),
+    rgba(var(--water-crest-rgb, 255, 255, 255), 0.20) 40%,
+    rgba(var(--water-light-rgb, 200, 240, 255), 0.10) 70%,
+    transparent
+  );
+  box-shadow:
+    inset 0 0 2px rgba(255, 255, 255, 0.30),
+    0 0 4px rgba(var(--water-crest-rgb, 200, 240, 255), 0.15);
+  will-change: transform, opacity;
+}
+
+/* Underwater god rays — light beams from the surface */
+.timer-water-godrays {
+  mix-blend-mode: screen;
+}
+
+.timer-water-godray {
+  will-change: transform, opacity;
+}
+
+.timer-water-godray-1 {
+  top: 0;
+  left: 15%;
+  width: 18%;
+  height: 100%;
+  background: linear-gradient(
+    168deg,
+    rgba(var(--water-crest-rgb, 255, 255, 255), 0.12) 0%,
+    rgba(var(--water-light-rgb, 200, 240, 255), 0.06) 30%,
+    transparent 70%
+  );
+  filter: blur(20px);
+}
+
+.timer-water-godray-2 {
+  top: 0;
+  left: 50%;
+  width: 14%;
+  height: 100%;
+  background: linear-gradient(
+    175deg,
+    rgba(var(--water-crest-rgb, 255, 255, 255), 0.10) 0%,
+    rgba(var(--water-light-rgb, 200, 240, 255), 0.05) 35%,
+    transparent 65%
+  );
+  filter: blur(24px);
+}
+
+.timer-water-godray-3 {
+  top: 0;
+  left: 75%;
+  width: 16%;
+  height: 100%;
+  background: linear-gradient(
+    170deg,
+    rgba(var(--water-crest-rgb, 255, 255, 255), 0.08) 0%,
+    rgba(var(--water-light-rgb, 200, 240, 255), 0.04) 25%,
+    transparent 60%
+  );
+  filter: blur(28px);
+}
+
 .timer-water-surface-window {
   position: absolute;
   left: -10%;
@@ -284,46 +350,38 @@ body {
   backface-visibility: hidden;
 }
 
-.timer-water-wave-spray {
+.timer-water-wave-front {
   z-index: 6;
 }
 
-.timer-water-wave-front {
-  z-index: 5;
-}
-
 .timer-water-wave-mid-front {
-  z-index: 4;
+  z-index: 5;
   filter: blur(0.3px);
 }
 
 .timer-water-wave-rolling {
-  z-index: 3;
+  z-index: 4;
   filter: blur(0.5px);
 }
 
 .timer-water-wave-mid-back {
-  z-index: 2;
+  z-index: 3;
   filter: blur(0.7px);
 }
 
 .timer-water-wave-deep-back {
-  z-index: 1;
+  z-index: 2;
   filter: blur(1.4px);
 }
 
 .timer-water-wave-deep-swell {
-  z-index: 0;
+  z-index: 1;
   filter: blur(2px);
 }
 
 /* Wave fills — themed, 6 layers from spray (top) to deep swell (bottom) */
 .timer-water-wave-fill {
   fill: rgba(var(--water-light-rgb, 117, 213, 244), 0.78);
-}
-
-.timer-water-wave-spray .timer-water-wave-fill {
-  fill: rgba(var(--water-crest-rgb, 220, 248, 255), 0.52);
 }
 
 .timer-water-wave-front .timer-water-wave-fill {
@@ -357,11 +415,6 @@ body {
   stroke-width: 2.2;
   stroke-linecap: round;
   stroke-linejoin: round;
-}
-
-.timer-water-wave-spray .timer-water-wave-stroke {
-  stroke: rgba(var(--water-crest-rgb, 255, 255, 255), 0.80);
-  stroke-width: 1.8;
 }
 
 .timer-water-wave-mid-front .timer-water-wave-stroke {
