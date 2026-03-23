@@ -7,7 +7,7 @@ import Sidebar from "./Sidebar";
 import Toast from "./Toast";
 import TopBar from "./TopBar";
 
-const WaterFillScene = lazy(() => import("./WaterFillScene"));
+const ThemeFillScene = lazy(() => import("./ThemeFillScene"));
 
 const MEME_67_MARKS = [
   { left: "6%", top: "10%", size: 22, rotate: -12 },
@@ -46,8 +46,18 @@ export default function Layout() {
   const highMotionPage = location.pathname.startsWith("/rooms");
   const cinematicMotion = !reduceMotion && highMotionPage;
   const isMeme67 = activeTheme.id === "theme_meme_67";
+  const sceneKind = activeTheme.fillStyle ?? "water";
+  const overlayStrengthByScene = {
+    water: 1,
+    sand: 0.46,
+    snow: 0.36,
+    aurora: 0.68,
+    lava: 0.52,
+  };
+  const overlayStrength = overlayStrengthByScene[sceneKind] ?? 1;
 
-  const overlayOpacity = reduceMotion ? 0.2 + sessionProgress * 0.12 : 0.22 + sessionProgress * 0.36;
+  const overlayOpacity =
+    (reduceMotion ? 0.2 + sessionProgress * 0.12 : 0.22 + sessionProgress * 0.36) * overlayStrength;
   const bgDuration = state.sessions.current.mode !== "focus" ? 36 : 20;
   const surfaceDuration = state.sessions.current.mode !== "focus" ? 18 : 11;
   const smoothEase = [0.42, 0, 0.2, 1];
@@ -98,33 +108,33 @@ export default function Layout() {
       />
 
       <Suspense fallback={<div className="fixed inset-0 bg-[linear-gradient(180deg,rgba(4,12,24,0.2),rgba(2,8,16,0.7))]" />}>
-        <WaterFillScene progress={sessionProgress} reduceMotion={reduceMotion} theme={activeTheme} />
+        <ThemeFillScene progress={sessionProgress} reduceMotion={reduceMotion} theme={activeTheme} />
       </Suspense>
 
       <motion.div
-        className="mesh-overlay fixed inset-0"
+        className={`mesh-overlay fixed inset-0 theme-surface-${sceneKind}`}
         animate={cinematicMotion ? { opacity: [overlayOpacity * 0.7, overlayOpacity, overlayOpacity * 0.7] } : {}}
         transition={{ duration: surfaceDuration, repeat: Infinity, ease: smoothEase }}
         style={{ opacity: overlayOpacity }}
       />
 
       <motion.div
-        className="noise-overlay fixed inset-0"
-        style={{ opacity: reduceMotion ? 0.1 : 0.1 + sessionProgress * 0.15 }}
+        className={`noise-overlay fixed inset-0 theme-surface-${sceneKind}`}
+        style={{ opacity: (reduceMotion ? 0.1 : 0.1 + sessionProgress * 0.15) * Math.max(0.55, overlayStrength) }}
         animate={cinematicMotion ? { backgroundPosition: ["0px 0px", "48px 24px"] } : {}}
         transition={{ duration: state.sessions.current.mode !== "focus" ? 24 : 14, repeat: Infinity, ease: "linear" }}
       />
 
       <motion.div
-        className="banding-fix-overlay fixed inset-[-12%]"
-        style={{ opacity: reduceMotion ? 0.12 : 0.12 + sessionProgress * 0.08 }}
+        className={`banding-fix-overlay fixed inset-[-12%] theme-surface-${sceneKind}`}
+        style={{ opacity: (reduceMotion ? 0.12 : 0.12 + sessionProgress * 0.08) * Math.max(0.5, overlayStrength) }}
         animate={cinematicMotion ? { backgroundPosition: ["0px 0px, 0px 0px", "180px 120px, -140px 160px"] } : {}}
         transition={{ duration: state.sessions.current.mode !== "focus" ? 26 : 16, repeat: Infinity, ease: "linear" }}
       />
 
       <motion.div
-        className="grain-overlay fixed inset-[-8%]"
-        style={{ opacity: reduceMotion ? 0.07 : 0.07 + sessionProgress * 0.05 }}
+        className={`grain-overlay fixed inset-[-8%] theme-surface-${sceneKind}`}
+        style={{ opacity: (reduceMotion ? 0.07 : 0.07 + sessionProgress * 0.05) * Math.max(0.55, overlayStrength) }}
         animate={cinematicMotion ? { backgroundPosition: ["0px 0px", "120px 90px"] } : {}}
         transition={{ duration: state.sessions.current.mode !== "focus" ? 18 : 10, repeat: Infinity, ease: "linear" }}
       />

@@ -14,7 +14,7 @@ export default function ShopPage() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 className="font-display text-2xl font-semibold">Theme Shop</h2>
-          <p className="text-sm text-slate-200">Unlock premium gradients with coins.</p>
+          <p className="text-sm text-slate-200">Unlock premium animated worlds with coins.</p>
         </div>
         <GlassCard className="px-4 py-2">
           <div className="flex items-center gap-2 text-sm font-semibold">

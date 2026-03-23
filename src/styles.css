@@ -123,6 +123,709 @@ body {
   transform: translateZ(0) scale(1.12);
 }
 
+.scene-vignette {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 24%, transparent 76%, rgba(0, 0, 0, 0.18)),
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.04), transparent 46%);
+}
+
+.theme-surface-sand.mesh-overlay,
+.theme-surface-snow.mesh-overlay,
+.theme-surface-aurora.mesh-overlay,
+.theme-surface-lava.mesh-overlay {
+  mix-blend-mode: screen;
+}
+
+.theme-surface-sand.noise-overlay {
+  background-size: 6px 6px;
+}
+
+.theme-surface-snow.noise-overlay {
+  background-size: 3px 3px;
+}
+
+.theme-surface-lava.grain-overlay {
+  mix-blend-mode: color-dodge;
+}
+
+.theme-preview-art {
+  position: relative;
+  height: 6rem;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, var(--scene-gradient-from), var(--scene-gradient-via), var(--scene-gradient-to));
+}
+
+.theme-preview-backdrop {
+  background:
+    radial-gradient(circle at 72% 18%, rgba(var(--scene-crest-rgb), 0.16), transparent 28%),
+    linear-gradient(135deg, var(--scene-gradient-from), var(--scene-gradient-via), var(--scene-gradient-to));
+}
+
+.theme-preview-fill {
+  position: absolute;
+  bottom: -28%;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+}
+
+.theme-preview-water .theme-preview-fill-back {
+  left: -14%;
+  width: 74%;
+  height: 48%;
+  background: linear-gradient(180deg, rgba(var(--scene-light-rgb), 0.75), rgba(var(--scene-base-rgb), 0.9) 48%, rgba(var(--scene-deep-rgb), 0.98));
+}
+
+.theme-preview-water .theme-preview-fill-front {
+  right: -10%;
+  width: 68%;
+  height: 42%;
+  background: linear-gradient(180deg, rgba(var(--scene-crest-rgb), 0.74), rgba(var(--scene-light-rgb), 0.88) 30%, rgba(var(--scene-base-rgb), 0.96) 72%);
+  box-shadow: inset 0 8px 18px rgba(255, 255, 255, 0.18);
+}
+
+.theme-preview-waterline {
+  background:
+    linear-gradient(180deg, rgba(var(--scene-crest-rgb), 0.8), rgba(var(--scene-crest-rgb), 0.12) 55%, transparent),
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  filter: blur(1px);
+}
+
+.theme-preview-sand .theme-preview-fill-back,
+.theme-preview-sand .theme-preview-fill-front,
+.theme-preview-snow .theme-preview-fill-back,
+.theme-preview-snow .theme-preview-fill-front,
+.theme-preview-lava .theme-preview-fill-back,
+.theme-preview-lava .theme-preview-fill-front {
+  background-size: cover, 180px 180px;
+}
+
+.theme-preview-sand .theme-preview-fill-back {
+  left: -16%;
+  width: 70%;
+  height: 48%;
+  background-image:
+    linear-gradient(180deg, rgba(var(--scene-crest-rgb), 0.86), rgba(var(--scene-light-rgb), 0.88) 22%, rgba(var(--scene-base-rgb), 0.96) 65%, rgba(var(--scene-deep-rgb), 0.98)),
+    var(--preview-texture);
+}
+
+.theme-preview-sand .theme-preview-fill-front {
+  right: -12%;
+  width: 76%;
+  height: 56%;
+  transform: rotate(-2deg);
+  background-image:
+    linear-gradient(180deg, rgba(var(--scene-crest-rgb), 0.84), rgba(var(--scene-light-rgb), 0.78) 18%, rgba(var(--scene-base-rgb), 0.95) 62%, rgba(var(--scene-deep-rgb), 0.98)),
+    var(--preview-texture);
+  box-shadow:
+    inset 0 10px 18px rgba(255, 255, 255, 0.18),
+    0 -10px 28px rgba(54, 29, 7, 0.24);
+}
+
+.theme-preview-dust {
+  background:
+    linear-gradient(110deg, transparent 8%, rgba(255, 235, 199, 0.18) 28%, rgba(255, 245, 226, 0.42) 38%, rgba(255, 210, 145, 0.12) 48%, transparent 62%);
+  opacity: 0.8;
+}
+
+.theme-preview-snow .theme-preview-fill-back {
+  left: -10%;
+  width: 68%;
+  height: 44%;
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(var(--scene-light-rgb), 0.96) 32%, rgba(var(--scene-base-rgb), 0.96) 82%),
+    var(--preview-texture);
+}
+
+.theme-preview-snow .theme-preview-fill-front {
+  right: -12%;
+  width: 74%;
+  height: 54%;
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(var(--scene-light-rgb), 0.98) 26%, rgba(var(--scene-base-rgb), 0.94) 82%),
+    var(--preview-texture);
+  box-shadow:
+    inset 0 12px 18px rgba(255, 255, 255, 0.3),
+    0 -10px 24px rgba(214, 230, 248, 0.28);
+}
+
+.theme-preview-frost {
+  background:
+    radial-gradient(circle at 22% 18%, rgba(255, 255, 255, 0.16), transparent 14%),
+    radial-gradient(circle at 78% 22%, rgba(255, 255, 255, 0.16), transparent 16%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 38%, rgba(255, 255, 255, 0.05) 78%, rgba(255, 255, 255, 0.12));
+}
+
+.theme-preview-aurora .theme-preview-stars {
+  background:
+    radial-gradient(circle at 12% 22%, rgba(255, 255, 255, 0.85) 0 1.5px, transparent 2px),
+    radial-gradient(circle at 34% 18%, rgba(255, 255, 255, 0.65) 0 1.2px, transparent 1.8px),
+    radial-gradient(circle at 56% 26%, rgba(255, 255, 255, 0.8) 0 1.5px, transparent 2px),
+    radial-gradient(circle at 74% 12%, rgba(255, 255, 255, 0.6) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 88% 28%, rgba(255, 255, 255, 0.75) 0 1.4px, transparent 1.8px);
+}
+
+.theme-preview-aurora .theme-preview-aurora {
+  position: absolute;
+  top: 8%;
+  bottom: 16%;
+  width: 28%;
+  border-radius: 44% 56% 30% 70% / 8% 10% 90% 92%;
+  mix-blend-mode: screen;
+  filter: blur(12px);
+  opacity: 0.8;
+}
+
+.theme-preview-aurora-1 {
+  left: 10%;
+  background: linear-gradient(180deg, transparent, rgba(var(--scene-light-rgb), 0.78) 24%, rgba(var(--scene-base-rgb), 0.72) 62%, transparent);
+}
+
+.theme-preview-aurora-2 {
+  left: 38%;
+  background: linear-gradient(180deg, transparent, rgba(var(--scene-crest-rgb), 0.66) 22%, rgba(var(--scene-base-rgb), 0.82) 58%, transparent);
+}
+
+.theme-preview-aurora-3 {
+  right: 8%;
+  background: linear-gradient(180deg, transparent, rgba(var(--scene-accent-rgb), 0.46) 18%, rgba(var(--scene-light-rgb), 0.72) 54%, transparent);
+}
+
+.theme-preview-ice {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(var(--scene-light-rgb), 0.1) 32%, rgba(var(--scene-deep-rgb), 0.56)),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 2px, transparent 2px 18px);
+}
+
+.theme-preview-lava .theme-preview-fill-back {
+  left: -14%;
+  width: 72%;
+  height: 46%;
+  background-image:
+    linear-gradient(180deg, rgba(255, 234, 184, 0.3), rgba(var(--scene-base-rgb), 0.94) 28%, rgba(var(--scene-deep-rgb), 0.98)),
+    var(--preview-texture);
+}
+
+.theme-preview-lava .theme-preview-fill-front {
+  right: -10%;
+  width: 74%;
+  height: 52%;
+  background-image:
+    linear-gradient(180deg, rgba(255, 212, 124, 0.42), rgba(var(--scene-base-rgb), 0.94) 24%, rgba(var(--scene-deep-rgb), 0.98)),
+    var(--preview-texture);
+  box-shadow:
+    inset 0 12px 18px rgba(255, 198, 120, 0.16),
+    0 -10px 26px rgba(255, 84, 24, 0.22);
+}
+
+.theme-preview-emission {
+  background-image: var(--preview-emission);
+  background-size: 180px 180px;
+  mix-blend-mode: screen;
+  opacity: 0.72;
+}
+
+.sand-fill-scene,
+.snow-fill-scene,
+.aurora-fill-scene,
+.lava-fill-scene {
+  isolation: isolate;
+}
+
+.sand-sky {
+  background:
+    radial-gradient(circle at 78% 12%, rgba(255, 229, 184, 0.34), transparent 24%),
+    linear-gradient(180deg, rgba(255, 233, 198, 0.14), rgba(170, 118, 56, 0.1) 38%, rgba(40, 22, 11, 0.18) 100%);
+}
+
+.sand-sun {
+  background: radial-gradient(circle, rgba(255, 231, 186, 0.58), rgba(255, 198, 104, 0.24) 34%, transparent 72%);
+  filter: blur(20px);
+  opacity: 0.8;
+}
+
+.sand-haze {
+  background:
+    linear-gradient(180deg, rgba(255, 246, 226, 0.1), transparent 22%, transparent 78%, rgba(67, 31, 6, 0.16)),
+    radial-gradient(circle at 45% 16%, rgba(255, 237, 207, 0.08), transparent 34%);
+}
+
+.sand-wind-stream {
+  height: 1rem;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent, rgba(255, 236, 203, 0.2) 24%, rgba(255, 248, 234, 0.58) 42%, rgba(255, 214, 152, 0.18) 60%, transparent 80%);
+  mix-blend-mode: screen;
+  animation: sandWindSweep linear infinite;
+}
+
+.sand-grain {
+  background: radial-gradient(circle, rgba(255, 248, 232, 0.96), rgba(246, 204, 138, 0.5) 55%, transparent 72%);
+  box-shadow: 0 0 18px rgba(248, 198, 120, 0.28);
+  animation: sandGrainDrift linear infinite;
+}
+
+.sand-fill {
+  overflow: visible;
+  will-change: height;
+}
+
+.sand-body {
+  background-image:
+    linear-gradient(180deg, rgba(var(--scene-crest-rgb), 0.32), rgba(var(--scene-light-rgb), 0.2) 10%, rgba(var(--scene-base-rgb), 0.95) 32%, rgba(var(--scene-deep-rgb), 0.98) 100%),
+    var(--scene-texture);
+  background-size: cover, 460px 460px;
+  background-position: center top, 0 0;
+  box-shadow:
+    inset 0 16px 22px rgba(255, 245, 226, 0.16),
+    inset 0 -18px 32px rgba(39, 20, 6, 0.32);
+  animation: sandTextureShift 36s linear infinite;
+}
+
+.sand-dune {
+  position: absolute;
+  background-image:
+    linear-gradient(180deg, rgba(var(--scene-crest-rgb), 0.92), rgba(var(--scene-light-rgb), 0.88) 22%, rgba(var(--scene-base-rgb), 0.96) 62%, rgba(var(--scene-deep-rgb), 0.98)),
+    var(--scene-texture);
+  background-size: cover, 460px 460px;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  box-shadow:
+    inset 0 14px 18px rgba(255, 245, 225, 0.18),
+    0 -10px 34px rgba(71, 40, 14, 0.26);
+}
+
+.sand-dune-back {
+  left: -18%;
+  top: -11vh;
+  width: 58%;
+  height: 22vh;
+  transform: rotate(-4deg);
+}
+
+.sand-dune-mid {
+  left: 24%;
+  top: -14vh;
+  width: 52%;
+  height: 24vh;
+  transform: rotate(1deg);
+}
+
+.sand-dune-front {
+  right: -14%;
+  top: -15vh;
+  width: 72%;
+  height: 26vh;
+  transform: rotate(-2deg);
+}
+
+.sand-dune-shadow {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(ellipse, rgba(72, 39, 13, 0.34), transparent 70%);
+  filter: blur(8px);
+}
+
+.sand-dune-shadow-back {
+  left: 4%;
+  top: -2.2rem;
+  width: 30%;
+  height: 3.5rem;
+}
+
+.sand-dune-shadow-front {
+  right: 8%;
+  top: -1.8rem;
+  width: 34%;
+  height: 3rem;
+}
+
+.sand-crest-light {
+  background: linear-gradient(180deg, rgba(255, 251, 242, 0.74), rgba(255, 239, 209, 0.22) 40%, transparent);
+  filter: blur(8px);
+}
+
+.snow-sky {
+  background:
+    radial-gradient(circle at 74% 14%, rgba(255, 255, 255, 0.18), transparent 26%),
+    linear-gradient(180deg, rgba(191, 214, 236, 0.14), rgba(126, 154, 183, 0.08) 42%, rgba(10, 22, 36, 0.18) 100%);
+}
+
+.snow-moon {
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.32) 54%, transparent 72%);
+  box-shadow: 0 0 50px rgba(255, 255, 255, 0.16);
+  opacity: 0.8;
+}
+
+.snow-frost-haze {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 26%, transparent 74%, rgba(8, 16, 26, 0.16)),
+    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.06), transparent 36%);
+}
+
+.snow-flake {
+  top: -10%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.96), rgba(233, 244, 255, 0.64) 58%, transparent 74%);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.16);
+  animation: snowFall linear infinite;
+}
+
+.snow-fill {
+  overflow: visible;
+  will-change: height;
+}
+
+.snow-body {
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(var(--scene-light-rgb), 0.9) 16%, rgba(var(--scene-base-rgb), 0.92) 56%, rgba(var(--scene-deep-rgb), 0.96) 100%),
+    var(--scene-texture);
+  background-size: cover, 360px 360px;
+  background-position: center top, 0 0;
+  box-shadow:
+    inset 0 16px 20px rgba(255, 255, 255, 0.3),
+    inset 0 -24px 36px rgba(70, 94, 118, 0.16);
+  animation: snowTextureShift 28s linear infinite;
+}
+
+.snow-drift {
+  position: absolute;
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(var(--scene-light-rgb), 0.98) 32%, rgba(var(--scene-base-rgb), 0.94) 86%),
+    var(--scene-texture);
+  background-size: cover, 340px 340px;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  box-shadow:
+    inset 0 14px 18px rgba(255, 255, 255, 0.32),
+    0 -10px 28px rgba(215, 232, 250, 0.18);
+}
+
+.snow-drift-back {
+  left: -10%;
+  top: -9vh;
+  width: 48%;
+  height: 18vh;
+}
+
+.snow-drift-mid {
+  left: 20%;
+  top: -13vh;
+  width: 42%;
+  height: 21vh;
+}
+
+.snow-drift-front {
+  right: -12%;
+  top: -14vh;
+  width: 66%;
+  height: 24vh;
+}
+
+.snow-rim {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.18) 48%, transparent);
+  filter: blur(6px);
+}
+
+.snow-sparkle {
+  width: 0.7rem;
+  height: 0.7rem;
+  background: radial-gradient(circle, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.24) 42%, transparent 72%);
+  animation: snowSparkle 3.8s ease-in-out infinite;
+}
+
+.aurora-sky {
+  background:
+    radial-gradient(circle at 72% 12%, rgba(128, 255, 229, 0.12), transparent 26%),
+    linear-gradient(180deg, rgba(7, 19, 34, 0.18), rgba(3, 9, 18, 0.12) 30%, rgba(1, 6, 13, 0.28) 100%);
+}
+
+.aurora-moon {
+  background: radial-gradient(circle at 32% 32%, rgba(255, 255, 255, 0.96), rgba(216, 248, 255, 0.16) 58%, transparent 74%);
+  box-shadow: 0 0 44px rgba(144, 255, 234, 0.14);
+}
+
+.aurora-star {
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.4) 56%, transparent 72%);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.18);
+}
+
+.aurora-curtain {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 44% 56% 30% 70% / 8% 10% 90% 92%;
+  mix-blend-mode: screen;
+  filter: blur(18px);
+  opacity: 0.76;
+  animation: auroraSway ease-in-out infinite;
+}
+
+.aurora-curtain-1 {
+  left: 2%;
+  width: 24%;
+  background: linear-gradient(180deg, transparent, rgba(var(--scene-light-rgb), 0.64) 20%, rgba(var(--scene-base-rgb), 0.72) 54%, transparent 100%);
+}
+
+.aurora-curtain-2 {
+  left: 24%;
+  width: 26%;
+  background: linear-gradient(180deg, transparent, rgba(var(--scene-crest-rgb), 0.5) 18%, rgba(var(--scene-light-rgb), 0.76) 52%, transparent 100%);
+}
+
+.aurora-curtain-3 {
+  left: 48%;
+  width: 22%;
+  background: linear-gradient(180deg, transparent, rgba(var(--scene-accent-rgb), 0.46) 24%, rgba(var(--scene-base-rgb), 0.74) 60%, transparent 100%);
+}
+
+.aurora-curtain-4 {
+  right: 4%;
+  width: 28%;
+  background: linear-gradient(180deg, transparent, rgba(var(--scene-light-rgb), 0.52) 18%, rgba(var(--scene-base-rgb), 0.74) 56%, transparent 100%);
+}
+
+.aurora-fill {
+  overflow: hidden;
+  will-change: height;
+}
+
+.aurora-reflection {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(var(--scene-light-rgb), 0.12) 14%, rgba(var(--scene-base-rgb), 0.28) 36%, rgba(var(--scene-deep-rgb), 0.82) 100%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 2px, transparent 2px 18px),
+    radial-gradient(circle at 50% 0%, rgba(var(--scene-light-rgb), 0.24), transparent 46%);
+}
+
+.aurora-ice-sheen {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(var(--scene-light-rgb), 0.08) 42%, transparent);
+}
+
+.aurora-mountains {
+  background:
+    radial-gradient(ellipse at 12% 100%, rgba(3, 8, 15, 0.94) 0 22%, transparent 24%),
+    radial-gradient(ellipse at 30% 100%, rgba(4, 9, 16, 0.95) 0 24%, transparent 26%),
+    radial-gradient(ellipse at 54% 100%, rgba(2, 7, 12, 0.96) 0 26%, transparent 28%),
+    radial-gradient(ellipse at 78% 100%, rgba(4, 9, 16, 0.94) 0 22%, transparent 24%),
+    radial-gradient(ellipse at 96% 100%, rgba(3, 8, 15, 0.94) 0 18%, transparent 20%);
+}
+
+.aurora-vignette {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 20%, transparent 80%, rgba(0, 0, 0, 0.22)),
+    radial-gradient(circle at 50% 0%, rgba(150, 255, 235, 0.04), transparent 42%);
+}
+
+.lava-sky {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 119, 63, 0.22), transparent 24%),
+    linear-gradient(180deg, rgba(54, 16, 14, 0.16), rgba(17, 7, 7, 0.18) 48%, rgba(5, 2, 2, 0.32) 100%);
+}
+
+.lava-glow-halo {
+  background: radial-gradient(circle, rgba(255, 148, 71, 0.5), rgba(255, 91, 26, 0.24) 38%, transparent 72%);
+  filter: blur(26px);
+  opacity: 0.72;
+}
+
+.lava-smoke {
+  height: 13rem;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(96, 47, 36, 0.3), rgba(20, 10, 8, 0.14) 60%, transparent 76%);
+  filter: blur(16px);
+  animation: lavaSmokeRise ease-in-out infinite;
+}
+
+.lava-fill {
+  overflow: visible;
+  will-change: height;
+}
+
+.lava-body {
+  background-image:
+    linear-gradient(180deg, rgba(255, 214, 146, 0.24), rgba(var(--scene-base-rgb), 0.92) 26%, rgba(var(--scene-deep-rgb), 0.98) 100%),
+    var(--scene-texture);
+  background-size: cover, 320px 320px;
+  background-position: center top, 0 0;
+  box-shadow:
+    inset 0 12px 18px rgba(255, 184, 118, 0.16),
+    inset 0 -20px 32px rgba(20, 5, 3, 0.32);
+  animation: lavaTextureShift 18s linear infinite;
+}
+
+.lava-emission {
+  background-image:
+    linear-gradient(180deg, rgba(255, 242, 204, 0.34), transparent 30%),
+    var(--scene-emission);
+  background-size: cover, 360px 360px;
+  background-position: center top, 0 0;
+  mix-blend-mode: screen;
+  opacity: 0.86;
+  animation:
+    lavaTextureShift 18s linear infinite,
+    lavaEmissionPulse 6.8s ease-in-out infinite;
+}
+
+.lava-crest {
+  position: absolute;
+  background-image:
+    linear-gradient(180deg, rgba(255, 208, 114, 0.42), rgba(var(--scene-base-rgb), 0.94) 20%, rgba(var(--scene-deep-rgb), 0.98)),
+    var(--scene-texture);
+  background-size: cover, 320px 320px;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  box-shadow:
+    inset 0 10px 16px rgba(255, 200, 132, 0.12),
+    0 -12px 28px rgba(255, 82, 20, 0.18);
+}
+
+.lava-crest-back {
+  left: -10%;
+  top: -9vh;
+  width: 52%;
+  height: 18vh;
+}
+
+.lava-crest-front {
+  right: -12%;
+  top: -12vh;
+  width: 68%;
+  height: 22vh;
+}
+
+.lava-surface-glow {
+  background: linear-gradient(180deg, rgba(255, 232, 172, 0.86), rgba(255, 120, 47, 0.24) 48%, transparent);
+  filter: blur(6px);
+}
+
+.lava-ember {
+  bottom: -5%;
+  background: radial-gradient(circle, rgba(255, 237, 188, 0.98), rgba(255, 129, 44, 0.76) 42%, rgba(255, 67, 18, 0.18) 74%, transparent);
+  box-shadow: 0 0 20px rgba(255, 120, 42, 0.62);
+  animation: emberRise linear infinite;
+}
+
+@keyframes sandWindSweep {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-8deg) scaleX(0.9);
+    opacity: 0;
+  }
+  14% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(130vw, -10vh, 0) rotate(-7deg) scaleX(1.08);
+    opacity: 0;
+  }
+}
+
+@keyframes sandGrainDrift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.75);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate3d(12vw, -5vh, 0) scale(1.1);
+    opacity: 0;
+  }
+}
+
+@keyframes sandTextureShift {
+  0% {
+    background-position: center top, 0 0;
+  }
+  100% {
+    background-position: center top, 240px 140px;
+  }
+}
+
+@keyframes snowFall {
+  0% {
+    transform: translate3d(0, -10vh, 0) scale(0.82);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(-6vw, 110vh, 0) scale(1.16);
+    opacity: 0;
+  }
+}
+
+@keyframes snowTextureShift {
+  0% {
+    background-position: center top, 0 0;
+  }
+  100% {
+    background-position: center top, 110px 70px;
+  }
+}
+
+@keyframes snowSparkle {
+  0%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.24;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.95;
+  }
+}
+
+@keyframes auroraSway {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) skewX(-7deg) scaleY(0.95);
+  }
+  50% {
+    transform: translate3d(2%, 2%, 0) skewX(-2deg) scaleY(1.08);
+  }
+}
+
+@keyframes lavaSmokeRise {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.22;
+  }
+  50% {
+    transform: translate3d(1.5rem, -2.5rem, 0) scale(1.12);
+    opacity: 0.34;
+  }
+}
+
+@keyframes lavaTextureShift {
+  0% {
+    background-position: center top, 0 0;
+  }
+  100% {
+    background-position: center top, 160px 200px;
+  }
+}
+
+@keyframes lavaEmissionPulse {
+  0%,
+  100% {
+    opacity: 0.74;
+  }
+  50% {
+    opacity: 0.96;
+  }
+}
+
+@keyframes emberRise {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.7);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.94;
+  }
+  100% {
+    transform: translate3d(1.2rem, -110vh, 0) scale(1.3);
+    opacity: 0;
+  }
+}
+
 .mobile-nav-scroll {
   -ms-overflow-style: none;
   scrollbar-width: none;
