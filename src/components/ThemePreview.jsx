@@ -20,6 +20,8 @@ function ThemeSwatch({ theme }) {
           <div className="theme-preview-aurora theme-preview-aurora-1" />
           <div className="theme-preview-aurora theme-preview-aurora-2" />
           <div className="theme-preview-aurora theme-preview-aurora-3" />
+          <div className="theme-preview-aurora-reflection absolute inset-x-0 bottom-0 h-[36%]" />
+          <div className="theme-preview-aurora-mountains absolute inset-x-0 bottom-0 h-[34%]" />
           <div className="theme-preview-ice absolute inset-x-0 bottom-0 h-[38%]" />
         </>
       ) : (
@@ -27,9 +29,24 @@ function ThemeSwatch({ theme }) {
           <div className="theme-preview-fill theme-preview-fill-back" />
           <div className="theme-preview-fill theme-preview-fill-front" />
           {fillStyle === "water" ? <div className="theme-preview-waterline absolute inset-x-0 bottom-[28%] h-6" /> : null}
-          {fillStyle === "lava" ? <div className="theme-preview-emission absolute inset-0" /> : null}
-          {fillStyle === "snow" ? <div className="theme-preview-frost absolute inset-0" /> : null}
-          {fillStyle === "sand" ? <div className="theme-preview-dust absolute inset-0" /> : null}
+          {fillStyle === "lava" ? (
+            <>
+              <div className="theme-preview-emission absolute inset-0" />
+              <div className="theme-preview-cracks absolute inset-x-0 bottom-0 h-[54%]" />
+            </>
+          ) : null}
+          {fillStyle === "snow" ? (
+            <>
+              <div className="theme-preview-frost absolute inset-0" />
+              <div className="theme-preview-spindrift absolute inset-x-0 bottom-[24%] h-8" />
+            </>
+          ) : null}
+          {fillStyle === "sand" ? (
+            <>
+              <div className="theme-preview-dust absolute inset-0" />
+              <div className="theme-preview-ripples absolute inset-x-0 bottom-0 h-[52%]" />
+            </>
+          ) : null}
         </>
       )}
     </div>

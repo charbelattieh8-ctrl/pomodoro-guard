@@ -1,0 +1,289 @@
+.snow-fill-scene {
+  isolation: isolate;
+  background: #08111e;
+}
+
+.snow-sky {
+  background:
+    radial-gradient(circle at 72% 14%, rgba(228, 240, 255, 0.1), transparent 24%),
+    radial-gradient(circle at 20% 18%, rgba(164, 193, 224, 0.08), transparent 28%),
+    linear-gradient(180deg, rgba(9, 18, 31, 0.12), rgba(14, 26, 41, 0.4) 44%, rgba(4, 8, 16, 0.72) 100%);
+}
+
+.snow-night-glow {
+  background:
+    radial-gradient(circle at 68% 18%, rgba(205, 230, 255, 0.18), transparent 20%),
+    radial-gradient(circle at 34% 14%, rgba(242, 250, 255, 0.08), transparent 18%),
+    linear-gradient(180deg, rgba(8, 15, 26, 0.08), rgba(3, 8, 17, 0.18) 38%, transparent 100%);
+  filter: blur(4px);
+  opacity: 0.85;
+}
+
+.snow-distant-ridge {
+  background:
+    radial-gradient(ellipse at 12% 100%, rgba(16, 28, 42, 0.9) 0 22%, transparent 24%),
+    radial-gradient(ellipse at 26% 100%, rgba(20, 34, 50, 0.92) 0 24%, transparent 26%),
+    radial-gradient(ellipse at 42% 100%, rgba(12, 22, 34, 0.94) 0 23%, transparent 25%),
+    radial-gradient(ellipse at 58% 100%, rgba(19, 31, 45, 0.9) 0 25%, transparent 27%),
+    radial-gradient(ellipse at 76% 100%, rgba(14, 25, 39, 0.92) 0 22%, transparent 24%),
+    radial-gradient(ellipse at 94% 100%, rgba(10, 18, 29, 0.92) 0 18%, transparent 20%),
+    linear-gradient(180deg, transparent 26%, rgba(3, 8, 18, 0.2) 70%, rgba(3, 8, 18, 0.55) 100%);
+  filter: drop-shadow(0 28px 40px rgba(0, 0, 0, 0.18));
+  opacity: 0.92;
+}
+
+.snow-moon {
+  background:
+    radial-gradient(circle at 34% 34%, rgba(255, 255, 255, 0.98), rgba(225, 240, 255, 0.46) 44%, transparent 72%),
+    radial-gradient(circle, rgba(180, 210, 240, 0.16), transparent 62%);
+  box-shadow: 0 0 58px rgba(208, 235, 255, 0.12);
+  opacity: 0.52;
+}
+
+.snow-frost-haze {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 18%, transparent 72%, rgba(3, 8, 16, 0.2)),
+    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.06), transparent 30%),
+    radial-gradient(circle at 50% 80%, rgba(8, 16, 28, 0.14), transparent 34%);
+  mix-blend-mode: screen;
+}
+
+.snow-shadow-veil {
+  background:
+    linear-gradient(180deg, rgba(5, 10, 18, 0.12), transparent 32%, transparent 70%, rgba(4, 9, 18, 0.26)),
+    radial-gradient(circle at 50% 100%, rgba(3, 8, 16, 0.34), transparent 50%);
+}
+
+.snow-snowfall {
+  pointer-events: none;
+}
+
+.snow-flake {
+  top: -12%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.96), rgba(224, 238, 248, 0.48) 58%, transparent 74%);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.08);
+  animation: snowFlurry linear infinite;
+  will-change: transform, opacity;
+}
+
+.snow-flake::before {
+  content: "";
+  position: absolute;
+  inset: 18%;
+  border-radius: inherit;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95), transparent 68%);
+}
+
+.snow-spindrift {
+  position: absolute;
+  height: 0.75rem;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent, rgba(242, 248, 255, 0.08) 18%, rgba(255, 255, 255, 0.42) 48%, rgba(176, 198, 221, 0.08) 74%, transparent 92%);
+  filter: blur(5px);
+  mix-blend-mode: screen;
+  animation: snowSpindrift linear infinite;
+}
+
+.snow-fill {
+  overflow: visible;
+  will-change: height;
+}
+
+.snow-body {
+  background-image:
+    linear-gradient(180deg, rgba(224, 236, 246, 0.18), rgba(188, 206, 224, 0.14) 12%, rgba(114, 135, 156, 0.88) 46%, rgba(49, 61, 77, 0.98) 100%),
+    var(--scene-texture);
+  background-blend-mode: normal, soft-light;
+  background-size: cover, 420px 420px;
+  background-position: center top, 0 0;
+  box-shadow:
+    inset 0 18px 28px rgba(255, 255, 255, 0.12),
+    inset 0 -24px 40px rgba(6, 14, 24, 0.34);
+  filter: saturate(0.88) contrast(0.98);
+  animation: snowTextureShift 28s linear infinite;
+}
+
+.snow-body-glow {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.14), transparent 30%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent 36%, rgba(18, 31, 48, 0.12) 82%);
+  mix-blend-mode: screen;
+  opacity: 0.64;
+}
+
+.snow-drift {
+  position: absolute;
+  background-image:
+    linear-gradient(180deg, rgba(247, 251, 255, 0.92), rgba(221, 232, 240, 0.9) 20%, rgba(153, 172, 192, 0.82) 54%, rgba(73, 88, 108, 0.96) 100%),
+    var(--scene-texture);
+  background-blend-mode: normal, soft-light;
+  background-size: cover, 360px 360px;
+  border-radius: 56% 44% 0 0 / 100% 100% 0 0;
+  box-shadow:
+    inset 0 14px 20px rgba(255, 255, 255, 0.2),
+    inset 0 -18px 30px rgba(10, 18, 30, 0.28),
+    0 -10px 26px rgba(33, 45, 61, 0.2);
+}
+
+.snow-drift-back {
+  left: -16%;
+  top: -8vh;
+  width: 54%;
+  height: 20vh;
+  transform: rotate(-4deg);
+}
+
+.snow-drift-mid {
+  left: 20%;
+  top: -12vh;
+  width: 46%;
+  height: 22vh;
+  transform: rotate(1deg);
+}
+
+.snow-drift-front {
+  right: -14%;
+  top: -14vh;
+  width: 70%;
+  height: 26vh;
+  transform: rotate(-2deg);
+}
+
+.snow-drift-shadow {
+  position: absolute;
+  border-radius: 999px;
+  background: radial-gradient(ellipse, rgba(20, 30, 44, 0.3), transparent 72%);
+  filter: blur(10px);
+}
+
+.snow-drift-shadow-back {
+  left: 2%;
+  top: -2rem;
+  width: 30%;
+  height: 3.6rem;
+}
+
+.snow-drift-shadow-front {
+  right: 6%;
+  top: -1.6rem;
+  width: 38%;
+  height: 3.2rem;
+}
+
+.snow-ripple-field {
+  background:
+    repeating-linear-gradient(76deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 18px),
+    repeating-linear-gradient(102deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 24px);
+  opacity: 0.18;
+  mix-blend-mode: screen;
+  mask-image: linear-gradient(180deg, black 0 42%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, black 0 42%, transparent 100%);
+}
+
+.snow-crust-edge {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.68), rgba(226, 238, 248, 0.2) 42%, transparent);
+  filter: blur(7px);
+  opacity: 0.72;
+}
+
+.snow-rim {
+  background: linear-gradient(180deg, rgba(248, 251, 255, 0.36), rgba(221, 233, 244, 0.08) 42%, transparent);
+  filter: blur(5px);
+}
+
+.snow-surface-breath {
+  pointer-events: none;
+}
+
+.snow-ridge-light {
+  border-radius: 999px;
+  background:
+    radial-gradient(ellipse at center, rgba(255, 255, 255, 0.82), rgba(236, 244, 250, 0.2) 52%, transparent 76%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 72%);
+  filter: blur(2px);
+  opacity: 0.55;
+  mix-blend-mode: screen;
+  animation: snowGlow 5.6s ease-in-out infinite;
+}
+
+@keyframes snowFlurry {
+  0% {
+    transform: translate3d(0, -12vh, 0) translateX(0) scale(0.82);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--snow-drift, 0), 112vh, 0) translateX(0) scale(1.12);
+    opacity: 0;
+  }
+}
+
+@keyframes snowSpindrift {
+  0% {
+    transform: translate3d(-4%, 0, 0) scaleX(0.82);
+    opacity: 0;
+  }
+  18% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(12%, -3vh, 0) scaleX(1.08);
+    opacity: 0;
+  }
+}
+
+@keyframes snowTextureShift {
+  0% {
+    background-position: center top, 0 0;
+  }
+  100% {
+    background-position: center top, 120px 84px;
+  }
+}
+
+@keyframes snowGlow {
+  0%,
+  100% {
+    transform: translateY(0) scale(0.96);
+    opacity: 0.42;
+  }
+  50% {
+    transform: translateY(-2px) scale(1.04);
+    opacity: 0.72;
+  }
+}
+
+@media (max-width: 640px) {
+  .snow-drift-back {
+    top: -6vh;
+    width: 58%;
+  }
+
+  .snow-drift-mid {
+    top: -10vh;
+    width: 50%;
+  }
+
+  .snow-drift-front {
+    top: -11vh;
+    width: 76%;
+  }
+
+  .snow-moon {
+    right: 6%;
+    top: 10%;
+    width: 5.5rem;
+    height: 5.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .snow-flake,
+  .snow-spindrift,
+  .snow-ridge-light,
+  .snow-body {
+    animation: none;
+  }
+}

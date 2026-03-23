@@ -1,0 +1,237 @@
+.aurora-fill-scene {
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 50% 4%, rgba(var(--scene-light-rgb), 0.12), transparent 34%),
+    radial-gradient(circle at 18% 16%, rgba(var(--scene-accent-rgb), 0.08), transparent 22%),
+    radial-gradient(circle at 82% 10%, rgba(var(--scene-crest-rgb), 0.08), transparent 18%),
+    linear-gradient(180deg, rgba(2, 8, 18, 0.98), rgba(4, 11, 24, 0.94) 48%, rgba(1, 4, 10, 0.99) 100%);
+}
+
+.aurora-fill-scene .aurora-sky {
+  background:
+    radial-gradient(circle at 50% 12%, rgba(var(--scene-light-rgb), 0.08), transparent 28%),
+    radial-gradient(circle at 28% 18%, rgba(var(--scene-accent-rgb), 0.05), transparent 18%),
+    linear-gradient(180deg, rgba(4, 11, 24, 0.46), rgba(3, 9, 19, 0.7) 56%, rgba(1, 4, 10, 0.94));
+}
+
+.aurora-fill-scene .aurora-airglow {
+  background:
+    radial-gradient(circle at 50% 18%, rgba(var(--scene-light-rgb), 0.16), transparent 30%),
+    radial-gradient(circle at 50% 32%, rgba(var(--scene-base-rgb), 0.08), transparent 42%),
+    linear-gradient(180deg, transparent 0%, rgba(9, 28, 34, 0.1) 38%, rgba(4, 11, 20, 0.42) 100%);
+  mix-blend-mode: screen;
+  opacity: calc(var(--aurora-mist-opacity, 0.2) + 0.1);
+}
+
+.aurora-fill-scene .aurora-moon {
+  background: radial-gradient(circle at 32% 32%, rgba(255, 255, 255, 0.96), rgba(229, 247, 255, 0.26) 52%, transparent 74%);
+  box-shadow: 0 0 40px rgba(182, 248, 255, 0.14);
+  opacity: 0.42;
+}
+
+.aurora-fill-scene .aurora-starfield {
+  pointer-events: none;
+}
+
+.aurora-fill-scene .aurora-star {
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.55) 42%, transparent 72%);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+  transform: translateZ(0);
+  animation: auroraStarTwinkle var(--aurora-star-duration, 7s) ease-in-out infinite;
+  animation-delay: var(--aurora-star-delay, 0s);
+  animation-play-state: var(--aurora-play-state, running);
+}
+
+.aurora-fill-scene .aurora-horizon-glow {
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(var(--scene-light-rgb), 0.22), rgba(var(--scene-base-rgb), 0.08) 30%, transparent 74%),
+    radial-gradient(ellipse at 50% 82%, rgba(var(--scene-crest-rgb), 0.1), transparent 46%);
+  filter: blur(24px);
+  opacity: var(--aurora-mist-opacity, 0.2);
+  mix-blend-mode: screen;
+}
+
+.aurora-fill-scene .aurora-curtain-field {
+  pointer-events: none;
+}
+
+.aurora-fill-scene .aurora-curtain-shell {
+  position: absolute;
+  overflow: hidden;
+  transform-origin: 50% 0%;
+  will-change: transform, opacity;
+  mix-blend-mode: screen;
+  animation: auroraCurtainSway var(--aurora-duration, 20s) ease-in-out infinite;
+  animation-delay: var(--aurora-delay, 0s);
+  animation-play-state: var(--aurora-play-state, running);
+}
+
+.aurora-fill-scene .aurora-curtain-core,
+.aurora-fill-scene .aurora-curtain-rays,
+.aurora-fill-scene .aurora-curtain-folds {
+  position: absolute;
+  inset: 0;
+}
+
+.aurora-fill-scene .aurora-curtain-core {
+  background:
+    radial-gradient(ellipse at 50% 4%, rgba(var(--scene-crest-rgb), 0.34), rgba(var(--scene-light-rgb), 0.2) 20%, rgba(var(--scene-base-rgb), 0.12) 42%, transparent 74%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(var(--scene-light-rgb), 0.3) 16%, rgba(var(--scene-base-rgb), 0.18) 40%, rgba(var(--scene-deep-rgb), 0.04) 70%, transparent 100%),
+    radial-gradient(ellipse at 50% 100%, rgba(var(--scene-accent-rgb), 0.14), transparent 44%);
+  opacity: 0.86;
+}
+
+.aurora-fill-scene .aurora-curtain-rays {
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.22) 0 1px,
+      rgba(255, 255, 255, 0.08) 1px 4px,
+      transparent 4px 12px,
+      rgba(var(--scene-light-rgb), 0.14) 12px 15px,
+      transparent 15px 22px
+    ),
+    linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(var(--scene-light-rgb), 0.16) 15%,
+      rgba(var(--scene-crest-rgb), 0.34) 32%,
+      rgba(var(--scene-base-rgb), 0.16) 58%,
+      transparent 100%
+    );
+  opacity: 0.56;
+  mix-blend-mode: screen;
+  animation: auroraRayDrift 14s linear infinite;
+  animation-play-state: var(--aurora-play-state, running);
+}
+
+.aurora-fill-scene .aurora-curtain-folds {
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.08) 14%,
+      rgba(var(--scene-light-rgb), 0.3) 28%,
+      rgba(255, 255, 255, 0.1) 40%,
+      transparent 52%,
+      rgba(var(--scene-base-rgb), 0.16) 68%,
+      transparent 84%
+    ),
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.18), transparent 48%);
+  opacity: 0.74;
+  transform: skewX(var(--aurora-lean, -8deg));
+  animation: auroraFoldPulse 7.5s ease-in-out infinite;
+  animation-play-state: var(--aurora-play-state, running);
+}
+
+.aurora-fill-scene .aurora-fill {
+  overflow: hidden;
+  will-change: height, opacity;
+}
+
+.aurora-fill-scene .aurora-reflection {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(var(--scene-light-rgb), 0.28), rgba(var(--scene-base-rgb), 0.14) 28%, transparent 58%),
+    linear-gradient(180deg, rgba(3, 11, 21, 0.08) 0%, rgba(6, 15, 29, 0.36) 18%, rgba(5, 11, 21, 0.88) 100%),
+    repeating-linear-gradient(102deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 12px),
+    repeating-linear-gradient(8deg, rgba(255, 255, 255, 0.025) 0 2px, transparent 2px 18px);
+  opacity: var(--aurora-reflection-opacity, 0.2);
+  filter: saturate(1.1) contrast(1.05);
+}
+
+.aurora-fill-scene .aurora-ice-cracks {
+  background:
+    radial-gradient(circle at 50% 20%, rgba(var(--scene-light-rgb), 0.12), transparent 34%),
+    repeating-linear-gradient(112deg, transparent 0 24px, rgba(255, 255, 255, 0.05) 24px 25px, transparent 25px 48px),
+    repeating-linear-gradient(76deg, transparent 0 18px, rgba(var(--scene-accent-rgb), 0.06) 18px 19px, transparent 19px 38px);
+  opacity: 0.42;
+  mix-blend-mode: screen;
+}
+
+.aurora-fill-scene .aurora-ice-sheen {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(var(--scene-crest-rgb), 0.08) 34%, transparent 82%);
+  opacity: var(--aurora-ground-opacity, 0.34);
+  filter: blur(3px);
+}
+
+.aurora-fill-scene .aurora-mountains {
+  background:
+    radial-gradient(ellipse at 10% 100%, rgba(2, 7, 15, 0.98) 0 18%, transparent 19%),
+    radial-gradient(ellipse at 24% 100%, rgba(3, 8, 16, 0.96) 0 21%, transparent 22%),
+    radial-gradient(ellipse at 42% 100%, rgba(2, 7, 14, 0.98) 0 24%, transparent 25%),
+    radial-gradient(ellipse at 60% 100%, rgba(3, 8, 16, 0.95) 0 22%, transparent 23%),
+    radial-gradient(ellipse at 79% 100%, rgba(2, 7, 14, 0.97) 0 20%, transparent 21%),
+    radial-gradient(ellipse at 96% 100%, rgba(2, 7, 14, 0.98) 0 16%, transparent 17%),
+    linear-gradient(180deg, transparent, rgba(2, 7, 14, 0.55) 32%, rgba(2, 7, 14, 0.98) 100%);
+  filter: saturate(0.95);
+}
+
+.aurora-fill-scene .aurora-vignette {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 24%, transparent 78%, rgba(0, 0, 0, 0.32)),
+    radial-gradient(circle at 50% 0%, rgba(147, 255, 238, 0.06), transparent 40%);
+}
+
+.aurora-fill-scene .aurora-curtain-shell-1 {
+  z-index: 1;
+}
+
+.aurora-fill-scene .aurora-curtain-shell-2 {
+  z-index: 2;
+}
+
+.aurora-fill-scene .aurora-curtain-shell-3 {
+  z-index: 3;
+}
+
+.aurora-fill-scene .aurora-curtain-shell-4 {
+  z-index: 2;
+}
+
+.aurora-fill-scene .aurora-curtain-shell-5 {
+  z-index: 1;
+}
+
+@keyframes auroraCurtainSway {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) skewX(var(--aurora-lean, -8deg)) scaleY(0.96);
+  }
+  50% {
+    transform: translate3d(0.8%, 1.2%, 0) skewX(var(--aurora-lean, -8deg)) scaleY(1.04) scaleX(1.02);
+  }
+}
+
+@keyframes auroraRayDrift {
+  0% {
+    background-position: 0 0, 0 0;
+  }
+  100% {
+    background-position: 0 180px, 0 0;
+  }
+}
+
+@keyframes auroraFoldPulse {
+  0%,
+  100% {
+    transform: skewX(var(--aurora-lean, -8deg)) translateX(0);
+    opacity: 0.68;
+  }
+  50% {
+    transform: skewX(var(--aurora-lean, -8deg)) translateX(6px);
+    opacity: 0.84;
+  }
+}
+
+@keyframes auroraStarTwinkle {
+  0%,
+  100% {
+    transform: scale(0.82);
+    opacity: 0.36;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.92;
+  }
+}

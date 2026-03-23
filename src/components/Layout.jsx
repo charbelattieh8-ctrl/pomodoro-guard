@@ -6,6 +6,7 @@ import CelebrationOverlay from "./CelebrationOverlay";
 import Sidebar from "./Sidebar";
 import Toast from "./Toast";
 import TopBar from "./TopBar";
+import { buildSceneVars } from "./themeScenes/utils";
 
 const ThemeFillScene = lazy(() => import("./ThemeFillScene"));
 
@@ -36,6 +37,145 @@ const MEME_67_STICKERS = [
   { text: "SHEESH", left: "80%", top: "44%", rotate: 6, size: "text-lg" },
 ];
 
+const SCENE_UI_TUNING = {
+  water: {
+    glassTintRgb: "255, 255, 255",
+    glassBorderRgb: "255, 255, 255",
+    glassShadowRgb: "2, 6, 23",
+    glassSheenRgb: "255, 255, 255",
+    glassTopOpacity: "0.16",
+    glassMidOpacity: "0.05",
+    glassBottomOpacity: "0.18",
+    glassBorderOpacity: "0.2",
+    glassHighlightOpacity: "0.22",
+    glassShadowOpacity: "0.24",
+    glassSheenOpacity: "0.16",
+    glassSaturation: "135%",
+    glassBlur: "12px",
+    pageShadowRgb: "0, 0, 0",
+    pageHighlightRgb: "255, 255, 255",
+    pageShadowTop: "0.15",
+    pageShadowBottom: "0.4",
+    pageHighlightOpacity: "0.06",
+    ambientLeftOpacity: 0.34,
+    ambientRightOpacity: 0.4,
+  },
+  sand: {
+    glassTintRgb: "248, 225, 196",
+    glassBorderRgb: "255, 236, 208",
+    glassShadowRgb: "28, 14, 6",
+    glassSheenRgb: "255, 245, 226",
+    glassTopOpacity: "0.12",
+    glassMidOpacity: "0.06",
+    glassBottomOpacity: "0.24",
+    glassBorderOpacity: "0.16",
+    glassHighlightOpacity: "0.16",
+    glassShadowOpacity: "0.34",
+    glassSheenOpacity: "0.12",
+    glassSaturation: "132%",
+    glassBlur: "14px",
+    pageShadowRgb: "24, 11, 4",
+    pageHighlightRgb: "255, 230, 194",
+    pageShadowTop: "0.18",
+    pageShadowBottom: "0.52",
+    pageHighlightOpacity: "0.05",
+    ambientLeftOpacity: 0.22,
+    ambientRightOpacity: 0.28,
+  },
+  snow: {
+    glassTintRgb: "198, 216, 236",
+    glassBorderRgb: "225, 238, 255",
+    glassShadowRgb: "6, 14, 24",
+    glassSheenRgb: "243, 247, 255",
+    glassTopOpacity: "0.08",
+    glassMidOpacity: "0.05",
+    glassBottomOpacity: "0.34",
+    glassBorderOpacity: "0.22",
+    glassHighlightOpacity: "0.18",
+    glassShadowOpacity: "0.52",
+    glassSheenOpacity: "0.1",
+    glassSaturation: "145%",
+    glassBlur: "18px",
+    pageShadowRgb: "5, 12, 24",
+    pageHighlightRgb: "224, 237, 255",
+    pageShadowTop: "0.26",
+    pageShadowBottom: "0.64",
+    pageHighlightOpacity: "0.06",
+    ambientLeftOpacity: 0.18,
+    ambientRightOpacity: 0.22,
+  },
+  aurora: {
+    glassTintRgb: "123, 243, 211",
+    glassBorderRgb: "198, 255, 242",
+    glassShadowRgb: "3, 10, 18",
+    glassSheenRgb: "233, 255, 250",
+    glassTopOpacity: "0.11",
+    glassMidOpacity: "0.05",
+    glassBottomOpacity: "0.24",
+    glassBorderOpacity: "0.18",
+    glassHighlightOpacity: "0.16",
+    glassShadowOpacity: "0.42",
+    glassSheenOpacity: "0.12",
+    glassSaturation: "145%",
+    glassBlur: "16px",
+    pageShadowRgb: "2, 8, 16",
+    pageHighlightRgb: "138, 255, 226",
+    pageShadowTop: "0.18",
+    pageShadowBottom: "0.54",
+    pageHighlightOpacity: "0.08",
+    ambientLeftOpacity: 0.3,
+    ambientRightOpacity: 0.34,
+  },
+  lava: {
+    glassTintRgb: "255, 167, 111",
+    glassBorderRgb: "255, 210, 174",
+    glassShadowRgb: "12, 4, 2",
+    glassSheenRgb: "255, 224, 191",
+    glassTopOpacity: "0.1",
+    glassMidOpacity: "0.05",
+    glassBottomOpacity: "0.3",
+    glassBorderOpacity: "0.16",
+    glassHighlightOpacity: "0.14",
+    glassShadowOpacity: "0.44",
+    glassSheenOpacity: "0.1",
+    glassSaturation: "138%",
+    glassBlur: "14px",
+    pageShadowRgb: "10, 3, 2",
+    pageHighlightRgb: "255, 178, 128",
+    pageShadowTop: "0.18",
+    pageShadowBottom: "0.6",
+    pageHighlightOpacity: "0.05",
+    ambientLeftOpacity: 0.26,
+    ambientRightOpacity: 0.32,
+  },
+};
+
+function buildLayoutSceneVars(theme, sceneKind) {
+  const tuning = SCENE_UI_TUNING[sceneKind] ?? SCENE_UI_TUNING.water;
+
+  return {
+    ...buildSceneVars(theme),
+    "--glass-tint-rgb": tuning.glassTintRgb,
+    "--glass-border-rgb": tuning.glassBorderRgb,
+    "--glass-shadow-rgb": tuning.glassShadowRgb,
+    "--glass-sheen-rgb": tuning.glassSheenRgb,
+    "--glass-highlight-rgb": tuning.glassBorderRgb,
+    "--glass-top-opacity": tuning.glassTopOpacity,
+    "--glass-mid-opacity": tuning.glassMidOpacity,
+    "--glass-bottom-opacity": tuning.glassBottomOpacity,
+    "--glass-border-opacity": tuning.glassBorderOpacity,
+    "--glass-highlight-opacity": tuning.glassHighlightOpacity,
+    "--glass-shadow-opacity": tuning.glassShadowOpacity,
+    "--glass-sheen-opacity": tuning.glassSheenOpacity,
+    "--glass-saturation": tuning.glassSaturation,
+    "--glass-blur": tuning.glassBlur,
+    "--page-shadow-rgb": tuning.pageShadowRgb,
+    "--page-highlight-rgb": tuning.pageHighlightRgb,
+    "--page-shadow-top": tuning.pageShadowTop,
+    "--page-shadow-bottom": tuning.pageShadowBottom,
+    "--page-highlight-opacity": tuning.pageHighlightOpacity,
+  };
+}
 
 export default function Layout() {
   const { state, sessionProgress, activeTheme, toasts, removeToast, celebration, actions } =
@@ -47,14 +187,16 @@ export default function Layout() {
   const cinematicMotion = !reduceMotion && highMotionPage;
   const isMeme67 = activeTheme.id === "theme_meme_67";
   const sceneKind = activeTheme.fillStyle ?? "water";
+  const sceneUi = SCENE_UI_TUNING[sceneKind] ?? SCENE_UI_TUNING.water;
   const overlayStrengthByScene = {
     water: 1,
-    sand: 0.46,
-    snow: 0.36,
-    aurora: 0.68,
-    lava: 0.52,
+    sand: 0.4,
+    snow: 0.16,
+    aurora: 0.6,
+    lava: 0.46,
   };
   const overlayStrength = overlayStrengthByScene[sceneKind] ?? 1;
+  const layoutSceneVars = buildLayoutSceneVars(activeTheme, sceneKind);
 
   const overlayOpacity =
     (reduceMotion ? 0.2 + sessionProgress * 0.12 : 0.22 + sessionProgress * 0.36) * overlayStrength;
@@ -86,7 +228,11 @@ export default function Layout() {
   }, [state.sessions.current.status, pauseTimer, resumeTimer]);
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden">
+    <div
+      className="relative min-h-screen overflow-x-hidden"
+      data-scene-kind={sceneKind}
+      style={layoutSceneVars}
+    >
       <motion.div
         className="fixed inset-0"
         style={{
@@ -235,7 +381,7 @@ export default function Layout() {
         style={{
           background: `radial-gradient(ellipse at center, ${activeTheme.accent}b3 0%, ${activeTheme.accent}7a 22%, ${activeTheme.accent}38 48%, ${activeTheme.accent}14 68%, transparent 84%)`,
           filter: "blur(64px)",
-          opacity: 0.34,
+          opacity: sceneUi.ambientLeftOpacity,
         }}
         animate={cinematicMotion ? { x: ["0%", "14%", "0%"], y: ["0%", "-6%", "0%"] } : {}}
         transition={{ duration: state.sessions.current.mode !== "focus" ? 28 : 18, repeat: Infinity, ease: smoothEase }}
@@ -246,13 +392,13 @@ export default function Layout() {
         style={{
           background: `radial-gradient(ellipse at center, ${activeTheme.gradient.via}c2 0%, ${activeTheme.gradient.via}8f 24%, ${activeTheme.gradient.via}42 52%, ${activeTheme.gradient.via}14 72%, transparent 86%)`,
           filter: "blur(72px)",
-          opacity: 0.4,
+          opacity: sceneUi.ambientRightOpacity,
         }}
         animate={cinematicMotion ? { x: ["0%", "-12%", "0%"], y: ["0%", "8%", "0%"] } : {}}
         transition={{ duration: state.sessions.current.mode !== "focus" ? 34 : 20, repeat: Infinity, ease: smoothEase }}
       />
 
-      <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-black/15 via-transparent to-black/40" />
+      <div className="page-depth-overlay pointer-events-none fixed inset-0" />
 
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col gap-3 px-3 pb-32 pt-3 sm:px-4 sm:pb-36 md:min-h-screen md:flex-row md:items-start md:gap-4 md:p-4 md:pb-6">
         <Sidebar />
