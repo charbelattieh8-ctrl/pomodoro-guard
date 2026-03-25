@@ -29,33 +29,87 @@ const SAND_GRAINS = [
   { left: "89%", top: "74%", size: "2px", delay: "1.2s", duration: "3.6s", travelX: "17vw", peakY: "-6vh", endY: "-2vh" },
 ];
 
+const DISTANT_RIDGES = [
+  {
+    className: "sand-ridge-1",
+    left: "-6%",
+    top: "10%",
+    width: "58%",
+    height: "11%",
+    clipPath: "polygon(0% 84%, 9% 70%, 20% 58%, 34% 48%, 50% 42%, 66% 46%, 79% 58%, 90% 70%, 100% 82%, 100% 100%, 0% 100%)",
+  },
+  {
+    className: "sand-ridge-2",
+    left: "30%",
+    top: "13%",
+    width: "52%",
+    height: "10%",
+    clipPath: "polygon(0% 88%, 10% 74%, 24% 63%, 40% 56%, 56% 58%, 72% 66%, 86% 76%, 100% 88%, 100% 100%, 0% 100%)",
+  },
+  {
+    className: "sand-ridge-3",
+    left: "66%",
+    top: "15%",
+    width: "38%",
+    height: "9%",
+    clipPath: "polygon(0% 90%, 12% 78%, 26% 66%, 44% 58%, 62% 60%, 78% 69%, 90% 78%, 100% 90%, 100% 100%, 0% 100%)",
+  },
+];
+
 const DUNES = [
   {
-    className: "sand-dune-back",
-    left: "-12%",
-    top: "-4vh",
+    className: "sand-dune-far-left",
+    left: "-18%",
+    top: "-7vh",
+    width: "48%",
+    height: "14vh",
+    clipPath: "polygon(0% 84%, 10% 72%, 23% 58%, 39% 47%, 54% 42%, 68% 44%, 82% 54%, 92% 66%, 100% 80%, 100% 100%, 0% 100%)",
+    skew: "-2deg",
+  },
+  {
+    className: "sand-dune-far-mid",
+    left: "10%",
+    top: "-9vh",
+    width: "40%",
+    height: "15vh",
+    clipPath: "polygon(0% 88%, 10% 73%, 22% 57%, 38% 42%, 53% 34%, 68% 35%, 80% 43%, 90% 57%, 100% 76%, 100% 100%, 0% 100%)",
+    skew: "-0.75deg",
+  },
+  {
+    className: "sand-dune-far-right",
+    left: "42%",
+    top: "-8vh",
+    width: "42%",
+    height: "14vh",
+    clipPath: "polygon(0% 86%, 9% 73%, 22% 60%, 39% 48%, 57% 42%, 72% 46%, 84% 56%, 93% 68%, 100% 82%, 100% 100%, 0% 100%)",
+    skew: "0.5deg",
+  },
+  {
+    className: "sand-dune-mid-left",
+    left: "-10%",
+    top: "-10vh",
     width: "62%",
-    height: "18vh",
-    clipPath: "polygon(0% 72%, 10% 56%, 23% 39%, 38% 26%, 55% 18%, 71% 19%, 84% 27%, 93% 38%, 100% 52%, 100% 100%, 0% 100%)",
+    height: "20vh",
+    clipPath: "polygon(0% 90%, 6% 78%, 15% 64%, 28% 50%, 43% 38%, 57% 31%, 70% 30%, 81% 36%, 91% 48%, 100% 66%, 100% 100%, 0% 100%)",
     skew: "-1.5deg",
   },
   {
-    className: "sand-dune-mid",
-    left: "14%",
-    top: "-8vh",
-    width: "54%",
+    className: "sand-dune-mid-right",
+    left: "30%",
+    top: "-12vh",
+    width: "62%",
     height: "22vh",
-    clipPath: "polygon(0% 82%, 8% 68%, 18% 52%, 31% 35%, 46% 22%, 59% 16%, 71% 18%, 82% 28%, 91% 42%, 100% 60%, 100% 100%, 0% 100%)",
-    skew: "0deg",
+    clipPath: "polygon(0% 92%, 8% 80%, 18% 66%, 31% 50%, 46% 34%, 60% 23%, 73% 18%, 84% 20%, 92% 30%, 100% 48%, 100% 100%, 0% 100%)",
+    skew: "1deg",
   },
   {
-    className: "sand-dune-front",
-    left: "40%",
-    top: "-10vh",
-    width: "68%",
-    height: "26vh",
-    clipPath: "polygon(0% 88%, 6% 76%, 15% 61%, 27% 45%, 41% 30%, 55% 18%, 67% 12%, 78% 11%, 87% 16%, 94% 27%, 100% 42%, 100% 100%, 0% 100%)",
-    skew: "1deg",
+    className: "sand-dune-foreground",
+    left: "-6%",
+    top: "-13vh",
+    width: "118%",
+    height: "28vh",
+    clipPath: "polygon(0% 100%, 0% 82%, 9% 73%, 18% 66%, 29% 60%, 41% 54%, 53% 48%, 65% 42%, 75% 34%, 84% 28%, 92% 30%, 100% 40%, 100% 100%)",
+    skew: "0deg",
   },
 ];
 
@@ -72,6 +126,22 @@ export default function SandFillScene({ progress, reduceMotion = false, classNam
       <div className="sand-sky absolute inset-0" />
       <div className="sand-sun absolute right-[-8%] top-[-6%] h-[42vh] w-[42vh] rounded-full" />
       <div className="sand-distance absolute inset-x-0 top-[12%] h-[26%]" />
+      <div className="sand-atmosphere absolute inset-x-0 top-[18%] h-[28%]" />
+      <div className="sand-ridges absolute inset-0">
+        {DISTANT_RIDGES.map((ridge) => (
+          <span
+            key={ridge.className}
+            className={`sand-ridge absolute ${ridge.className}`}
+            style={{
+              left: ridge.left,
+              top: ridge.top,
+              width: ridge.width,
+              height: ridge.height,
+              clipPath: ridge.clipPath,
+            }}
+          />
+        ))}
+      </div>
       <div className="sand-haze absolute inset-0" />
 
       {!reduceMotion ? (
@@ -121,6 +191,7 @@ export default function SandFillScene({ progress, reduceMotion = false, classNam
         }}
       >
         <div className="sand-body absolute inset-0" />
+        <div className="sand-body-noise absolute inset-0" />
         <div className="sand-surface absolute inset-x-0 top-0 h-0">
           {DUNES.map((dune) => (
             <div
@@ -142,6 +213,7 @@ export default function SandFillScene({ progress, reduceMotion = false, classNam
             </div>
           ))}
           <div className="sand-crest-light absolute inset-x-0 top-[-1.5rem] h-16" />
+          <div className="sand-foreground-shadow absolute inset-x-0 bottom-[-13vh] h-[24vh]" />
         </div>
 
         {!reduceMotion ? (
