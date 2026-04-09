@@ -33,6 +33,18 @@ const RIDGE_LIGHTS = [
   { left: "71%", top: "16%", width: "16%", height: "11%" },
 ];
 
+// Ice crystal sparkle points scattered on drift surface
+const ICE_SPARKLES = [
+  { left: "6%",  top: "12%", size: "4px",  dur: "2.8s", delay: "0s"   },
+  { left: "18%", top: "8%",  size: "5px",  dur: "3.4s", delay: "1.2s" },
+  { left: "32%", top: "14%", size: "3px",  dur: "2.4s", delay: "2.6s" },
+  { left: "46%", top: "6%",  size: "5px",  dur: "3.8s", delay: "0.6s" },
+  { left: "58%", top: "16%", size: "4px",  dur: "2.6s", delay: "3.4s" },
+  { left: "72%", top: "9%",  size: "3px",  dur: "3.2s", delay: "1.8s" },
+  { left: "84%", top: "12%", size: "5px",  dur: "2.9s", delay: "4.2s" },
+  { left: "94%", top: "7%",  size: "4px",  dur: "3.6s", delay: "0.4s" },
+];
+
 export default function SnowFillScene({ progress, reduceMotion = false, className = "", theme }) {
   const fillPercent = clamp01(progress);
 
@@ -45,6 +57,8 @@ export default function SnowFillScene({ progress, reduceMotion = false, classNam
     >
       <div className="snow-sky absolute inset-0" />
       <div className="snow-night-glow absolute inset-0" />
+      {/* Frost crystal edges on screen periphery */}
+      <div className="snow-frost-edge absolute inset-0" />
       <div className="snow-distant-ridge absolute inset-x-0 top-[11%] h-[28%]" />
       <div className="snow-moon absolute right-[10%] top-[12%] h-28 w-28 rounded-full" />
       <div className="snow-frost-haze absolute inset-0" />
@@ -118,6 +132,21 @@ export default function SnowFillScene({ progress, reduceMotion = false, classNam
                     top: light.top,
                     width: light.width,
                     height: light.height,
+                  }}
+                />
+              ))}
+              {/* Ice crystal sparkles on drift crest */}
+              {ICE_SPARKLES.map((spark, index) => (
+                <span
+                  key={`snow-sparkle-${index}`}
+                  className="snow-ice-sparkle absolute"
+                  style={{
+                    left:   spark.left,
+                    top:    spark.top,
+                    width:  spark.size,
+                    height: spark.size,
+                    animationDuration: spark.dur,
+                    animationDelay:    spark.delay,
                   }}
                 />
               ))}

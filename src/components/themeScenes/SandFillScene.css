@@ -4,16 +4,46 @@
 
 .sand-fill-scene .sand-sky {
   background:
-    radial-gradient(circle at 82% 12%, rgba(255, 235, 193, 0.34) 0%, rgba(255, 216, 147, 0.1) 16%, transparent 28%),
-    radial-gradient(circle at 24% 18%, rgba(255, 205, 137, 0.1) 0%, transparent 30%),
-    linear-gradient(180deg, rgba(120, 75, 36, 0.24) 0%, transparent 24%),
-    linear-gradient(180deg, rgba(96, 58, 28, 0.9), rgba(92, 57, 27, 0.68) 24%, rgba(63, 37, 18, 0.6) 44%, rgba(28, 16, 8, 0.92) 100%);
+    /* Bright hot-white zenith near the sun */
+    radial-gradient(circle at 82% 8%,  rgba(255, 252, 230, 0.48) 0%, rgba(255, 235, 170, 0.22) 10%, rgba(255, 210, 130, 0.08) 22%, transparent 34%),
+    /* Secondary bounce-light on the opposite side */
+    radial-gradient(circle at 14% 20%, rgba(255, 200, 120, 0.14) 0%, transparent 32%),
+    /* Horizon haze band */
+    radial-gradient(ellipse at 50% 92%, rgba(255, 195, 108, 0.22) 0%, rgba(215, 140, 60, 0.1) 32%, transparent 54%),
+    /* Top-down gradient: warm amber sky deepening to rich umber at base */
+    linear-gradient(180deg,
+      rgba(148, 84, 28, 0.96) 0%,
+      rgba(178, 104, 36, 0.82) 14%,
+      rgba(142, 82, 28, 0.72) 32%,
+      rgba(86,  50, 18, 0.78) 56%,
+      rgba(42,  22,  8, 0.94) 100%
+    );
 }
 
 .sand-fill-scene .sand-sun {
-  background: radial-gradient(circle, rgba(255, 242, 205, 0.5), rgba(255, 214, 136, 0.18) 34%, transparent 72%);
-  filter: blur(18px);
-  opacity: 0.68;
+  /* Blazing hot sun — bright white-yellow core with large chromatic halo */
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 240, 0.98) 0%, rgba(255, 245, 190, 0.8) 12%, rgba(255, 220, 130, 0.38) 28%, rgba(255, 190, 80, 0.12) 52%, transparent 72%),
+    radial-gradient(circle at 50% 50%, rgba(255, 235, 150, 0.18), transparent 82%);
+  filter: blur(14px);
+  opacity: 0.82;
+  animation: sandSunPulse 12s ease-in-out infinite;
+}
+
+/* Heat shimmer layer — wavy distortion above the dunes */
+.sand-fill-scene .sand-heat-shimmer {
+  background:
+    repeating-linear-gradient(
+      180deg,
+      transparent 0px,
+      transparent 6px,
+      rgba(255, 235, 195, 0.03) 6px,
+      rgba(255, 235, 195, 0.03) 7px
+    );
+  filter: blur(1px);
+  mix-blend-mode: screen;
+  opacity: 0;
+  animation: sandHeatShimmer 7s ease-in-out infinite;
 }
 
 .sand-fill-scene .sand-distance {
@@ -323,6 +353,19 @@
   50% {
     transform: translate3d(0.6rem, -0.35rem, 0) skewX(calc(var(--dune-skew, 0deg) + 0.75deg));
   }
+}
+
+@keyframes sandSunPulse {
+  0%, 100% { opacity: 0.78; filter: blur(13px); }
+  50%       { opacity: 0.88; filter: blur(16px); }
+}
+
+@keyframes sandHeatShimmer {
+  0%,  20% { opacity: 0;    transform: translate3d(0, 0, 0) skewY(0deg); }
+  40%       { opacity: 0.72; transform: translate3d(0.4%, 0.2%, 0) skewY(0.4deg); }
+  60%       { opacity: 0.44; transform: translate3d(-0.3%, -0.1%, 0) skewY(-0.3deg); }
+  80%       { opacity: 0.62; transform: translate3d(0.2%, 0.1%, 0) skewY(0.2deg); }
+  100%      { opacity: 0;    transform: translate3d(0, 0, 0) skewY(0deg); }
 }
 
 @media (max-width: 640px) {

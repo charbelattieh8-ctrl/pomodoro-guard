@@ -1,0 +1,319 @@
+/* ============================================================
+   CyberpunkFillScene.css — Neon-grid cyberpunk fill scene
+   Fill body = rising holographic data grid with neon glow.
+   Sky    = dark with scanlines, neon city horizon.
+   ============================================================ */
+
+.cyberpunk-fill-scene {
+  isolation: isolate;
+  background: #030008;
+}
+
+/* ── Background / Sky ─────────────────────────────────────── */
+.cyberpunk-fill-scene .cyber-sky {
+  background:
+    radial-gradient(ellipse at 50% 110%, rgba(0, 255, 255, 0.08), transparent 44%),
+    radial-gradient(ellipse at 20% 90%, rgba(191, 0, 255, 0.06), transparent 32%),
+    radial-gradient(ellipse at 80% 88%, rgba(0, 200, 255, 0.05), transparent 28%),
+    linear-gradient(180deg,
+      rgba(3, 0, 12, 0.98) 0%,
+      rgba(8, 0, 22, 0.94) 34%,
+      rgba(4, 0, 16, 0.9)  62%,
+      rgba(2, 0, 8, 0.98)  100%
+    );
+}
+
+/* Scanlines overlay — horizontal CRT lines */
+.cyberpunk-fill-scene .cyber-scanlines {
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(0, 0, 0, 0.22) 3px,
+    rgba(0, 0, 0, 0.22) 4px
+  );
+  opacity: 0.42;
+  animation: cyberScanlineScroll 8s linear infinite;
+}
+
+/* Perspective grid on the ground plane */
+.cyberpunk-fill-scene .cyber-grid-horizon {
+  background:
+    /* Horizontal grid lines (perspective) */
+    repeating-linear-gradient(
+      180deg,
+      rgba(0, 255, 255, 0.06) 0px 1px,
+      transparent 1px 32px
+    ),
+    /* Vertical grid lines (perspective converging to center) */
+    linear-gradient(180deg,
+      rgba(0, 255, 255, 0.12),
+      rgba(0, 180, 255, 0.04) 42%,
+      transparent 70%
+    );
+  transform: perspective(280px) rotateX(48deg) scaleY(1.6);
+  transform-origin: center bottom;
+  opacity: 0.56;
+  animation: cyberGridPulse 4s ease-in-out infinite;
+}
+
+/* Neon city skyline silhouette */
+.cyberpunk-fill-scene .cyber-cityline {
+  background:
+    radial-gradient(ellipse at 12% 100%, rgba(2, 0, 8, 0.98) 0% 14%, transparent 16%),
+    radial-gradient(ellipse at 24% 100%, rgba(3, 0, 10, 0.96) 0% 18%, transparent 20%),
+    radial-gradient(ellipse at 36% 100%, rgba(2, 0, 8, 0.97) 0% 12%, transparent 14%),
+    radial-gradient(ellipse at 50% 100%, rgba(4, 0, 14, 0.95) 0% 22%, transparent 24%),
+    radial-gradient(ellipse at 62% 100%, rgba(2, 0, 8, 0.96) 0% 16%, transparent 18%),
+    radial-gradient(ellipse at 76% 100%, rgba(3, 0, 10, 0.95) 0% 14%, transparent 16%),
+    radial-gradient(ellipse at 88% 100%, rgba(2, 0, 8, 0.97) 0% 20%, transparent 22%),
+    /* Neon window dots on buildings */
+    radial-gradient(circle at 14% 62%, rgba(0, 255, 255, 0.28), transparent 1.5%),
+    radial-gradient(circle at 18% 54%, rgba(255, 0, 255, 0.22), transparent 1%),
+    radial-gradient(circle at 26% 68%, rgba(0, 200, 255, 0.24), transparent 1.5%),
+    radial-gradient(circle at 48% 58%, rgba(255, 20, 147, 0.26), transparent 1%),
+    radial-gradient(circle at 64% 72%, rgba(0, 255, 200, 0.22), transparent 1.5%),
+    radial-gradient(circle at 78% 62%, rgba(138, 43, 226, 0.24), transparent 1%),
+    linear-gradient(180deg, transparent 48%, rgba(2, 0, 8, 0.7) 100%);
+  filter: drop-shadow(0 0 6px rgba(0, 255, 255, 0.12));
+  opacity: 0.92;
+}
+
+/* Neon horizon glow */
+.cyberpunk-fill-scene .cyber-horizon-glow {
+  background:
+    linear-gradient(180deg,
+      transparent,
+      rgba(0, 255, 255, 0.06) 28%,
+      rgba(0, 200, 255, 0.1) 56%,
+      rgba(0, 180, 255, 0.06) 78%,
+      transparent
+    ),
+    radial-gradient(ellipse at 50% 100%, rgba(191, 0, 255, 0.08), transparent 56%);
+  filter: blur(12px);
+  animation: cyberHorizonPulse 6s ease-in-out infinite;
+}
+
+/* ── Particle: data bits / pixels ────────────────────────── */
+.cyberpunk-fill-scene .cyber-bit {
+  border-radius: 2px;
+  background: rgba(0, 255, 255, 0.92);
+  box-shadow:
+    0 0 10px rgba(0, 255, 255, 0.7),
+    0 0 20px rgba(0, 255, 255, 0.3);
+  animation: cyberBitRise linear infinite;
+  will-change: transform, opacity;
+}
+
+.cyberpunk-fill-scene .cyber-bit.cyber-bit-magenta {
+  background: rgba(255, 0, 220, 0.92);
+  box-shadow:
+    0 0 10px rgba(255, 0, 220, 0.7),
+    0 0 20px rgba(255, 0, 220, 0.3);
+}
+
+.cyberpunk-fill-scene .cyber-bit.cyber-bit-yellow {
+  background: rgba(255, 230, 0, 0.88);
+  box-shadow:
+    0 0 8px rgba(255, 230, 0, 0.6),
+    0 0 18px rgba(255, 200, 0, 0.25);
+}
+
+/* ── Fill Body ────────────────────────────────────────────── */
+.cyberpunk-fill-scene .cyber-fill {
+  overflow: visible;
+  will-change: height;
+}
+
+/* Main fill: dark panel with grid pattern */
+.cyberpunk-fill-scene .cyber-body {
+  background:
+    /* Neon grid lines */
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 48px,
+      rgba(0, 255, 255, 0.08) 48px,
+      rgba(0, 255, 255, 0.08) 49px
+    ),
+    repeating-linear-gradient(
+      180deg,
+      transparent 0px,
+      transparent 48px,
+      rgba(0, 255, 255, 0.06) 48px,
+      rgba(0, 255, 255, 0.06) 49px
+    ),
+    /* Base dark fill */
+    linear-gradient(180deg,
+      rgba(0, 255, 255, 0.06) 0%,
+      rgba(0, 100, 180, 0.1)  12%,
+      rgba(4, 0, 20, 0.82)   38%,
+      rgba(2, 0, 10, 0.96)   72%,
+      rgba(1, 0, 6, 0.99)    100%
+    );
+  box-shadow:
+    inset 0 18px 28px rgba(0, 255, 255, 0.06),
+    inset 0 -22px 36px rgba(0, 0, 12, 0.56);
+  animation: cyberBodyShift 20s linear infinite;
+}
+
+/* Neon circuit lines on body */
+.cyberpunk-fill-scene .cyber-body-circuits {
+  background:
+    /* Diagonal circuit traces */
+    repeating-linear-gradient(
+      54deg,
+      transparent 0px,
+      transparent 36px,
+      rgba(0, 255, 255, 0.04) 36px,
+      rgba(0, 255, 255, 0.04) 37px
+    ),
+    repeating-linear-gradient(
+      -54deg,
+      transparent 0px,
+      transparent 52px,
+      rgba(255, 0, 255, 0.03) 52px,
+      rgba(255, 0, 255, 0.03) 53px
+    );
+  mix-blend-mode: screen;
+  opacity: 0.72;
+  animation: cyberCircuitDrift 16s linear infinite;
+}
+
+/* Pulsing neon sub-glow inside fill */
+.cyberpunk-fill-scene .cyber-body-glow {
+  background:
+    radial-gradient(circle at 30% 20%, rgba(0, 255, 255, 0.1), transparent 36%),
+    radial-gradient(circle at 70% 50%, rgba(191, 0, 255, 0.08), transparent 28%),
+    radial-gradient(circle at 50% 80%, rgba(0, 200, 255, 0.07), transparent 32%);
+  mix-blend-mode: screen;
+  animation: cyberBodyGlowPulse 7s ease-in-out infinite;
+}
+
+/* ── Surface: Circuit ridges at fill top ─────────────────── */
+.cyberpunk-fill-scene .cyber-surface {
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* Ridge / panel shape */
+.cyberpunk-fill-scene .cyber-ridge {
+  position: absolute;
+  border-radius: 6px 6px 0 0;
+  background:
+    linear-gradient(180deg,
+      rgba(0, 255, 255, 0.16) 0%,
+      rgba(0, 160, 200, 0.14) 12%,
+      rgba(0, 60, 120, 0.72)  44%,
+      rgba(2, 0, 14, 0.97)    100%
+    );
+  box-shadow:
+    inset 0 10px 18px rgba(0, 255, 255, 0.1),
+    0 -10px 24px rgba(0, 255, 255, 0.06);
+}
+
+.cyberpunk-fill-scene .cyber-ridge::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(90deg, rgba(0, 255, 255, 0.06) 0 1px, transparent 1px 20px),
+    linear-gradient(180deg, rgba(0, 255, 255, 0.12), transparent 28%);
+  border-radius: inherit;
+}
+
+.cyberpunk-fill-scene .cyber-ridge-back {
+  left: -10%;
+  top: -7vh;
+  width: 54%;
+  height: 16vh;
+  clip-path: polygon(0% 62%, 8% 44%, 18% 30%, 32% 20%, 46% 16%, 62% 20%, 76% 32%, 88% 46%, 100% 66%, 100% 100%, 0% 100%);
+  opacity: 0.76;
+  filter: saturate(0.88) blur(0.5px);
+}
+
+.cyberpunk-fill-scene .cyber-ridge-front {
+  right: -12%;
+  top: -11vh;
+  width: 68%;
+  height: 20vh;
+  clip-path: polygon(0% 68%, 6% 50%, 16% 34%, 28% 22%, 42% 12%, 56% 8%, 70% 12%, 82% 24%, 92% 40%, 100% 62%, 100% 100%, 0% 100%);
+}
+
+/* Bright neon line at surface top edge */
+.cyberpunk-fill-scene .cyber-surface-neon {
+  background:
+    linear-gradient(90deg,
+      transparent,
+      rgba(0, 255, 255, 0.14) 12%,
+      rgba(0, 255, 255, 0.72) 34%,
+      rgba(255, 0, 255, 0.34) 56%,
+      rgba(0, 255, 255, 0.56) 78%,
+      rgba(0, 255, 255, 0.1) 92%,
+      transparent
+    );
+  filter: blur(3px);
+  animation: cyberNeonLinePulse 3.5s ease-in-out infinite;
+}
+
+/* ── Keyframes ────────────────────────────────────────────── */
+@keyframes cyberScanlineScroll {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 24px; }
+}
+
+@keyframes cyberGridPulse {
+  0%, 100% { opacity: 0.44; }
+  50%       { opacity: 0.68; }
+}
+
+@keyframes cyberHorizonPulse {
+  0%, 100% { opacity: 0.72; }
+  50%       { opacity: 1; }
+}
+
+@keyframes cyberBodyShift {
+  0%   { background-position: 0 0, 0 0, center top; }
+  100% { background-position: 49px 0, 0 49px, center top; }
+}
+
+@keyframes cyberCircuitDrift {
+  0%   { background-position: 0 0, 0 0; }
+  100% { background-position: 37px 37px, -53px 53px; }
+}
+
+@keyframes cyberBodyGlowPulse {
+  0%, 100% { opacity: 0.58; }
+  50%       { opacity: 0.88; }
+}
+
+@keyframes cyberNeonLinePulse {
+  0%, 100% { opacity: 0.72; filter: blur(2px); }
+  50%       { opacity: 1;    filter: blur(4px); }
+}
+
+@keyframes cyberBitRise {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.6);
+    opacity: 0;
+  }
+  14% { opacity: 1; }
+  100% {
+    transform: translate3d(var(--bit-drift, 0.5rem), var(--bit-rise, -90vh), 0) scale(1.1);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .cyberpunk-fill-scene .cyber-grid-horizon {
+    transform: perspective(200px) rotateX(44deg) scaleY(1.4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cyberpunk-fill-scene *,
+  .cyberpunk-fill-scene *::before,
+  .cyberpunk-fill-scene *::after {
+    animation: none !important;
+  }
+}

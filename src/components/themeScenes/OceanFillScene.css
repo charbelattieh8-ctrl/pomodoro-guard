@@ -1,0 +1,303 @@
+/* ============================================================
+   OceanFillScene.css — Deep ocean underwater fill scene
+   Fill body = deep ocean water rising (blues + caustics).
+   Sky    = looking up through water — caustic light shimmer.
+   ============================================================ */
+
+.ocean-fill-scene {
+  isolation: isolate;
+  background: #010a14;
+}
+
+/* ── Sky — deep ocean looking upward ─────────────────────── */
+.ocean-fill-scene .ocean-sky {
+  background:
+    radial-gradient(circle at 50% -10%, rgba(6, 182, 212, 0.12), transparent 40%),
+    radial-gradient(ellipse at 30% 20%, rgba(14, 116, 144, 0.1), transparent 36%),
+    radial-gradient(ellipse at 72% 16%, rgba(8, 145, 178, 0.08), transparent 28%),
+    linear-gradient(180deg,
+      rgba(1, 18, 28, 0.96) 0%,
+      rgba(2, 24, 38, 0.9)  28%,
+      rgba(1, 15, 24, 0.86) 56%,
+      rgba(0, 8, 14, 0.98)  100%
+    );
+}
+
+/* Caustic light patterns (light refracted through surface above) */
+.ocean-fill-scene .ocean-caustics {
+  background:
+    radial-gradient(ellipse at 18% 14%, rgba(6, 182, 212, 0.14), transparent 18%),
+    radial-gradient(ellipse at 44% 8%,  rgba(34, 211, 238, 0.1),  transparent 14%),
+    radial-gradient(ellipse at 70% 18%, rgba(14, 165, 233, 0.12), transparent 16%),
+    radial-gradient(ellipse at 90% 6%,  rgba(6, 182, 212, 0.1),   transparent 12%),
+    radial-gradient(ellipse at 30% 28%, rgba(56, 189, 248, 0.06), transparent 20%),
+    radial-gradient(ellipse at 60% 22%, rgba(14, 165, 233, 0.07), transparent 18%);
+  filter: blur(2px);
+  mix-blend-mode: screen;
+  animation: oceanCausticsShimmer 6s ease-in-out infinite;
+}
+
+/* Distant volumetric light shafts */
+.ocean-fill-scene .ocean-light-shafts {
+  background:
+    conic-gradient(from 174deg at 30% -6%, transparent 0deg, rgba(56, 189, 248, 0.06) 3deg, transparent 7deg),
+    conic-gradient(from 177deg at 52% -4%, transparent 0deg, rgba(6, 182, 212, 0.08) 4deg, transparent 10deg),
+    conic-gradient(from 171deg at 74% -8%, transparent 0deg, rgba(34, 211, 238, 0.05) 3deg, transparent 7deg);
+  filter: blur(14px);
+  opacity: 0.62;
+  mix-blend-mode: screen;
+  animation: oceanShaftsBreath 12s ease-in-out infinite;
+}
+
+/* Coral silhouettes at mid-depth */
+.ocean-fill-scene .ocean-coral {
+  background:
+    /* Coral branch shapes using radial gradients */
+    radial-gradient(ellipse at 8%  100%, rgba(0, 40, 60, 0.96) 0% 12%, transparent 14%),
+    radial-gradient(ellipse at 16% 100%, rgba(0, 35, 56, 0.94) 0% 16%, transparent 18%),
+    radial-gradient(ellipse at 26% 100%, rgba(0, 42, 62, 0.96) 0% 10%, transparent 12%),
+    radial-gradient(ellipse at 36% 100%, rgba(0, 38, 58, 0.92) 0% 14%, transparent 16%),
+    radial-gradient(ellipse at 52% 100%, rgba(0, 44, 66, 0.95) 0% 18%, transparent 20%),
+    radial-gradient(ellipse at 66% 100%, rgba(0, 36, 56, 0.94) 0% 12%, transparent 14%),
+    radial-gradient(ellipse at 78% 100%, rgba(0, 42, 62, 0.96) 0% 16%, transparent 18%),
+    radial-gradient(ellipse at 90% 100%, rgba(0, 38, 58, 0.92) 0% 10%, transparent 12%),
+    linear-gradient(180deg, transparent 52%, rgba(0, 24, 38, 0.62) 100%);
+  filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.08));
+  opacity: 0.94;
+}
+
+/* Ambient blue underwater glow */
+.ocean-fill-scene .ocean-ambient {
+  background:
+    radial-gradient(ellipse at 50% 60%, rgba(6, 182, 212, 0.08), transparent 52%),
+    radial-gradient(ellipse at 50% 100%, rgba(14, 116, 144, 0.12), transparent 40%);
+  filter: blur(22px);
+  animation: oceanAmbientPulse 10s ease-in-out infinite;
+}
+
+/* ── Particles: Rising Bubbles ────────────────────────────── */
+.ocean-fill-scene .ocean-bubble {
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 36% 36%, rgba(255, 255, 255, 0.88), rgba(148, 230, 248, 0.32) 48%, transparent 72%),
+    radial-gradient(circle, transparent 60%, rgba(6, 182, 212, 0.14) 100%);
+  box-shadow:
+    inset 0 -1px 3px rgba(6, 182, 212, 0.2),
+    0 0 12px rgba(6, 182, 212, 0.12);
+  animation: oceanBubbleRise linear infinite;
+  will-change: transform, opacity;
+}
+
+/* ── Fill Body ────────────────────────────────────────────── */
+.ocean-fill-scene .ocean-fill {
+  overflow: visible;
+  will-change: height;
+}
+
+/* Deep ocean water body */
+.ocean-fill-scene .ocean-body {
+  background:
+    linear-gradient(180deg,
+      rgba(6, 182, 212, 0.1)  0%,
+      rgba(8, 145, 178, 0.14) 10%,
+      rgba(2, 72, 104, 0.72)  36%,
+      rgba(1, 36, 56, 0.94)   64%,
+      rgba(0, 16, 26, 0.99)   100%
+    );
+  box-shadow:
+    inset 0 18px 28px rgba(6, 182, 212, 0.08),
+    inset 0 -22px 38px rgba(0, 8, 14, 0.52);
+  animation: oceanBodyShift 32s linear infinite;
+}
+
+/* Caustic pattern on body */
+.ocean-fill-scene .ocean-body-caustics {
+  background:
+    repeating-linear-gradient(
+      42deg,
+      transparent 0px,
+      transparent 22px,
+      rgba(6, 182, 212, 0.04) 22px,
+      rgba(6, 182, 212, 0.04) 24px
+    ),
+    repeating-linear-gradient(
+      138deg,
+      transparent 0px,
+      transparent 18px,
+      rgba(34, 211, 238, 0.03) 18px,
+      rgba(34, 211, 238, 0.03) 20px
+    );
+  mix-blend-mode: screen;
+  opacity: 0.72;
+  animation: oceanCausticsDrift 18s linear infinite;
+}
+
+/* Glow pulse in body */
+.ocean-fill-scene .ocean-body-glow {
+  background:
+    radial-gradient(circle at 50% 8%, rgba(56, 189, 248, 0.1), transparent 38%),
+    radial-gradient(circle at 50% 60%, rgba(6, 182, 212, 0.06), transparent 44%);
+  mix-blend-mode: screen;
+  animation: oceanBodyGlowPulse 9s ease-in-out infinite;
+}
+
+/* ── Surface Waves ────────────────────────────────────────── */
+.ocean-fill-scene .ocean-surface {
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* Wave shapes */
+.ocean-fill-scene .ocean-wave {
+  position: absolute;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  background:
+    linear-gradient(180deg,
+      rgba(6, 182, 212, 0.22) 0%,
+      rgba(8, 145, 178, 0.18) 14%,
+      rgba(3, 72, 108, 0.76)  46%,
+      rgba(1, 28, 46, 0.98)   100%
+    );
+  box-shadow:
+    inset 0 10px 20px rgba(56, 189, 248, 0.12),
+    inset 0 -16px 28px rgba(0, 10, 20, 0.42),
+    0 -8px 20px rgba(3, 60, 88, 0.2);
+}
+
+/* Foam / white highlights on wave crest */
+.ocean-fill-scene .ocean-wave::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg,
+      rgba(165, 243, 252, 0.28) 0%,
+      rgba(6, 182, 212, 0.08) 18%,
+      transparent 36%
+    );
+  border-radius: inherit;
+}
+
+.ocean-fill-scene .ocean-wave-back {
+  left: -14%;
+  top: -8vh;
+  width: 52%;
+  height: 18vh;
+  transform: rotate(-3deg);
+  opacity: 0.82;
+  filter: blur(0.6px);
+  z-index: 1;
+}
+
+.ocean-fill-scene .ocean-wave-mid {
+  left: 20%;
+  top: -11vh;
+  width: 44%;
+  height: 21vh;
+  transform: rotate(1.5deg);
+  z-index: 2;
+}
+
+.ocean-fill-scene .ocean-wave-front {
+  right: -12%;
+  top: -14vh;
+  width: 68%;
+  height: 25vh;
+  transform: rotate(-1.5deg);
+  z-index: 3;
+}
+
+/* Bright foam crest line */
+.ocean-fill-scene .ocean-crest {
+  background:
+    linear-gradient(180deg,
+      rgba(165, 243, 252, 0.56),
+      rgba(56, 189, 248, 0.2) 36%,
+      transparent
+    );
+  filter: blur(6px);
+  opacity: 0.78;
+  animation: oceanCrestBreath 7s ease-in-out infinite;
+}
+
+/* Foam spray particles at top edge */
+.ocean-fill-scene .ocean-foam {
+  background:
+    radial-gradient(circle at 12% 60%, rgba(255, 255, 255, 0.5), transparent 14%),
+    radial-gradient(circle at 28% 40%, rgba(255, 255, 255, 0.4), transparent 10%),
+    radial-gradient(circle at 46% 70%, rgba(255, 255, 255, 0.44), transparent 12%),
+    radial-gradient(circle at 62% 38%, rgba(255, 255, 255, 0.38), transparent 10%),
+    radial-gradient(circle at 78% 62%, rgba(255, 255, 255, 0.46), transparent 14%),
+    radial-gradient(circle at 92% 50%, rgba(255, 255, 255, 0.38), transparent 10%);
+  filter: blur(2.5px);
+  opacity: 0.64;
+  animation: oceanFoamShift 14s linear infinite;
+}
+
+/* ── Keyframes ────────────────────────────────────────────── */
+@keyframes oceanCausticsShimmer {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1);     opacity: 0.72; }
+  33%       { transform: translate3d(0.8%, -0.4%, 0) scale(1.02); opacity: 0.9;  }
+  66%       { transform: translate3d(-0.6%, 0.3%, 0) scale(0.98); opacity: 0.82; }
+}
+
+@keyframes oceanShaftsBreath {
+  0%, 100% { opacity: 0.52; }
+  50%       { opacity: 0.78; }
+}
+
+@keyframes oceanAmbientPulse {
+  0%, 100% { opacity: 0.62; }
+  50%       { opacity: 0.88; }
+}
+
+@keyframes oceanBodyShift {
+  0%   { background-position: center top, 0 0; }
+  100% { background-position: center top, 100px 140px; }
+}
+
+@keyframes oceanCausticsDrift {
+  0%   { background-position: 0 0, 0 0; }
+  100% { background-position: 24px 24px, -20px 20px; }
+}
+
+@keyframes oceanBodyGlowPulse {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 0.9; }
+}
+
+@keyframes oceanCrestBreath {
+  0%, 100% { opacity: 0.66; }
+  50%       { opacity: 0.9;  }
+}
+
+@keyframes oceanFoamShift {
+  0%   { background-position: 0 0; }
+  100% { background-position: 120px 0; }
+}
+
+@keyframes oceanBubbleRise {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.5);
+    opacity: 0;
+  }
+  15% { opacity: 0.8; }
+  80% { opacity: 0.6; }
+  100% {
+    transform: translate3d(var(--bubble-drift, 0.8rem), var(--bubble-rise, -88vh), 0) scale(1.2);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .ocean-fill-scene .ocean-wave-back  { width: 58%; }
+  .ocean-fill-scene .ocean-wave-front { width: 76%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ocean-fill-scene *,
+  .ocean-fill-scene *::before,
+  .ocean-fill-scene *::after {
+    animation: none !important;
+  }
+}

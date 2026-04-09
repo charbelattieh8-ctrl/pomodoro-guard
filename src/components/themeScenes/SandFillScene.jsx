@@ -125,6 +125,10 @@ export default function SandFillScene({ progress, reduceMotion = false, classNam
     >
       <div className="sand-sky absolute inset-0" />
       <div className="sand-sun absolute right-[-8%] top-[-6%] h-[42vh] w-[42vh] rounded-full" />
+      {/* Heat shimmer — wavy distortion above sand surface */}
+      {!reduceMotion ? (
+        <div className="sand-heat-shimmer absolute inset-x-0 top-[30%] h-[38%]" />
+      ) : null}
       <div className="sand-distance absolute inset-x-0 top-[12%] h-[26%]" />
       <div className="sand-atmosphere absolute inset-x-0 top-[18%] h-[28%]" />
       <div className="sand-ridges absolute inset-0">

@@ -431,6 +431,88 @@ export const DEFAULT_THEMES = [
     tier: "premium",
     isFree: false,
   },
+
+  // ── NEW PREMIUM ENVIRONMENT THEMES ─────────────────────────
+
+  /**
+   * Enchanted Forest — deep mossy forest with fireflies and
+   * dappled canopy light. Fill rises as glowing earth/moss.
+   */
+  {
+    id: "theme_premium_forest",
+    name: "Enchanted Forest",
+    priceCoins: 380,
+    gradient: { from: "#052e16", via: "#15803d", to: "#020f07" },
+    accent: "#4ade80",
+    fillStyle: "forest",
+    fill: { base: "#16a34a", light: "#4ade80", crest: "#86efac", deep: "#052e16" },
+    tier: "premium",
+    isFree: false,
+  },
+
+  /**
+   * Neon Grid — cyberpunk metropolis. Dark background with
+   * cyan/magenta neon grid rising as holographic data.
+   */
+  {
+    id: "theme_premium_cyberpunk",
+    name: "Neon Grid",
+    priceCoins: 420,
+    gradient: { from: "#030008", via: "#1a0040", to: "#000818" },
+    accent: "#00ffff",
+    fillStyle: "cyberpunk",
+    fill: { base: "#0891b2", light: "#00ffff", crest: "#a5f3fc", deep: "#030008" },
+    tier: "premium",
+    isFree: false,
+  },
+
+  /**
+   * Abyssal Ocean — deep underwater scene with caustics,
+   * coral silhouettes, and rising ocean waves.
+   */
+  {
+    id: "theme_premium_ocean",
+    name: "Abyssal Ocean",
+    priceCoins: 360,
+    gradient: { from: "#010a14", via: "#0e7490", to: "#00040a" },
+    accent: "#22d3ee",
+    fillStyle: "ocean",
+    fill: { base: "#0891b2", light: "#22d3ee", crest: "#a5f3fc", deep: "#010a14" },
+    tier: "premium",
+    isFree: false,
+  },
+
+  /**
+   * Volcanic Rift — active volcano with glowing magma cracks,
+   * jagged basalt spires, rising embers, and ash sky.
+   */
+  {
+    id: "theme_premium_volcano",
+    name: "Volcanic Rift",
+    priceCoins: 490,
+    gradient: { from: "#060100", via: "#7c1d06", to: "#020000" },
+    accent: "#fb923c",
+    fillStyle: "volcano",
+    fill: { base: "#c2410c", light: "#fb923c", crest: "#fed7aa", deep: "#060100" },
+    tier: "premium",
+    isFree: false,
+  },
+
+  /**
+   * Cosmic Void — deep space with nebula gradients, star fields,
+   * shooting stars, and rising cosmic nebula gas.
+   */
+  {
+    id: "theme_premium_space",
+    name: "Cosmic Void",
+    priceCoins: 500,
+    gradient: { from: "#02010a", via: "#2e1065", to: "#000208" },
+    accent: "#c084fc",
+    fillStyle: "space",
+    fill: { base: "#7c3aed", light: "#c084fc", crest: "#e9d5ff", deep: "#02010a" },
+    tier: "premium",
+    isFree: false,
+  },
 ];
 
 export const themeById = (themes, id) =>

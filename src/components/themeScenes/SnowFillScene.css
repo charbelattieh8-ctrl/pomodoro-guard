@@ -1,13 +1,44 @@
 .snow-fill-scene {
   isolation: isolate;
-  background: #08111e;
+  background: #06101c;
 }
 
 .snow-sky {
   background:
-    radial-gradient(circle at 72% 14%, rgba(228, 240, 255, 0.1), transparent 24%),
-    radial-gradient(circle at 20% 18%, rgba(164, 193, 224, 0.08), transparent 28%),
-    linear-gradient(180deg, rgba(9, 18, 31, 0.12), rgba(14, 26, 41, 0.4) 44%, rgba(4, 8, 16, 0.72) 100%);
+    /* Moon halo light diffusion top-right */
+    radial-gradient(circle at 72% 14%, rgba(230, 244, 255, 0.18), rgba(190, 220, 248, 0.06) 22%, transparent 38%),
+    /* Faint aurora hint top-left (cold blue) */
+    radial-gradient(circle at 18% 16%, rgba(148, 190, 228, 0.1), transparent 30%),
+    /* Cold horizon glow */
+    radial-gradient(ellipse at 50% 94%, rgba(176, 210, 240, 0.12), transparent 42%),
+    /* Deep winter sky gradient */
+    linear-gradient(180deg,
+      rgba(6, 12, 22, 0.96)  0%,
+      rgba(9, 18, 32, 0.86)  22%,
+      rgba(10, 20, 34, 0.76) 46%,
+      rgba(4, 8, 16, 0.94)   100%
+    );
+}
+
+/* Frost edge overlay — icy crystalline edges on screen periphery */
+.snow-fill-scene .snow-frost-edge {
+  background:
+    /* Top-left frost corner */
+    radial-gradient(ellipse at 0% 0%,   rgba(200, 225, 248, 0.18) 0%, rgba(160, 200, 235, 0.06) 22%, transparent 36%),
+    /* Top-right frost corner */
+    radial-gradient(ellipse at 100% 0%, rgba(200, 225, 248, 0.16) 0%, rgba(150, 195, 232, 0.05) 20%, transparent 34%),
+    /* Bottom frost edge */
+    radial-gradient(ellipse at 50% 100%, rgba(180, 215, 242, 0.12), transparent 28%),
+    /* Side frost veins */
+    linear-gradient(90deg,
+      rgba(190, 220, 245, 0.1) 0%,
+      transparent 12%,
+      transparent 88%,
+      rgba(190, 220, 245, 0.08) 100%
+    );
+  pointer-events: none;
+  mix-blend-mode: screen;
+  animation: snowFrostEdgePulse 14s ease-in-out infinite;
 }
 
 .snow-night-glow {
@@ -33,11 +64,24 @@
 }
 
 .snow-moon {
+  /* Bright, crisp full moon with cold blue-white tone and subtle halo */
   background:
-    radial-gradient(circle at 34% 34%, rgba(255, 255, 255, 0.98), rgba(225, 240, 255, 0.46) 44%, transparent 72%),
-    radial-gradient(circle, rgba(180, 210, 240, 0.16), transparent 62%);
-  box-shadow: 0 0 58px rgba(208, 235, 255, 0.12);
-  opacity: 0.52;
+    radial-gradient(circle at 38% 38%, rgba(255, 255, 255, 0.99), rgba(235, 247, 255, 0.88) 28%, rgba(200, 228, 248, 0.52) 52%, transparent 72%),
+    radial-gradient(circle, rgba(190, 218, 244, 0.22), transparent 58%);
+  box-shadow:
+    0 0 48px rgba(210, 236, 255, 0.22),
+    0 0 96px rgba(180, 215, 248, 0.1);
+  opacity: 0.72;
+  animation: snowMoonGlow 18s ease-in-out infinite;
+}
+
+/* Ice crystal sparkle dots on the snow body surface */
+.snow-fill-scene .snow-ice-sparkle {
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.98), rgba(210, 235, 255, 0.4) 48%, transparent 72%);
+  box-shadow: 0 0 12px rgba(220, 240, 255, 0.6), 0 0 24px rgba(200, 230, 255, 0.2);
+  animation: snowIceSparkle ease-in-out infinite;
+  will-change: opacity, transform;
 }
 
 .snow-frost-haze {
@@ -114,15 +158,25 @@
 .snow-drift {
   position: absolute;
   background-image:
-    linear-gradient(180deg, rgba(247, 251, 255, 0.92), rgba(221, 232, 240, 0.9) 20%, rgba(153, 172, 192, 0.82) 54%, rgba(73, 88, 108, 0.96) 100%),
+    /* Icy surface: bright white at crest, cold blue-grey in shadow, dark depth */
+    linear-gradient(180deg,
+      rgba(252, 254, 255, 0.96) 0%,
+      rgba(232, 244, 252, 0.92) 12%,
+      rgba(190, 212, 232, 0.88) 32%,
+      rgba(130, 160, 186, 0.86) 56%,
+      rgba(66, 88, 110, 0.97) 100%
+    ),
     var(--scene-texture);
   background-blend-mode: normal, soft-light;
   background-size: cover, 360px 360px;
   border-radius: 56% 44% 0 0 / 100% 100% 0 0;
   box-shadow:
-    inset 0 14px 20px rgba(255, 255, 255, 0.2),
-    inset 0 -18px 30px rgba(10, 18, 30, 0.28),
-    0 -10px 26px rgba(33, 45, 61, 0.2);
+    /* Strong bright highlight at top crest */
+    inset 0 16px 24px rgba(255, 255, 255, 0.32),
+    /* Deep blue shadow in lower drift */
+    inset 0 -20px 36px rgba(6, 14, 28, 0.38),
+    /* Outer shadow cast on the snow below */
+    0 -12px 28px rgba(28, 42, 60, 0.24);
 }
 
 .snow-drift-back {
@@ -253,6 +307,23 @@
     transform: translateY(-2px) scale(1.04);
     opacity: 0.72;
   }
+}
+
+@keyframes snowMoonGlow {
+  0%, 100% { opacity: 0.68; box-shadow: 0 0 44px rgba(210, 236, 255, 0.18), 0 0 88px rgba(180, 215, 248, 0.08); }
+  50%       { opacity: 0.82; box-shadow: 0 0 64px rgba(210, 236, 255, 0.26), 0 0 120px rgba(180, 215, 248, 0.12); }
+}
+
+@keyframes snowFrostEdgePulse {
+  0%, 100% { opacity: 0.62; }
+  50%       { opacity: 0.88; }
+}
+
+@keyframes snowIceSparkle {
+  0%, 100% { opacity: 0;    transform: scale(0.5);  }
+  25%       { opacity: 0.9;  transform: scale(1.2);  }
+  50%       { opacity: 0.4;  transform: scale(0.8);  }
+  75%       { opacity: 0.85; transform: scale(1.1);  }
 }
 
 @media (max-width: 640px) {
