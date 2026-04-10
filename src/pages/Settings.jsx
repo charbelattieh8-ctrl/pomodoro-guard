@@ -100,7 +100,7 @@ export default function SettingsPage() {
           <div className="flex items-center gap-3">
             <div className="h-14 w-14 overflow-hidden rounded-full border border-white/20 bg-white/10">
               {avatar ? (
-                <img src={avatar} alt="Profile" className="h-full w-full object-cover" />
+                <img src={avatar} alt="Profile" loading="lazy" className="h-full w-full object-cover" />
               ) : (
                 <div className="grid h-full w-full place-items-center text-sm text-slate-300">
                   {(displayName || profile?.username || "U").slice(0, 1).toUpperCase()}
@@ -151,15 +151,20 @@ export default function SettingsPage() {
             <input
               className={inputClass}
               type="number"
+              min={15}
+              max={180}
               value={timer.focusMinutes === 0 ? "" : timer.focusMinutes}
               onChange={(e) => actions.updateUserTimerSettings({ focusMinutes: Number(e.target.value) })}
             />
+            <span className="text-xs text-slate-400">15 – 180 min</span>
           </label>
           <label className="block text-sm text-slate-100">
             Break Minutes
             <input
               className={inputClass}
               type="number"
+              min={1}
+              max={30}
               value={timer.breakMinutes === 0 ? "" : timer.breakMinutes}
               onChange={(e) => actions.updateUserTimerSettings({ breakMinutes: Number(e.target.value) })}
             />
@@ -169,6 +174,8 @@ export default function SettingsPage() {
             <input
               className={inputClass}
               type="number"
+              min={5}
+              max={60}
               value={timer.longBreakMinutes === 0 ? "" : timer.longBreakMinutes}
               onChange={(e) => actions.updateUserTimerSettings({ longBreakMinutes: Number(e.target.value) })}
             />
@@ -178,6 +185,8 @@ export default function SettingsPage() {
             <input
               className={inputClass}
               type="number"
+              min={1}
+              max={10}
               value={timer.cyclesBeforeLongBreak === 0 ? "" : timer.cyclesBeforeLongBreak}
               onChange={(e) =>
                 actions.updateUserTimerSettings({ cyclesBeforeLongBreak: Number(e.target.value) })

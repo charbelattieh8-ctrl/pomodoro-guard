@@ -17,9 +17,9 @@ export default function TopBar() {
 
   const controls = (
     <div className="flex flex-wrap items-center justify-end gap-2 text-sm sm:gap-3">
-      <Link to="/settings" className="h-9 w-9 overflow-hidden rounded-full border border-white/25 bg-white/10">
+      <Link to="/settings" aria-label="Profile settings" className="h-9 w-9 overflow-hidden rounded-full border border-white/25 bg-white/10">
         {profile?.photoURL ? (
-          <img src={profile.photoURL} alt="me" className="h-full w-full object-cover" />
+          <img src={profile.photoURL} alt="me" loading="lazy" className="h-full w-full object-cover" />
         ) : (
           <div className="grid h-full w-full place-items-center text-xs text-slate-200">
             {(profile?.username || "U").slice(0, 1).toUpperCase()}
@@ -28,12 +28,14 @@ export default function TopBar() {
       </Link>
       <Link
         to="/settings"
+        aria-label="Settings"
         className="rounded-full border border-white/25 bg-white/10 p-2 transition hover:bg-white/20"
       >
         <Settings size={16} />
       </Link>
       <button
         type="button"
+        aria-label="Log out"
         className="rounded-full border border-white/25 bg-white/10 p-2 transition hover:bg-white/20"
         onClick={actions.logout}
         title="Logout"

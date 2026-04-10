@@ -1,5 +1,6 @@
 import { DEFAULT_THEMES } from "./themes";
 import { STORAGE_KEY } from "./utils";
+import { computeStateHash, saveIntegrity, loadIntegrity, sanitizeState } from "./integrity";
 
 const DEFAULT_MILESTONES = [
   {
@@ -260,14 +261,45 @@ export const loadState = () => {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return createDefaultState();
-    return mergeWithDefaults(JSON.parse(raw));
+    const state = mergeWithDefaults(JSON.parse(raw));
+
+    // Integrity check — verify critical fields haven't been tampered with.
+    // Verification is async so we do it after initial load and reset if needed.
+    const storedHash = loadIntegrity();
+    if (storedHash) {
+      state._pendingIntegrityCheck = storedHash;
+    }
+    return state;
   } catch {
     return createDefaultState();
   }
 };
 
-export const saveState = (state) => {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+/** Call after initial load to verify integrity (async). Returns sanitized state if tampered. */
+export const verifyIntegrity = async (state) => {
+  const storedHash = state._pendingIntegrityCheck;
+  if (!storedHash) return state;
+  const { _pendingIntegrityCheck, ...cleanState } = state;
+  try {
+    const currentHash = await computeStateHash(cleanState);
+    if (currentHash !== storedHash) {
+      return sanitizeState(cleanState);
+    }
+  } catch {
+    // If crypto fails, allow state through
+  }
+  return cleanState;
+};
+
+export const saveState = async (state) => {
+  const { _pendingIntegrityCheck, ...cleanState } = state;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(cleanState));
+  try {
+    const hash = await computeStateHash(cleanState);
+    saveIntegrity(hash);
+  } catch {
+    // Silently fail
+  }
 };
 
 export const readCache = loadState;

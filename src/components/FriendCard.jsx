@@ -13,7 +13,7 @@ export default function FriendCard({
       <div className="flex items-center gap-3">
         <div className="h-10 w-10 overflow-hidden rounded-full border border-white/20 bg-white/10">
           {user.photoURL ? (
-            <img src={user.photoURL} alt={user.username || "friend"} className="h-full w-full object-cover" />
+            <img src={user.photoURL} alt={user.username || "friend"} loading="lazy" className="h-full w-full object-cover" />
           ) : (
             <div className="grid h-full w-full place-items-center text-xs text-slate-300">
               {(user.displayName || user.username || "U").slice(0, 1).toUpperCase()}

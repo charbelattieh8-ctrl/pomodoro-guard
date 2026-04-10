@@ -97,7 +97,7 @@ export default function FriendProfilePage() {
       <GlassCard className="space-y-2 p-4">
         <div className="mb-2 h-16 w-16 overflow-hidden rounded-full border border-white/20 bg-white/10">
           {profile.photoURL ? (
-            <img src={profile.photoURL} alt={profile.username || "friend"} className="h-full w-full object-cover" />
+            <img src={profile.photoURL} alt={profile.username || "friend"} loading="lazy" className="h-full w-full object-cover" />
           ) : (
             <div className="grid h-full w-full place-items-center text-sm text-slate-300">
               {(profile.displayName || profile.username || "U").slice(0, 1).toUpperCase()}

@@ -6,9 +6,9 @@
   useRef,
   useState,
 } from "react";
-import { addCoins, canAfford } from "../lib/economy";
+import { addCoins, canAfford, calculateFocusReward } from "../lib/economy";
 import { collectNewMilestones, computeMilestoneProgress } from "../lib/milestones";
-import { loadState, saveState, createDefaultState, writeCache } from "../lib/storage";
+import { loadState, saveState, createDefaultState, writeCache, verifyIntegrity } from "../lib/storage";
 import { calcRemainingMs, calcSessionProgress, getModeMinutes, modeFromCycle } from "../lib/time";
 import { themeById } from "../lib/themes";
 import { getYesterdayISO, toLocalISODate, uid } from "../lib/utils";
@@ -61,6 +61,18 @@ export function AppStateProvider({ children }) {
   const audioCtxRef = useRef(null);
   const audioUnlockedRef = useRef(false);
   const nowTickerRef = useRef(0);
+
+  // Verify localStorage integrity on mount
+  useEffect(() => {
+    let cancelled = false;
+    verifyIntegrity(state).then((verified) => {
+      if (!cancelled && verified !== state) {
+        setState(verified);
+      }
+    });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     saveState(state);
@@ -543,10 +555,8 @@ export function AppStateProvider({ children }) {
         };
 
         if (naturallyCompleted && current.mode === "focus") {
-          next.economy = addCoins(
-            next.economy,
-            Number(next.admin.config.rewards.coinsPerCompletedFocus || 0)
-          );
+          const scaledReward = calculateFocusReward(plannedMinutes);
+          next.economy = addCoins(next.economy, scaledReward);
 
           const dateISO = toLocalISODate(endAt);
           let progress = {
@@ -706,12 +716,13 @@ export function AppStateProvider({ children }) {
   const updateUserTimerSettings = useCallback((patch) => {
     setState((prev) => {
       const nextRaw = { ...prev.user.timer, ...patch };
+      const clamp = (v, min, max) => Math.max(min, Math.min(max, Number(v) || min));
       const timer = {
         ...nextRaw,
-        focusMinutes: Number(nextRaw.focusMinutes),
-        breakMinutes: Number(nextRaw.breakMinutes),
-        longBreakMinutes: Number(nextRaw.longBreakMinutes),
-        cyclesBeforeLongBreak: Number(nextRaw.cyclesBeforeLongBreak),
+        focusMinutes: clamp(nextRaw.focusMinutes, 15, 180),
+        breakMinutes: clamp(nextRaw.breakMinutes, 1, 30),
+        longBreakMinutes: clamp(nextRaw.longBreakMinutes, 5, 60),
+        cyclesBeforeLongBreak: clamp(nextRaw.cyclesBeforeLongBreak, 1, 10),
         displayFormat:
           nextRaw.displayFormat === "hoursMinutesSeconds" ? "hoursMinutesSeconds" : "minutesSeconds",
       };

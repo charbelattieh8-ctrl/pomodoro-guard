@@ -58,7 +58,7 @@ export default function TimerPage() {
   useEffect(() => {
     const preset = Number(searchParams.get("minutes") || 0);
     if (!Number.isFinite(preset) || preset <= 0) return;
-    const minutes = Math.max(1, Math.round(preset));
+    const minutes = Math.max(15, Math.min(180, Math.round(preset)));
     actions.updateUserTimerSettings({ focusMinutes: minutes });
     actions.resetTimer();
     navigate("/timer", { replace: true });

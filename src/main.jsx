@@ -6,19 +6,36 @@ import "./styles.css";
 import { AppStateProvider } from "./context/AppStateProvider";
 import { AuthProvider } from "./context/AuthProvider";
 import AuthGate from "./components/AuthGate";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 function renderFatal(message) {
   const root = document.getElementById("root");
   if (!root) return;
-  root.innerHTML = `
-    <div style="min-height:100vh;display:grid;place-items:center;background:#020617;color:#fff;padding:24px;font-family:system-ui,sans-serif;">
-      <div style="max-width:720px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:20px;">
-        <h1 style="margin:0 0 10px;font-size:20px;">App failed to start</h1>
-        <p style="margin:0 0 8px;opacity:.9;">Open browser console and share this error.</p>
-        <pre style="white-space:pre-wrap;word-break:break-word;opacity:.95;margin:0;">${String(message || "Unknown startup error")}</pre>
-      </div>
-    </div>
-  `;
+  root.textContent = "";
+
+  const wrapper = document.createElement("div");
+  wrapper.style.cssText =
+    "min-height:100vh;display:grid;place-items:center;background:#020617;color:#fff;padding:24px;font-family:system-ui,sans-serif;";
+
+  const card = document.createElement("div");
+  card.style.cssText =
+    "max-width:720px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:20px;";
+
+  const h1 = document.createElement("h1");
+  h1.style.cssText = "margin:0 0 10px;font-size:20px;";
+  h1.textContent = "App failed to start";
+
+  const p = document.createElement("p");
+  p.style.cssText = "margin:0 0 8px;opacity:.9;";
+  p.textContent = "Open browser console and share this error.";
+
+  const pre = document.createElement("pre");
+  pre.style.cssText = "white-space:pre-wrap;word-break:break-word;opacity:.95;margin:0;";
+  pre.textContent = String(message || "Unknown startup error");
+
+  card.append(h1, p, pre);
+  wrapper.appendChild(card);
+  root.appendChild(wrapper);
 }
 
 window.addEventListener("error", (event) => {
@@ -35,15 +52,17 @@ try {
   if (!root) throw new Error("Missing #root element");
   ReactDOM.createRoot(root).render(
     <React.StrictMode>
-      <BrowserRouter>
-        <AuthProvider>
-          <AuthGate>
-            <AppStateProvider>
-              <App />
-            </AppStateProvider>
-          </AuthGate>
-        </AuthProvider>
-      </BrowserRouter>
+      <ErrorBoundary>
+        <BrowserRouter>
+          <AuthProvider>
+            <AuthGate>
+              <AppStateProvider>
+                <App />
+              </AppStateProvider>
+            </AuthGate>
+          </AuthProvider>
+        </BrowserRouter>
+      </ErrorBoundary>
     </React.StrictMode>
   );
 } catch (error) {

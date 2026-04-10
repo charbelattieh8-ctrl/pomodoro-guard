@@ -40,13 +40,14 @@ export function watchRoom(db, roomId, cb, onError) {
 
 export async function createFocusRoom(db, { ownerUid, name, durationMinutes, invitedUid }) {
   const participants = invitedUid ? [ownerUid, invitedUid] : [ownerUid];
+  const safeDuration = Math.max(5, Math.min(180, Number(durationMinutes || 25)));
   const room = {
     ownerUid,
-    name: name?.trim() || "Focus Room",
+    name: (name?.trim() || "Focus Room").slice(0, 60),
     status: "idle",
     mode: "focus",
-    durationMinutes: Number(durationMinutes || 25),
-    remainingMs: Number(durationMinutes || 25) * 60 * 1000,
+    durationMinutes: safeDuration,
+    remainingMs: safeDuration * 60 * 1000,
     startedAt: null,
     endsAt: null,
     participantUids: participants,
@@ -146,12 +147,12 @@ export function watchOutgoingChallenges(db, uid, cb) {
 }
 
 export async function createChallenge(db, { creatorUid, targetUid, title, targetMinutes, deadlineAt, rewardCoins }) {
-  const safeTarget = Math.max(10, Number(targetMinutes || 60));
+  const safeTarget = Math.max(10, Math.min(480, Number(targetMinutes || 60)));
   const computedReward = Math.min(300, Math.max(20, Math.round(safeTarget * 2)));
   await addDoc(collection(db, "friendChallenges"), {
     creatorUid,
     targetUid,
-    title: title?.trim() || "Daily Focus Challenge",
+    title: (title?.trim() || "Daily Focus Challenge").slice(0, 80),
     targetMinutes: safeTarget,
     rewardCoins: computedReward,
     deadlineAt: Number(deadlineAt || 0),

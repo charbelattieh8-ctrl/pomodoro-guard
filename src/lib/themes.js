@@ -1,7 +1,19 @@
+export const THEME_CATEGORIES = [
+  { id: "starter", label: "Starter Pack", description: "Free themes to get you going" },
+  { id: "warm", label: "Warm & Vibrant", description: "Sunset, amber, and rose tones" },
+  { id: "cool", label: "Cool & Serene", description: "Ocean, glacier, and mint hues" },
+  { id: "neon", label: "Neon & Electric", description: "High-energy cyber colors" },
+  { id: "dark", label: "Dark & Moody", description: "Deep, minimal dark themes" },
+  { id: "immersive", label: "Immersive Worlds", description: "Premium animated environments" },
+  { id: "special", label: "Special Edition", description: "Unique collector themes" },
+];
+
 export const DEFAULT_THEMES = [
+  // ── STARTER ────────────────────────────────────────────────
   {
     id: "theme_default_1",
     name: "Aurora Mint",
+    category: "starter",
     priceCoins: 0,
     gradient: { from: "#064e3b", via: "#059669", to: "#0f172a" },
     accent: "#34d399",
@@ -11,6 +23,7 @@ export const DEFAULT_THEMES = [
   {
     id: "theme_default_2",
     name: "Ocean Dusk",
+    category: "starter",
     priceCoins: 0,
     gradient: { from: "#1e3a8a", via: "#0891b2", to: "#111827" },
     accent: "#22d3ee",
@@ -20,6 +33,7 @@ export const DEFAULT_THEMES = [
   {
     id: "theme_default_3",
     name: "Lavender Dreams",
+    category: "starter",
     priceCoins: 0,
     gradient: { from: "#5b21b6", via: "#7c3aed", to: "#1e293b" },
     accent: "#a78bfa",
@@ -29,6 +43,7 @@ export const DEFAULT_THEMES = [
   {
     id: "theme_default_4",
     name: "Sunset Bliss",
+    category: "starter",
     priceCoins: 0,
     gradient: { from: "#c2410c", via: "#f59e0b", to: "#7c2d12" },
     accent: "#fb923c",
@@ -38,15 +53,19 @@ export const DEFAULT_THEMES = [
   {
     id: "theme_default_5",
     name: "Forest Serenity",
+    category: "starter",
     priceCoins: 0,
     gradient: { from: "#14532d", via: "#15803d", to: "#052e16" },
     accent: "#4ade80",
     water: { base: "#16a34a", light: "#86efac", crest: "#bbf7d0", deep: "#052e16" },
     isFree: true,
   },
+
+  // ── WARM & VIBRANT ────────────────────────────────────────
   {
     id: "theme_paid_1",
     name: "Amber Horizon",
+    category: "warm",
     priceCoins: 50,
     gradient: { from: "#92400e", via: "#ea580c", to: "#451a03" },
     accent: "#fb923c",
@@ -56,6 +75,7 @@ export const DEFAULT_THEMES = [
   {
     id: "theme_paid_2",
     name: "Rose Eclipse",
+    category: "warm",
     priceCoins: 100,
     gradient: { from: "#9f1239", via: "#e11d48", to: "#312e81" },
     accent: "#fb7185",
@@ -63,17 +83,9 @@ export const DEFAULT_THEMES = [
     isFree: false,
   },
   {
-    id: "theme_paid_3",
-    name: "Neon Wave",
-    priceCoins: 150,
-    gradient: { from: "#4c1d95", via: "#0891b2", to: "#172554" },
-    accent: "#67e8f9",
-    water: { base: "#0891b2", light: "#67e8f9", crest: "#a5f3fc", deep: "#172554" },
-    isFree: false,
-  },
-  {
     id: "theme_paid_4",
     name: "Solar Bloom",
+    category: "warm",
     priceCoins: 250,
     gradient: { from: "#991b1b", via: "#f97316", to: "#881337" },
     accent: "#fdba74",
@@ -81,17 +93,9 @@ export const DEFAULT_THEMES = [
     isFree: false,
   },
   {
-    id: "theme_paid_5",
-    name: "Glacier Pulse",
-    priceCoins: 60,
-    gradient: { from: "#0c4a6e", via: "#0284c7", to: "#082f49" },
-    accent: "#7dd3fc",
-    water: { base: "#0284c7", light: "#7dd3fc", crest: "#bae6fd", deep: "#082f49" },
-    isFree: false,
-  },
-  {
     id: "theme_paid_20",
     name: "Crimson Twilight",
+    category: "warm",
     priceCoins: 120,
     gradient: { from: "#7f1d1d", via: "#dc2626", to: "#1e1b4b" },
     accent: "#fca5a5",
@@ -99,53 +103,9 @@ export const DEFAULT_THEMES = [
     isFree: false,
   },
   {
-    id: "theme_paid_21",
-    name: "Emerald Bay",
-    priceCoins: 140,
-    gradient: { from: "#065f46", via: "#10b981", to: "#0c4a6e" },
-    accent: "#6ee7b7",
-    water: { base: "#10b981", light: "#6ee7b7", crest: "#a7f3d0", deep: "#064e3b" },
-    isFree: false,
-  },
-  {
-    id: "theme_paid_22",
-    name: "Cosmic Purple",
-    priceCoins: 160,
-    gradient: { from: "#581c87", via: "#9333ea", to: "#1e293b" },
-    accent: "#c084fc",
-    water: { base: "#9333ea", light: "#c084fc", crest: "#e9d5ff", deep: "#3b0764" },
-    isFree: false,
-  },
-  {
-    id: "theme_paid_23",
-    name: "Golden Hour",
-    priceCoins: 200,
-    gradient: { from: "#a16207", via: "#facc15", to: "#713f12" },
-    accent: "#fde047",
-    water: { base: "#eab308", light: "#fde047", crest: "#fef9c3", deep: "#713f12" },
-    isFree: false,
-  },
-  {
-    id: "theme_paid_24",
-    name: "Midnight Azure",
-    priceCoins: 180,
-    gradient: { from: "#1e3a8a", via: "#3b82f6", to: "#020617" },
-    accent: "#93c5fd",
-    water: { base: "#3b82f6", light: "#93c5fd", crest: "#bfdbfe", deep: "#1e3a8a" },
-    isFree: false,
-  },
-  {
-    id: "theme_meme_67",
-    name: "Meme 67",
-    priceCoins: 67,
-    gradient: { from: "#0f172a", via: "#334155", to: "#1e293b" },
-    accent: "#facc15",
-    water: { base: "#854d0e", light: "#facc15", crest: "#fef9c3", deep: "#1c1917" },
-    isFree: false,
-  },
-  {
     id: "theme_paid_6",
     name: "Velvet Ember",
+    category: "warm",
     priceCoins: 80,
     gradient: { from: "#9f1239", via: "#f43f5e", to: "#3f0f1f" },
     accent: "#fda4af",
@@ -153,17 +113,9 @@ export const DEFAULT_THEMES = [
     isFree: false,
   },
   {
-    id: "theme_paid_7",
-    name: "Midnight Lime",
-    priceCoins: 90,
-    gradient: { from: "#14532d", via: "#22c55e", to: "#052e16" },
-    accent: "#bef264",
-    water: { base: "#22c55e", light: "#86efac", crest: "#dcfce7", deep: "#052e16" },
-    isFree: false,
-  },
-  {
     id: "theme_paid_8",
     name: "Copper Sky",
+    category: "warm",
     priceCoins: 110,
     gradient: { from: "#9a3412", via: "#ea580c", to: "#7f1d1d" },
     accent: "#fdba74",
@@ -171,17 +123,9 @@ export const DEFAULT_THEMES = [
     isFree: false,
   },
   {
-    id: "theme_paid_9",
-    name: "Iris Night",
-    priceCoins: 130,
-    gradient: { from: "#4338ca", via: "#6366f1", to: "#1e1b4b" },
-    accent: "#c4b5fd",
-    water: { base: "#6366f1", light: "#a5b4fc", crest: "#c7d2fe", deep: "#1e1b4b" },
-    isFree: false,
-  },
-  {
     id: "theme_paid_10",
     name: "Sunset Foam",
+    category: "warm",
     priceCoins: 140,
     gradient: { from: "#c2410c", via: "#f97316", to: "#0f766e" },
     accent: "#fed7aa",
@@ -191,6 +135,7 @@ export const DEFAULT_THEMES = [
   {
     id: "theme_paid_11",
     name: "Ruby Tide",
+    category: "warm",
     priceCoins: 170,
     gradient: { from: "#9f1239", via: "#f43f5e", to: "#312e81" },
     accent: "#fda4af",
@@ -198,26 +143,9 @@ export const DEFAULT_THEMES = [
     isFree: false,
   },
   {
-    id: "theme_paid_12",
-    name: "Storm Cyan",
-    priceCoins: 180,
-    gradient: { from: "#0f172a", via: "#0e7490", to: "#164e63" },
-    accent: "#67e8f9",
-    water: { base: "#0e7490", light: "#22d3ee", crest: "#a5f3fc", deep: "#083344" },
-    isFree: false,
-  },
-  {
-    id: "theme_paid_13",
-    name: "Electric Moss",
-    priceCoins: 200,
-    gradient: { from: "#14532d", via: "#16a34a", to: "#1e293b" },
-    accent: "#86efac",
-    water: { base: "#16a34a", light: "#4ade80", crest: "#bbf7d0", deep: "#052e16" },
-    isFree: false,
-  },
-  {
     id: "theme_paid_14",
     name: "Peach Voltage",
+    category: "warm",
     priceCoins: 220,
     gradient: { from: "#9a3412", via: "#fb7185", to: "#7e22ce" },
     accent: "#fecdd3",
@@ -225,26 +153,19 @@ export const DEFAULT_THEMES = [
     isFree: false,
   },
   {
-    id: "theme_paid_15",
-    name: "Blue Ember",
-    priceCoins: 260,
-    gradient: { from: "#1e3a8a", via: "#2563eb", to: "#9a3412" },
-    accent: "#93c5fd",
-    water: { base: "#2563eb", light: "#60a5fa", crest: "#bfdbfe", deep: "#1e3a8a" },
-    isFree: false,
-  },
-  {
-    id: "theme_paid_16",
-    name: "Arctic Plum",
-    priceCoins: 300,
-    gradient: { from: "#475569", via: "#8b5cf6", to: "#1e3a8a" },
-    accent: "#ddd6fe",
-    water: { base: "#8b5cf6", light: "#a78bfa", crest: "#ddd6fe", deep: "#2e1065" },
+    id: "theme_paid_23",
+    name: "Golden Hour",
+    category: "warm",
+    priceCoins: 200,
+    gradient: { from: "#a16207", via: "#facc15", to: "#713f12" },
+    accent: "#fde047",
+    water: { base: "#eab308", light: "#fde047", crest: "#fef9c3", deep: "#713f12" },
     isFree: false,
   },
   {
     id: "theme_paid_17",
     name: "Golden Mist",
+    category: "warm",
     priceCoins: 350,
     gradient: { from: "#854d0e", via: "#fbbf24", to: "#14532d" },
     accent: "#fef08a",
@@ -254,6 +175,7 @@ export const DEFAULT_THEMES = [
   {
     id: "theme_paid_18",
     name: "Carbon Rose",
+    category: "warm",
     priceCoins: 420,
     gradient: { from: "#111827", via: "#be123c", to: "#374151" },
     accent: "#f9a8d4",
@@ -261,8 +183,143 @@ export const DEFAULT_THEMES = [
     isFree: false,
   },
   {
+    id: "theme_paid_26",
+    name: "Espresso",
+    category: "warm",
+    priceCoins: 280,
+    gradient: { from: "#3b1a08", via: "#92400e", to: "#1c0f05" },
+    accent: "#d6a87c",
+    water: { base: "#78350f", light: "#d6a87c", crest: "#f5deb3", deep: "#1c0a00" },
+    isFree: false,
+  },
+
+  // ── COOL & SERENE ─────────────────────────────────────────
+  {
+    id: "theme_paid_5",
+    name: "Glacier Pulse",
+    category: "cool",
+    priceCoins: 60,
+    gradient: { from: "#0c4a6e", via: "#0284c7", to: "#082f49" },
+    accent: "#7dd3fc",
+    water: { base: "#0284c7", light: "#7dd3fc", crest: "#bae6fd", deep: "#082f49" },
+    isFree: false,
+  },
+  {
+    id: "theme_paid_21",
+    name: "Emerald Bay",
+    category: "cool",
+    priceCoins: 140,
+    gradient: { from: "#065f46", via: "#10b981", to: "#0c4a6e" },
+    accent: "#6ee7b7",
+    water: { base: "#10b981", light: "#6ee7b7", crest: "#a7f3d0", deep: "#064e3b" },
+    isFree: false,
+  },
+  {
+    id: "theme_paid_24",
+    name: "Midnight Azure",
+    category: "cool",
+    priceCoins: 180,
+    gradient: { from: "#1e3a8a", via: "#3b82f6", to: "#020617" },
+    accent: "#93c5fd",
+    water: { base: "#3b82f6", light: "#93c5fd", crest: "#bfdbfe", deep: "#1e3a8a" },
+    isFree: false,
+  },
+  {
+    id: "theme_paid_7",
+    name: "Midnight Lime",
+    category: "cool",
+    priceCoins: 90,
+    gradient: { from: "#14532d", via: "#22c55e", to: "#052e16" },
+    accent: "#bef264",
+    water: { base: "#22c55e", light: "#86efac", crest: "#dcfce7", deep: "#052e16" },
+    isFree: false,
+  },
+  {
+    id: "theme_paid_15",
+    name: "Blue Ember",
+    category: "cool",
+    priceCoins: 260,
+    gradient: { from: "#1e3a8a", via: "#2563eb", to: "#9a3412" },
+    accent: "#93c5fd",
+    water: { base: "#2563eb", light: "#60a5fa", crest: "#bfdbfe", deep: "#1e3a8a" },
+    isFree: false,
+  },
+  {
+    id: "theme_paid_16",
+    name: "Arctic Plum",
+    category: "cool",
+    priceCoins: 300,
+    gradient: { from: "#475569", via: "#8b5cf6", to: "#1e3a8a" },
+    accent: "#ddd6fe",
+    water: { base: "#8b5cf6", light: "#a78bfa", crest: "#ddd6fe", deep: "#2e1065" },
+    isFree: false,
+  },
+  {
+    id: "theme_paid_27",
+    name: "Midnight Sun",
+    category: "cool",
+    priceCoins: 350,
+    gradient: { from: "#0c1445", via: "#1e3a8a", to: "#854d0e" },
+    accent: "#fbbf24",
+    water: { base: "#1d4ed8", light: "#fbbf24", crest: "#fef3c7", deep: "#0c1445" },
+    isFree: false,
+  },
+
+  // ── NEON & ELECTRIC ───────────────────────────────────────
+  {
+    id: "theme_paid_3",
+    name: "Neon Wave",
+    category: "neon",
+    priceCoins: 150,
+    gradient: { from: "#4c1d95", via: "#0891b2", to: "#172554" },
+    accent: "#67e8f9",
+    water: { base: "#0891b2", light: "#67e8f9", crest: "#a5f3fc", deep: "#172554" },
+    isFree: false,
+  },
+  {
+    id: "theme_paid_22",
+    name: "Cosmic Purple",
+    category: "neon",
+    priceCoins: 160,
+    gradient: { from: "#581c87", via: "#9333ea", to: "#1e293b" },
+    accent: "#c084fc",
+    water: { base: "#9333ea", light: "#c084fc", crest: "#e9d5ff", deep: "#3b0764" },
+    isFree: false,
+  },
+  {
+    id: "theme_paid_9",
+    name: "Iris Night",
+    category: "neon",
+    priceCoins: 130,
+    gradient: { from: "#4338ca", via: "#6366f1", to: "#1e1b4b" },
+    accent: "#c4b5fd",
+    water: { base: "#6366f1", light: "#a5b4fc", crest: "#c7d2fe", deep: "#1e1b4b" },
+    isFree: false,
+  },
+  {
+    id: "theme_paid_12",
+    name: "Storm Cyan",
+    category: "neon",
+    priceCoins: 180,
+    gradient: { from: "#0f172a", via: "#0e7490", to: "#164e63" },
+    accent: "#67e8f9",
+    water: { base: "#0e7490", light: "#22d3ee", crest: "#a5f3fc", deep: "#083344" },
+    isFree: false,
+  },
+  {
+    id: "theme_paid_13",
+    name: "Electric Moss",
+    category: "neon",
+    priceCoins: 200,
+    gradient: { from: "#14532d", via: "#16a34a", to: "#1e293b" },
+    accent: "#86efac",
+    water: { base: "#16a34a", light: "#4ade80", crest: "#bbf7d0", deep: "#052e16" },
+    isFree: false,
+  },
+  {
     id: "theme_paid_19",
     name: "Nova Prism",
+    category: "neon",
     priceCoins: 500,
     gradient: { from: "#1e1b4b", via: "#0891b2", to: "#be123c" },
     accent: "#a5f3fc",
@@ -270,8 +327,21 @@ export const DEFAULT_THEMES = [
     isFree: false,
   },
   {
+    id: "theme_paid_25",
+    name: "7 Rings",
+    category: "neon",
+    priceCoins: 400,
+    gradient: { from: "#1a0a2e", via: "#6b21a8", to: "#0c0015" },
+    accent: "#e9d5ff",
+    water: { base: "#7e22ce", light: "#d8b4fe", crest: "#f5d0fe", deep: "#2e0854" },
+    isFree: false,
+  },
+
+  // ── DARK & MOODY ──────────────────────────────────────────
+  {
     id: "theme_dark_1",
     name: "Obsidian Drift",
+    category: "dark",
     priceCoins: 180,
     gradient: { from: "#020617", via: "#111827", to: "#0f172a" },
     accent: "#94a3b8",
@@ -281,6 +351,7 @@ export const DEFAULT_THEMES = [
   {
     id: "theme_dark_2",
     name: "Midnight Ember",
+    category: "dark",
     priceCoins: 210,
     gradient: { from: "#09090b", via: "#3f1d2e", to: "#111827" },
     accent: "#fb7185",
@@ -290,6 +361,7 @@ export const DEFAULT_THEMES = [
   {
     id: "theme_dark_3",
     name: "Carbon Neon",
+    category: "dark",
     priceCoins: 240,
     gradient: { from: "#030712", via: "#0f172a", to: "#082f49" },
     accent: "#22d3ee",
@@ -299,6 +371,7 @@ export const DEFAULT_THEMES = [
   {
     id: "theme_dark_4",
     name: "Noir Forest",
+    category: "dark",
     priceCoins: 190,
     gradient: { from: "#020617", via: "#052e16", to: "#111827" },
     accent: "#86efac",
@@ -308,6 +381,7 @@ export const DEFAULT_THEMES = [
   {
     id: "theme_dark_5",
     name: "Vanta Violet",
+    category: "dark",
     priceCoins: 260,
     gradient: { from: "#020617", via: "#2e1065", to: "#0f172a" },
     accent: "#c4b5fd",
@@ -317,6 +391,7 @@ export const DEFAULT_THEMES = [
   {
     id: "theme_dark_6",
     name: "Steel Pulse",
+    category: "dark",
     priceCoins: 230,
     gradient: { from: "#030712", via: "#1f2937", to: "#0b1120" },
     accent: "#e2e8f0",
@@ -326,6 +401,7 @@ export const DEFAULT_THEMES = [
   {
     id: "theme_dark_7",
     name: "Night Circuit",
+    category: "dark",
     priceCoins: 280,
     gradient: { from: "#020617", via: "#1e293b", to: "#0c4a6e" },
     accent: "#67e8f9",
@@ -335,6 +411,7 @@ export const DEFAULT_THEMES = [
   {
     id: "theme_dark_8",
     name: "Shadow Gold",
+    category: "dark",
     priceCoins: 300,
     gradient: { from: "#09090b", via: "#1c1917", to: "#111827" },
     accent: "#facc15",
@@ -344,6 +421,7 @@ export const DEFAULT_THEMES = [
   {
     id: "theme_dark_9",
     name: "Dark Aurora",
+    category: "dark",
     priceCoins: 320,
     gradient: { from: "#020617", via: "#1e1b4b", to: "#064e3b" },
     accent: "#5eead4",
@@ -353,43 +431,19 @@ export const DEFAULT_THEMES = [
   {
     id: "theme_dark_10",
     name: "Black Ice",
+    category: "dark",
     priceCoins: 350,
     gradient: { from: "#020617", via: "#0f172a", to: "#164e63" },
     accent: "#bae6fd",
     water: { base: "#0284c7", light: "#38bdf8", crest: "#bae6fd", deep: "#020617" },
     isFree: false,
   },
-  // --- NEW THEMES ---
-  {
-    id: "theme_paid_25",
-    name: "7 Rings",
-    priceCoins: 400,
-    gradient: { from: "#1a0a2e", via: "#6b21a8", to: "#0c0015" },
-    accent: "#e9d5ff",
-    water: { base: "#7e22ce", light: "#d8b4fe", crest: "#f5d0fe", deep: "#2e0854" },
-    isFree: false,
-  },
-  {
-    id: "theme_paid_26",
-    name: "Espresso",
-    priceCoins: 280,
-    gradient: { from: "#3b1a08", via: "#92400e", to: "#1c0f05" },
-    accent: "#d6a87c",
-    water: { base: "#78350f", light: "#d6a87c", crest: "#f5deb3", deep: "#1c0a00" },
-    isFree: false,
-  },
-  {
-    id: "theme_paid_27",
-    name: "Midnight Sun",
-    priceCoins: 350,
-    gradient: { from: "#0c1445", via: "#1e3a8a", to: "#854d0e" },
-    accent: "#fbbf24",
-    water: { base: "#1d4ed8", light: "#fbbf24", crest: "#fef3c7", deep: "#0c1445" },
-    isFree: false,
-  },
+
+  // ── IMMERSIVE WORLDS ──────────────────────────────────────
   {
     id: "theme_premium_sirocco",
     name: "Sirocco Dunes",
+    category: "immersive",
     priceCoins: 320,
     gradient: { from: "#7d4e22", via: "#d6a35a", to: "#24160d" },
     accent: "#f8d39d",
@@ -401,6 +455,7 @@ export const DEFAULT_THEMES = [
   {
     id: "theme_premium_snowdrift",
     name: "Snowdrift Silence",
+    category: "immersive",
     priceCoins: 360,
     gradient: { from: "#637b96", via: "#dbe7f3", to: "#0f1d2d" },
     accent: "#f8fbff",
@@ -410,8 +465,45 @@ export const DEFAULT_THEMES = [
     isFree: false,
   },
   {
+    id: "theme_premium_ocean",
+    name: "Abyssal Ocean",
+    category: "immersive",
+    priceCoins: 360,
+    gradient: { from: "#010a14", via: "#0e7490", to: "#00040a" },
+    accent: "#22d3ee",
+    fillStyle: "ocean",
+    fill: { base: "#0891b2", light: "#22d3ee", crest: "#a5f3fc", deep: "#010a14" },
+    tier: "premium",
+    isFree: false,
+  },
+  {
+    id: "theme_premium_forest",
+    name: "Enchanted Forest",
+    category: "immersive",
+    priceCoins: 380,
+    gradient: { from: "#052e16", via: "#15803d", to: "#020f07" },
+    accent: "#4ade80",
+    fillStyle: "forest",
+    fill: { base: "#16a34a", light: "#4ade80", crest: "#86efac", deep: "#052e16" },
+    tier: "premium",
+    isFree: false,
+  },
+  {
+    id: "theme_premium_cyberpunk",
+    name: "Neon Grid",
+    category: "immersive",
+    priceCoins: 420,
+    gradient: { from: "#030008", via: "#1a0040", to: "#000818" },
+    accent: "#00ffff",
+    fillStyle: "cyberpunk",
+    fill: { base: "#0891b2", light: "#00ffff", crest: "#a5f3fc", deep: "#030008" },
+    tier: "premium",
+    isFree: false,
+  },
+  {
     id: "theme_premium_aurora",
     name: "Polar Veil",
+    category: "immersive",
     priceCoins: 440,
     gradient: { from: "#031322", via: "#0b3140", to: "#01070f" },
     accent: "#7ff5d2",
@@ -423,6 +515,7 @@ export const DEFAULT_THEMES = [
   {
     id: "theme_premium_caldera",
     name: "Caldera Heart",
+    category: "immersive",
     priceCoins: 470,
     gradient: { from: "#140808", via: "#45140f", to: "#020202" },
     accent: "#ff9847",
@@ -431,64 +524,10 @@ export const DEFAULT_THEMES = [
     tier: "premium",
     isFree: false,
   },
-
-  // ── NEW PREMIUM ENVIRONMENT THEMES ─────────────────────────
-
-  /**
-   * Enchanted Forest — deep mossy forest with fireflies and
-   * dappled canopy light. Fill rises as glowing earth/moss.
-   */
-  {
-    id: "theme_premium_forest",
-    name: "Enchanted Forest",
-    priceCoins: 380,
-    gradient: { from: "#052e16", via: "#15803d", to: "#020f07" },
-    accent: "#4ade80",
-    fillStyle: "forest",
-    fill: { base: "#16a34a", light: "#4ade80", crest: "#86efac", deep: "#052e16" },
-    tier: "premium",
-    isFree: false,
-  },
-
-  /**
-   * Neon Grid — cyberpunk metropolis. Dark background with
-   * cyan/magenta neon grid rising as holographic data.
-   */
-  {
-    id: "theme_premium_cyberpunk",
-    name: "Neon Grid",
-    priceCoins: 420,
-    gradient: { from: "#030008", via: "#1a0040", to: "#000818" },
-    accent: "#00ffff",
-    fillStyle: "cyberpunk",
-    fill: { base: "#0891b2", light: "#00ffff", crest: "#a5f3fc", deep: "#030008" },
-    tier: "premium",
-    isFree: false,
-  },
-
-  /**
-   * Abyssal Ocean — deep underwater scene with caustics,
-   * coral silhouettes, and rising ocean waves.
-   */
-  {
-    id: "theme_premium_ocean",
-    name: "Abyssal Ocean",
-    priceCoins: 360,
-    gradient: { from: "#010a14", via: "#0e7490", to: "#00040a" },
-    accent: "#22d3ee",
-    fillStyle: "ocean",
-    fill: { base: "#0891b2", light: "#22d3ee", crest: "#a5f3fc", deep: "#010a14" },
-    tier: "premium",
-    isFree: false,
-  },
-
-  /**
-   * Volcanic Rift — active volcano with glowing magma cracks,
-   * jagged basalt spires, rising embers, and ash sky.
-   */
   {
     id: "theme_premium_volcano",
     name: "Volcanic Rift",
+    category: "immersive",
     priceCoins: 490,
     gradient: { from: "#060100", via: "#7c1d06", to: "#020000" },
     accent: "#fb923c",
@@ -497,20 +536,28 @@ export const DEFAULT_THEMES = [
     tier: "premium",
     isFree: false,
   },
-
-  /**
-   * Cosmic Void — deep space with nebula gradients, star fields,
-   * shooting stars, and rising cosmic nebula gas.
-   */
   {
     id: "theme_premium_space",
     name: "Cosmic Void",
+    category: "immersive",
     priceCoins: 500,
     gradient: { from: "#02010a", via: "#2e1065", to: "#000208" },
     accent: "#c084fc",
     fillStyle: "space",
     fill: { base: "#7c3aed", light: "#c084fc", crest: "#e9d5ff", deep: "#02010a" },
     tier: "premium",
+    isFree: false,
+  },
+
+  // ── SPECIAL EDITION ───────────────────────────────────────
+  {
+    id: "theme_meme_67",
+    name: "Meme 67",
+    category: "special",
+    priceCoins: 67,
+    gradient: { from: "#0f172a", via: "#334155", to: "#1e293b" },
+    accent: "#facc15",
+    water: { base: "#854d0e", light: "#facc15", crest: "#fef9c3", deep: "#1c1917" },
     isFree: false,
   },
 ];

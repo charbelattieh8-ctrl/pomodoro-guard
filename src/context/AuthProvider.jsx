@@ -180,8 +180,14 @@ export function AuthProvider({ children }) {
       updateMyProfile: async (patch) => {
         if (!user) throw new Error("Sign in first");
         const safePatch = {};
-        if (typeof patch.displayName === "string") safePatch.displayName = patch.displayName.trim();
-        if (typeof patch.photoURL === "string") safePatch.photoURL = patch.photoURL.trim();
+        if (typeof patch.displayName === "string") safePatch.displayName = patch.displayName.trim().slice(0, 50);
+        if (typeof patch.photoURL === "string") {
+          const url = patch.photoURL.trim();
+          if (url && !/^(https?:\/\/.+|data:image\/)/.test(url)) {
+            throw new Error("Invalid photo URL");
+          }
+          safePatch.photoURL = url.slice(0, 2048);
+        }
         if (Object.keys(safePatch).length === 0) return;
         await updateDoc(doc(db, "users", user.uid), {
           ...safePatch,
