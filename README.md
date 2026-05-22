@@ -26,7 +26,7 @@ Pomodoro Guard is a Vite + React app with Firebase Auth + Firestore backend, str
 - `/milestones`
 - `/stats`
 - `/settings`
-- `/admin`
+- `/admin` in local development only
 
 ## Setup
 
@@ -87,4 +87,4 @@ Rules are in `firestore.rules` and include:
 
 ## Admin
 
-Default admin passcode: `3210`
+The admin screen is limited to local development builds and is not included in production routing.

@@ -121,5 +121,11 @@ service cloud.firestore {
       allow create: if isRealUser() && request.resource.data.ownerUid == request.auth.uid;
       allow update, delete: if false;
     }
+
+    // Payment transactions — written only by Admin SDK (server-side webhook)
+    match /transactions/{txId} {
+      allow read: if isAuthed() && resource.data.uid == request.auth.uid;
+      allow write: if false;
+    }
   }
 }

@@ -807,6 +807,35 @@ export function AppStateProvider({ children }) {
     [addToast]
   );
 
+  const purchaseCoins = useCallback(
+    async (packageId) => {
+      if (!user || user.isAnonymous) {
+        addToast("Sign in to purchase CPoints", "warning");
+        return;
+      }
+      try {
+        const token = await user.getIdToken();
+        const res = await fetch("/api/checkout", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ packageId }),
+        });
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(data.error || "Checkout failed");
+        }
+        const { url } = await res.json();
+        window.location.href = url;
+      } catch (err) {
+        addToast(err.message || "Purchase failed", "error");
+      }
+    },
+    [user, addToast]
+  );
+
   const value = {
     state,
     now,
@@ -833,6 +862,7 @@ export function AppStateProvider({ children }) {
       adminResetData,
       adminSetPasscodeHash,
       adminGrantCoins,
+      purchaseCoins,
     },
   };
 

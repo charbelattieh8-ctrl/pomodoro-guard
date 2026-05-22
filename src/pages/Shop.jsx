@@ -1,17 +1,36 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Coins, ChevronDown } from "lucide-react";
+import { Coins, ChevronDown, Sparkles } from "lucide-react";
 import GlassCard from "../components/GlassCard";
 import PrimaryButton from "../components/PrimaryButton";
 import ThemePreview from "../components/ThemePreview";
 import { useAppState } from "../context/useAppState";
+import { useAuth } from "../context/useAuth";
 import { THEME_CATEGORIES } from "../lib/themes";
+import { COIN_PACKAGES } from "../lib/packages";
 
 export default function ShopPage() {
-  const { state, actions } = useAppState();
+  const { state, actions, addToast } = useAppState();
+  const { user } = useAuth();
   const themes = state.admin.config.themes;
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const [collapsed, setCollapsed] = useState(new Set());
+  const [buyingId, setBuyingId] = useState(null);
+
+  // Handle post-checkout redirect
+  useEffect(() => {
+    const purchase = searchParams.get("purchase");
+    if (purchase === "success") {
+      addToast("Purchase successful! Coins added to your balance.", "success");
+      navigate("/shop", { replace: true });
+    } else if (purchase === "cancelled") {
+      addToast("Purchase cancelled.", "info");
+      navigate("/shop", { replace: true });
+    }
+  }, [searchParams, addToast, navigate]);
 
   const toggle = (catId) =>
     setCollapsed((prev) => {
@@ -35,6 +54,14 @@ export default function ShopPage() {
     })).filter((g) => g.themes.length > 0);
   }, [themes]);
 
+  const isAnonymous = user?.isAnonymous;
+
+  const handleBuy = async (packageId) => {
+    setBuyingId(packageId);
+    await actions.purchaseCoins(packageId);
+    setBuyingId(null);
+  };
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -50,6 +77,44 @@ export default function ShopPage() {
         </GlassCard>
       </div>
 
+      {/* Buy CPoints Section */}
+      <section>
+        <h3 className="mb-3 font-display text-lg font-semibold flex items-center gap-2">
+          <Sparkles size={18} />
+          Buy CPoints
+        </h3>
+        {isAnonymous ? (
+          <GlassCard className="p-4 text-center text-sm text-slate-300">
+            Sign in with email or Google to purchase CPoints.
+          </GlassCard>
+        ) : (
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            {COIN_PACKAGES.map((pkg) => (
+              <GlassCard key={pkg.id} className="relative flex flex-col items-center gap-2 p-4">
+                {pkg.bonus && (
+                  <span className="absolute -top-2 right-3 rounded-full bg-emerald-500/90 px-2 py-0.5 text-[10px] font-bold text-white">
+                    {pkg.bonus}
+                  </span>
+                )}
+                <div className="flex items-center gap-1.5 text-lg font-bold">
+                  <Coins size={18} className="text-yellow-400" />
+                  {pkg.coins.toLocaleString()}
+                </div>
+                <p className="text-xs text-slate-300">{pkg.label}</p>
+                <PrimaryButton
+                  className="mt-1 w-full"
+                  onClick={() => handleBuy(pkg.id)}
+                  disabled={buyingId === pkg.id}
+                >
+                  {buyingId === pkg.id ? "Redirecting..." : `$${pkg.priceUsd.toFixed(2)}`}
+                </PrimaryButton>
+              </GlassCard>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* Theme Categories */}
       {grouped.map((group) => {
         const isOpen = !collapsed.has(group.id);
         const ownedCount = group.themes.filter(

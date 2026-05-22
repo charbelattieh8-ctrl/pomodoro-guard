@@ -1,5 +1,6 @@
 ﻿import { motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Coins } from "lucide-react";
 import GlassCard from "../components/GlassCard";
 import PrimaryButton from "../components/PrimaryButton";
 import Toggle from "../components/Toggle";
@@ -33,6 +34,74 @@ async function fileToDataUrl(file) {
   return canvas.toDataURL("image/jpeg", 0.82);
 }
 
+function PurchaseHistory() {
+  const { user } = useAuth();
+  const [purchases, setPurchases] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchPurchases = useCallback(async () => {
+    if (!user || user.isAnonymous) return;
+    setLoading(true);
+    try {
+      const token = await user.getIdToken();
+      const res = await fetch("/api/purchases", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setPurchases(data.purchases || []);
+      }
+    } catch {
+      // silently fail
+    } finally {
+      setLoading(false);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    fetchPurchases();
+  }, [fetchPurchases]);
+
+  if (!user || user.isAnonymous) return null;
+  if (!loading && purchases.length === 0) return null;
+
+  return (
+    <GlassCard className="space-y-3 p-4">
+      <h3 className="font-semibold">Purchase History</h3>
+      {loading ? (
+        <p className="text-sm text-slate-300">Loading...</p>
+      ) : (
+        <div className="space-y-2">
+          {purchases.map((p) => (
+            <div
+              key={p.id}
+              className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2 text-sm"
+            >
+              <div className="flex items-center gap-2">
+                <Coins size={14} className="text-yellow-400" />
+                <span className="font-medium">+{p.coinsGranted}</span>
+                <span className="text-slate-400">
+                  ${((p.amountUsdCents || 0) / 100).toFixed(2)}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                {p.status === "refunded" && (
+                  <span className="rounded bg-rose-500/20 px-1.5 py-0.5 text-[10px] text-rose-300">
+                    Refunded
+                  </span>
+                )}
+                <span className="text-xs text-slate-400">
+                  {p.createdAt ? new Date(p.createdAt).toLocaleDateString() : "—"}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </GlassCard>
+  );
+}
+
 export default function SettingsPage() {
   const { state, actions } = useAppState();
   const { profile, actions: authActions } = useAuth();
@@ -40,6 +109,12 @@ export default function SettingsPage() {
   const prefs = state.user.preferences;
   const [displayName, setDisplayName] = useState(profile?.displayName || "");
   const [photoURL, setPhotoURL] = useState(profile?.photoURL || "");
+  const [timerInputs, setTimerInputs] = useState(() => ({
+    focusMinutes: String(timer.focusMinutes || ""),
+    breakMinutes: String(timer.breakMinutes || ""),
+    longBreakMinutes: String(timer.longBreakMinutes || ""),
+    cyclesBeforeLongBreak: String(timer.cyclesBeforeLongBreak || ""),
+  }));
   const [saveBusy, setSaveBusy] = useState(false);
   const [saveMsg, setSaveMsg] = useState("");
   const [saveErr, setSaveErr] = useState("");
@@ -65,6 +140,31 @@ export default function SettingsPage() {
     setDisplayName(profile?.displayName || "");
     setPhotoURL(profile?.photoURL || "");
   }, [profile?.displayName, profile?.photoURL]);
+
+  useEffect(() => {
+    setTimerInputs({
+      focusMinutes: String(timer.focusMinutes || ""),
+      breakMinutes: String(timer.breakMinutes || ""),
+      longBreakMinutes: String(timer.longBreakMinutes || ""),
+      cyclesBeforeLongBreak: String(timer.cyclesBeforeLongBreak || ""),
+    });
+  }, [
+    timer.focusMinutes,
+    timer.breakMinutes,
+    timer.longBreakMinutes,
+    timer.cyclesBeforeLongBreak,
+  ]);
+
+  const updateTimerInput = (key, value) => {
+    setTimerInputs((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const commitTimerInput = (key) => {
+    const value = Number(timerInputs[key]);
+    actions.updateUserTimerSettings({
+      [key]: Number.isFinite(value) ? value : timer[key],
+    });
+  };
 
   const saveProfile = async () => {
     setSaveBusy(true);
@@ -153,8 +253,12 @@ export default function SettingsPage() {
               type="number"
               min={15}
               max={180}
-              value={timer.focusMinutes === 0 ? "" : timer.focusMinutes}
-              onChange={(e) => actions.updateUserTimerSettings({ focusMinutes: Number(e.target.value) })}
+              value={timerInputs.focusMinutes}
+              onChange={(e) => updateTimerInput("focusMinutes", e.target.value)}
+              onBlur={() => commitTimerInput("focusMinutes")}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") e.currentTarget.blur();
+              }}
             />
             <span className="text-xs text-slate-400">15 – 180 min</span>
           </label>
@@ -165,8 +269,12 @@ export default function SettingsPage() {
               type="number"
               min={1}
               max={30}
-              value={timer.breakMinutes === 0 ? "" : timer.breakMinutes}
-              onChange={(e) => actions.updateUserTimerSettings({ breakMinutes: Number(e.target.value) })}
+              value={timerInputs.breakMinutes}
+              onChange={(e) => updateTimerInput("breakMinutes", e.target.value)}
+              onBlur={() => commitTimerInput("breakMinutes")}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") e.currentTarget.blur();
+              }}
             />
           </label>
           <label className="block text-sm text-slate-100">
@@ -176,8 +284,12 @@ export default function SettingsPage() {
               type="number"
               min={5}
               max={60}
-              value={timer.longBreakMinutes === 0 ? "" : timer.longBreakMinutes}
-              onChange={(e) => actions.updateUserTimerSettings({ longBreakMinutes: Number(e.target.value) })}
+              value={timerInputs.longBreakMinutes}
+              onChange={(e) => updateTimerInput("longBreakMinutes", e.target.value)}
+              onBlur={() => commitTimerInput("longBreakMinutes")}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") e.currentTarget.blur();
+              }}
             />
           </label>
           <label className="block text-sm text-slate-100">
@@ -187,10 +299,12 @@ export default function SettingsPage() {
               type="number"
               min={1}
               max={10}
-              value={timer.cyclesBeforeLongBreak === 0 ? "" : timer.cyclesBeforeLongBreak}
-              onChange={(e) =>
-                actions.updateUserTimerSettings({ cyclesBeforeLongBreak: Number(e.target.value) })
-              }
+              value={timerInputs.cyclesBeforeLongBreak}
+              onChange={(e) => updateTimerInput("cyclesBeforeLongBreak", e.target.value)}
+              onBlur={() => commitTimerInput("cyclesBeforeLongBreak")}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") e.currentTarget.blur();
+              }}
             />
           </label>
 
@@ -227,6 +341,8 @@ export default function SettingsPage() {
             </div>
           </div>
         </GlassCard>
+
+        <PurchaseHistory />
 
         <GlassCard className="space-y-4 p-4">
           <h3 className="font-semibold">Preferences</h3>

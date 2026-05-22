@@ -1,5 +1,5 @@
 const INTEGRITY_KEY = "pg_integrity_v1";
-const SECRET = ["p0m0", "d0r0", "_gu4rd", "_k3y"].join("");
+const PUBLIC_INTEGRITY_SALT = "pomodoro_guard_integrity_v1";
 
 function extractCriticalFields(state) {
   return JSON.stringify({
@@ -22,7 +22,7 @@ async function sha256(input) {
 }
 
 export async function computeStateHash(state) {
-  return sha256(SECRET + extractCriticalFields(state));
+  return sha256(PUBLIC_INTEGRITY_SALT + extractCriticalFields(state));
 }
 
 export function saveIntegrity(hash) {
