@@ -560,6 +560,30 @@ export const DEFAULT_THEMES = [
     water: { base: "#854d0e", light: "#facc15", crest: "#fef9c3", deep: "#1c1917" },
     isFree: false,
   },
+  {
+    id: "theme_paid_25",
+    name: "Espresso",
+    priceCoins: 120,
+    gradient: { from: "#1c0a00", via: "#4a1a00", to: "#2d1200" },
+    accent: "#c68642",
+    isFree: false,
+  },
+  {
+    id: "theme_paid_26",
+    name: "7 Rings",
+    priceCoins: 150,
+    gradient: { from: "#3b1a4a", via: "#7e1f8e", to: "#1a0a2e" },
+    accent: "#e8b4f8",
+    isFree: false,
+  },
+  {
+    id: "theme_paid_27",
+    name: "Midnight Sun",
+    priceCoins: 110,
+    gradient: { from: "#0c1445", via: "#f97316", to: "#1e3a5f" },
+    accent: "#fbbf24",
+    isFree: false,
+  },
 ];
 
 export const themeById = (themes, id) =>
